@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Production site
+    url: https://AlbanyAiGuy.com
+    about: Live site deployed on Vercel
