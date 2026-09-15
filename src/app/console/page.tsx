@@ -1,6 +1,7 @@
 "use client";
 
 import { ConsoleLocked, ConsoleView } from "@/components/console-view";
+import { BountyDashboard } from "@/components/bounty-dashboard";
 import { useAppSession } from "@/lib/store";
 import { useHydrated } from "@/lib/use-hydrated";
 
@@ -16,5 +17,10 @@ export default function ConsolePage() {
     );
   }
 
-  return <main>{session ? <ConsoleView session={session} /> : <ConsoleLocked />}</main>;
+  return (
+    <main className="mx-auto max-w-6xl space-y-8 px-4 py-8">
+      {session ? <ConsoleView session={session} /> : <ConsoleLocked />}
+      <BountyDashboard />
+    </main>
+  );
 }
