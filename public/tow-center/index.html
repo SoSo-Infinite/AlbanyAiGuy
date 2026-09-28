@@ -97,9 +97,10 @@
   <div class="wrap">
     <div class="brand-bar">Tow.Center MVP · Albany <span class="ai">AI</span> <span class="guy">Guy</span> · Twilio-free</div>
     <p class="banner">Solo-driver intake: caller texts <strong>your</strong> phone with the lead. No Twilio. No new paid apps.</p>
+    <p class="warn" id="railTruthStrip">Lane K rail-truth: MVP URL <strong>verified</strong> · notify = <code>sms:</code> (no Twilio) · Quick Sim = <strong>staged</strong> · LiveKit public URL = <strong>unknown</strong> · first-month $ = <strong>[CHAD LOCKS]</strong></p>
     <span class="pill">Need a tow / jump / lockout</span>
     <h1 id="title">Get the driver a text — even if he’s under a truck.</h1>
-    <p class="lede" id="lede">Fill this in once. Your phone opens a text to the driver with location and vehicle details. He replies YES / NO or calls you back on that same thread.</p>
+    <p class="lede" id="lede">Fill this in once. Your phone opens a text to the driver with location and vehicle details. He replies YES / NO or calls you back on that same thread. Driver cell must be <strong>518</strong> or <strong>838</strong> (Capital Region). Pickup outside that turf is rejected.</p>
 
     <div class="card" id="setupCard">
       <h2>Driver setup (30 seconds)</h2>
@@ -187,8 +188,13 @@
       <a href="https://albanyaiguy.com">albanyaiguy.com</a> · Not affiliated with motor clubs. For emergencies call 911.
     </p>
   </div>
+  <script src="./lib/standing-rules.js"></script>
   <script>
 (function () {
+  var R = window.TowStandingRules;
+  if (!R) {
+    console.error("TowStandingRules missing — standing-rules.js failed to load");
+  }
   var LOG_KEY = 'tow_job_log_v1';
   var params = new URLSearchParams(location.search);
   var stored = localStorage.getItem('tow_driver_n') || '';
@@ -240,8 +246,10 @@
   }
 
   document.getElementById('saveDriver').addEventListener('click', function () {
-    var d = driverDigits();
-    if (d.length < 10) { alert('Enter a valid US cell (10+ digits).'); return; }
+    var raw = driverInput.value || driver;
+    var check = R ? R.validateDriverPhone(raw) : { ok: digits(raw).length >= 10, digits: e164ish(raw), reason: 'Enter a valid US cell (10+ digits).' };
+    if (!check.ok) { alert(check.reason); return; }
+    var d = check.digits || driverDigits();
     localStorage.setItem('tow_driver_n', d);
     driver = d;
     var url = new URL(location.href);
@@ -265,18 +273,26 @@
 
   document.getElementById('leadForm').addEventListener('submit', function (e) {
     e.preventDefault();
-    var d = driverDigits();
-    if (d.length < 10) {
-      alert('Set the driver cell in Driver setup first (or open a link with ?n=518…).');
+    var rawDriver = driverInput.value || driver;
+    var driverCheck = R ? R.validateDriverPhone(rawDriver) : { ok: driverDigits().length >= 10, digits: driverDigits(), reason: 'Set the driver cell in Driver setup first (or open a link with ?n=518…).' };
+    if (!driverCheck.ok) {
+      alert(driverCheck.reason);
       document.getElementById('setupCard').scrollIntoView({ behavior: 'smooth' });
       return;
     }
+    var d = driverCheck.digits || driverDigits();
     var name = document.getElementById('name').value.trim();
     var phone = document.getElementById('phone').value.trim();
     var locationV = document.getElementById('location').value.trim();
     var vehicle = document.getElementById('vehicle').value.trim();
     var need = document.getElementById('need').value;
     var notes = document.getElementById('notes').value.trim();
+    var locCheck = R ? R.validatePickupLocation(locationV) : { ok: !!locationV, reason: 'Pickup location is required.' };
+    if (!locCheck.ok) { alert(locCheck.reason); return; }
+    // Ask Before Acting: consequential notify — stop unless caller confirms before opening Messages.
+    var confirmed = confirm('Ask Before Acting: open Messages to text this lead to the driver? You still must tap Send in Messages. Nothing is sent automatically.');
+    var gate = R ? R.askBeforeActing('notify_driver_sms', confirmed === true) : { ok: confirmed === true };
+    if (!gate.ok) { return; }
     lastCaller = e164ish(phone);
     var job = {
       id: 'j_' + Date.now(),
@@ -352,10 +368,11 @@
     URL.revokeObjectURL(a.href);
   });
   document.getElementById('clearLog').addEventListener('click', function () {
-    if (confirm('Clear the on-device job log? This does not delete SMS on your phone.')) {
-      localStorage.removeItem(LOG_KEY);
-      renderLog();
-    }
+    var confirmed = confirm('Clear the on-device job log? This does not delete SMS on your phone.');
+    var gate = R ? R.askBeforeActing('clear_job_log', confirmed === true) : { ok: confirmed === true };
+    if (!gate.ok) return;
+    localStorage.removeItem(LOG_KEY);
+    renderLog();
   });
 
   var simSteps = [

@@ -20,3 +20,12 @@ Do not contact CJ. Do not provision Twilio for this MVP.
 | LiveKit public demo URL | **Unknown / local only** — do not invent |
 | Legal entity | **Tow C Inc.** (not “Tow.Center LLC”) |
 | First-month $ | **[CHAD LOCKS]** — do not invent |
+
+## Automated enforcement (issue #21)
+
+- Module: `tow-center/lib/standing-rules.js` (browser + bun)
+- Tests: `bun test tow-center/lib/standing-rules.test.js` (or `bun run test:tow-standing-rules`)
+- Wired in `index.html`: driver NPA 518/838, pickup territory reject, Ask Before Acting on notify + clear-log, rail-truth status strip
+
+**Chad leftovers (not issue blockers):** `[CHAD LOCKS]` first-month $ · CJ cell for `?n=` · Chad sends handoff (do not contact CJ) · optional Vercel redeploy of `tow-center-mvp` to ship `lib/` + confirm gate
+

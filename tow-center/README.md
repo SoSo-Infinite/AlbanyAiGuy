@@ -50,6 +50,21 @@ Canonical: `/workspace/soso-infinite-systems-os/patterns/STANDING-RULES.md`
 | **Lane K rail-truth** | Never invent public demo / live-call claims. Quick Sim ≠ live PSTN. Cite only verified URLs |
 | **Lane H cash** | No new paid rails without Chad ask. Named options only: Venmo `@InfiniteKid`, PayPal `cjames112@gmail.com` (manual — no automation) |
 
+
+## Standing-rules tests (issue #21)
+
+```bash
+bun test tow-center/lib/standing-rules.test.js
+```
+
+Enforced in `lib/standing-rules.js` + wired in `index.html`:
+
+- Driver cell entry: **518** / **838** NPA only (out-of-turf rejected)
+- Pickup: clear out-of-Capital-Region places rejected
+- Notify / clear-log: **Ask Before Acting** confirmation gate
+- Lane K rail-truth: verified vs staged vs unknown — no invented LiveKit URL or first-month $
+
+
 ## Driver link
 
 Share `https://tow-center-mvp.vercel.app/?n=<CJ_CELL_DIGITS>`. Also saved in `localStorage` after “Save on this device.”

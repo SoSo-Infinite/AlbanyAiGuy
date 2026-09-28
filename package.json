@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "biome check .",
-    "lint:fix": "biome check --write ."
+    "lint:fix": "biome check --write .",
+    "test:tow-standing-rules": "bun test tow-center/lib/standing-rules.test.js"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.12",
