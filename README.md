@@ -33,3 +33,13 @@ Open [http://localhost:3000](http://localhost:3000). Try ZIP `12207` (Albany) or
 ## Roadmap
 
 See [ROADMAP.md](./ROADMAP.md) and the open [issues](https://github.com/SoSo-Infinite/AlbanyAiGuy/issues).
+
+## Tow.Center (Twilio-free MVP)
+
+Product folder: [`tow-center/`](./tow-center/) — static lead intake for CJ Towing (Lane C persona pack).
+
+- Verified live URL: `https://tow-center-mvp.vercel.app` (sms: compose; no Twilio)
+- Static mirror for this Next app: [`public/tow-center/`](./public/tow-center/) → `/tow-center` when deployed
+- Standing rules: 518 as digits · Ask Before Acting · Lane K rail-truth · Lane H no new paid rails
+- Do **not** invent public LiveKit demo URLs or contact CJ from bots
+
