@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CJ Towing — Need a tow? | Tow.Center MVP (Albany AI Guy)</title>
+  <meta name="description" content="Twilio-free tow lead intake: send the driver your location and vehicle by text. Built by Albany AI Guy." />
+  <style>
+    :root {
+      --navy: #0B1A2E;
+      --charcoal: #1C2430;
+      --cyan: #00C8F0;
+      --gold: #E0B03A;
+      --silver: #F2F4F7;
+      --muted: #9AA3B2;
+      --ok: #34d399;
+      --danger: #f87171;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      background: radial-gradient(ellipse at 25% 0%, #132843 0%, var(--navy) 55%, #060d18 100%);
+      color: var(--silver);
+      min-height: 100vh;
+      line-height: 1.55;
+    }
+    .wrap { max-width: 560px; margin: 0 auto; padding: 2rem 1.25rem 3rem; }
+    .brand-bar { font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 1rem; }
+    .brand-bar .ai { color: var(--cyan); }
+    .brand-bar .guy { color: var(--gold); }
+    .pill {
+      display: inline-block; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.06em;
+      text-transform: uppercase; background: rgba(0,200,240,0.15); color: var(--cyan);
+      border: 1px solid rgba(0,200,240,0.35); padding: 0.3rem 0.7rem; border-radius: 999px; margin-bottom: 1rem;
+    }
+    h1 { font-size: clamp(1.55rem, 5vw, 1.95rem); line-height: 1.2; color: #fff; margin-bottom: 0.55rem; }
+    .lede { color: var(--muted); margin-bottom: 1.25rem; }
+    .card {
+      background: var(--charcoal); border: 1px solid rgba(0,200,240,0.22); border-radius: 14px;
+      padding: 1.25rem; margin-bottom: 1rem; box-shadow: 0 16px 40px rgba(0,0,0,0.35);
+    }
+    .card h2 { font-size: 1rem; color: #fff; margin-bottom: 0.45rem; }
+    .card p, .card li { color: var(--muted); font-size: 0.95rem; }
+    label { display: block; font-size: 0.78rem; color: var(--muted); margin: 0.7rem 0 0.3rem; }
+    input, textarea, select {
+      width: 100%; background: #0f1724; border: 1px solid rgba(154,163,178,0.35);
+      border-radius: 8px; color: var(--silver); padding: 0.7rem 0.75rem; font: inherit;
+    }
+    input:focus, textarea:focus, select:focus { outline: none; border-color: var(--cyan); }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
+      width: 100%; text-decoration: none; font-weight: 700; font-size: 1rem;
+      padding: 0.95rem 1rem; border-radius: 999px; border: none; cursor: pointer; margin-top: 0.85rem;
+    }
+    .btn-primary { background: var(--cyan); color: var(--navy); }
+    .btn-gold { background: linear-gradient(135deg, var(--gold), #f0c85a); color: var(--navy); }
+    .btn-outline { background: transparent; color: var(--cyan); border: 1.5px solid rgba(0,200,240,0.55); }
+    .btn-ok { background: var(--ok); color: #062016; }
+    .btn-no { background: transparent; color: var(--danger); border: 1.5px solid rgba(248,113,113,0.55); }
+    .btn-sm { font-size: 0.82rem; padding: 0.55rem 0.75rem; margin-top: 0.45rem; }
+    .row { display: grid; gap: 0.65rem; }
+    @media (min-width: 420px) { .row.two { grid-template-columns: 1fr 1fr; } }
+    .fine { font-size: 0.78rem; color: var(--muted); margin-top: 1rem; text-align: center; }
+    .fine a { color: var(--cyan); }
+    .banner {
+      font-size: 0.75rem; color: var(--gold); border-left: 3px solid var(--gold);
+      padding-left: 0.75rem; margin-bottom: 1.1rem;
+    }
+    .warn {
+      font-size: 0.8rem; color: var(--muted); background: #0f1724; border-radius: 8px;
+      padding: 0.65rem 0.75rem; margin-top: 0.75rem; border: 1px solid rgba(154,163,178,0.2);
+    }
+    .hidden { display: none; }
+    .chip { display: inline-block; font-size: 0.68rem; letter-spacing: 0.05em; text-transform: uppercase;
+      color: var(--gold); border: 1px solid rgba(224,176,58,0.4); padding: 0.25rem 0.55rem; border-radius: 999px; margin-right: 0.35rem; }
+    .sim-line { background: #0f1724; border-radius: 10px; padding: 0.7rem 0.8rem; margin: 0.45rem 0; font-size: 0.9rem; }
+    .sim-line.caller { border-left: 3px solid var(--gold); }
+    .sim-line.desk { border-left: 3px solid var(--cyan); }
+    code { font-size: 0.85em; color: var(--cyan); }
+    .job-item {
+      background: #0f1724; border-radius: 10px; padding: 0.7rem 0.8rem; margin: 0.45rem 0;
+      font-size: 0.85rem; border-left: 3px solid rgba(0,200,240,0.45);
+    }
+    .job-item.booked { border-left-color: var(--ok); }
+    .job-item.declined { border-left-color: var(--danger); opacity: 0.85; }
+    .job-meta { color: var(--muted); font-size: 0.75rem; margin-top: 0.25rem; }
+    .status-pill {
+      display: inline-block; font-size: 0.65rem; letter-spacing: 0.04em; text-transform: uppercase;
+      padding: 0.15rem 0.45rem; border-radius: 999px; margin-left: 0.35rem;
+    }
+    .status-sent { background: rgba(0,200,240,0.15); color: var(--cyan); }
+    .status-booked { background: rgba(52,211,153,0.18); color: var(--ok); }
+    .status-declined { background: rgba(248,113,113,0.15); color: var(--danger); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand-bar">Tow.Center MVP · Albany <span class="ai">AI</span> <span class="guy">Guy</span> · Twilio-free</div>
+    <p class="banner">Solo-driver intake: caller texts <strong>your</strong> phone with the lead. No Twilio. No new paid apps.</p>
+    <p class="warn" id="railTruthStrip">Lane K rail-truth: MVP URL <strong>verified</strong> · notify = <code>sms:</code> (no Twilio) · Quick Sim = <strong>staged</strong> · LiveKit public URL = <strong>unknown</strong> · first-month $ = <strong>[CHAD LOCKS]</strong></p>
+    <span class="pill">Need a tow / jump / lockout</span>
+    <h1 id="title">Get the driver a text — even if he’s under a truck.</h1>
+    <p class="lede" id="lede">Fill this in once. Your phone opens a text to the driver with location and vehicle details. He replies YES / NO or calls you back on that same thread. Driver cell must be <strong>518</strong> or <strong>838</strong> (Capital Region). Pickup outside that turf is rejected.</p>
+
+    <div class="card" id="setupCard">
+      <h2>Driver setup (30 seconds)</h2>
+      <p>Paste the driver’s cell (digits only). This stays in your browser / bookmark — nothing is uploaded to a paid SMS API.</p>
+      <label for="driverPhone">Driver cell (CJ)</label>
+      <input id="driverPhone" type="tel" inputmode="tel" placeholder="5185551234" autocomplete="tel" />
+      <button class="btn btn-outline" type="button" id="saveDriver">Save on this device</button>
+      <p class="warn">Bookmark this page after saving. Share the same link (with <code>?n=</code> digits) on your truck QR, Facebook, or voicemail: “If I miss you, open this link and text me the job.” Always write <strong>518</strong> as digits.</p>
+    </div>
+
+    <div class="card" id="leadCard">
+      <h2>Job details</h2>
+      <form id="leadForm">
+        <label for="name">Your name *</label>
+        <input id="name" name="name" required autocomplete="name" placeholder="Full name" />
+
+        <label for="phone">Your callback phone *</label>
+        <input id="phone" name="phone" type="tel" required autocomplete="tel" placeholder="518-…" />
+
+        <label for="location">Pickup location *</label>
+        <input id="location" name="location" required placeholder="Street + town, exit, or landmark" />
+
+        <label for="vehicle">Vehicle *</label>
+        <input id="vehicle" name="vehicle" required placeholder="Year / make / model / color" />
+
+        <label for="need">What do you need? *</label>
+        <select id="need" name="need" required>
+          <option value="">Select…</option>
+          <option>Tow</option>
+          <option>Jump start</option>
+          <option>Lockout</option>
+          <option>Winch / stuck</option>
+          <option>Tire / other roadside</option>
+        </select>
+
+        <label for="notes">Notes (optional)</label>
+        <textarea id="notes" name="notes" rows="2" placeholder="Keys? garage? accident? police on scene?"></textarea>
+
+        <button class="btn btn-primary" type="submit" id="sendSms">Text the driver this job</button>
+        <a class="btn btn-outline" id="callDriver" href="#">Or call the driver</a>
+      </form>
+      <p class="warn" id="smsHint">Uses your phone’s Messages app (<code>sms:</code>) — free carrier text. No Twilio.</p>
+    </div>
+
+    <div class="card hidden" id="afterSend">
+      <h2>Sent — driver decides next</h2>
+      <p>On the driver’s phone the text looks like a normal customer SMS. He can:</p>
+      <div class="row two" style="margin-top:0.75rem">
+        <button class="btn btn-ok" type="button" id="replyYes">I’m the driver — reply YES</button>
+        <button class="btn btn-no" type="button" id="replyNo">I’m the driver — reply NO</button>
+      </div>
+      <p class="warn">Those buttons open a reply SMS to the <em>caller’s</em> number (accept / decline) and update the on-device job log. Or just reply in the thread that just arrived.</p>
+    </div>
+
+    <div class="card" id="logCard">
+      <h2>Booked-job log <span class="chip">this device</span></h2>
+      <p>Append-only on this browser (<code>localStorage</code>). No paid database. Export JSON anytime; Chad can paste into <code>docs/booked-jobs.md</code> if he wants a repo trail.</p>
+      <div id="jobLog" aria-live="polite"></div>
+      <div class="row two">
+        <button class="btn btn-outline btn-sm" type="button" id="exportLog">Export JSON</button>
+        <button class="btn btn-outline btn-sm" type="button" id="clearLog">Clear local log</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><span class="chip">Quick Sim</span> Hear the desk (labeled demo)</h2>
+      <p>No live phone line. Press through a labeled Quick Sim of how the voice desk takes a tow lead. LiveKit press-play (local) uses the same tow persona when Chad runs it — not a public live-call claim.</p>
+      <div id="sim" aria-live="polite"></div>
+      <button class="btn btn-gold" type="button" id="simNext">Start Quick Sim</button>
+    </div>
+
+    <div class="card">
+      <h2>What this MVP does</h2>
+      <ol style="padding-left:1.15rem;color:var(--muted);font-size:0.95rem">
+        <li>Captures name, phone, pickup location, vehicle, need.</li>
+        <li>Opens a text to the driver’s cell with that lead (your SMS, not Twilio).</li>
+        <li>Driver accepts / declines by replying on that thread (or the reply buttons).</li>
+        <li>Keeps a minimal booked-job log on this device.</li>
+      </ol>
+      <p style="margin-top:0.65rem">What it cannot do without Twilio / paid telephony: answer the driver’s real ring automatically, forward missed calls, or send SMS from a system number while the caller stays silent.</p>
+    </div>
+
+    <p class="fine">
+      Tow.Center MVP · Albany AI Guy · Chad Lenseth<br />
+      <a href="https://albanyaiguy.com">albanyaiguy.com</a> · Not affiliated with motor clubs. For emergencies call 911.
+    </p>
+  </div>
+  <script src="./lib/standing-rules.js"></script>
+  <script>
+(function () {
+  var R = window.TowStandingRules;
+  if (!R) {
+    console.error("TowStandingRules missing — standing-rules.js failed to load");
+  }
+  var LOG_KEY = 'tow_job_log_v1';
+  var params = new URLSearchParams(location.search);
+  var stored = localStorage.getItem('tow_driver_n') || '';
+  var fromQuery = (params.get('n') || '').replace(/\D/g, '');
+  var driver = fromQuery || stored;
+
+  var driverInput = document.getElementById('driverPhone');
+  if (driver) driverInput.value = driver;
+
+  function digits(s) { return String(s || '').replace(/\D/g, ''); }
+  function e164ish(d) {
+    d = digits(d);
+    if (d.length === 10) return '1' + d;
+    return d;
+  }
+  function driverDigits() { return e164ish(driverInput.value || driver); }
+  function loadLog() {
+    try { return JSON.parse(localStorage.getItem(LOG_KEY) || '[]'); }
+    catch (e) { return []; }
+  }
+  function saveLog(arr) {
+    localStorage.setItem(LOG_KEY, JSON.stringify(arr.slice(0, 100)));
+    renderLog();
+  }
+  function renderLog() {
+    var box = document.getElementById('jobLog');
+    var arr = loadLog();
+    if (!arr.length) {
+      box.innerHTML = '<p class="warn">No jobs logged yet on this device.</p>';
+      return;
+    }
+    box.innerHTML = '';
+    arr.slice().reverse().forEach(function (j) {
+      var div = document.createElement('div');
+      div.className = 'job-item' + (j.status === 'booked' ? ' booked' : j.status === 'declined' ? ' declined' : '');
+      var pill = document.createElement('span');
+      pill.className = 'status-pill status-' + (j.status || 'sent');
+      pill.textContent = j.status || 'sent';
+      var title = document.createElement('div');
+      title.textContent = (j.need || 'Job') + ' · ' + (j.name || '?') + ' · ' + (j.vehicle || '');
+      title.appendChild(pill);
+      var meta = document.createElement('div');
+      meta.className = 'job-meta';
+      meta.textContent = (j.at || '') + ' · ' + (j.location || '') + ' · cb ' + (j.phone || '');
+      div.appendChild(title);
+      div.appendChild(meta);
+      box.appendChild(div);
+    });
+  }
+
+  document.getElementById('saveDriver').addEventListener('click', function () {
+    var raw = driverInput.value || driver;
+    var check = R ? R.validateDriverPhone(raw) : { ok: digits(raw).length >= 10, digits: e164ish(raw), reason: 'Enter a valid US cell (10+ digits).' };
+    if (!check.ok) { alert(check.reason); return; }
+    var d = check.digits || driverDigits();
+    localStorage.setItem('tow_driver_n', d);
+    driver = d;
+    var url = new URL(location.href);
+    url.searchParams.set('n', d);
+    history.replaceState(null, '', url.toString());
+    alert('Saved. Bookmark this page (link includes ?n=). Share that bookmark / QR.');
+    updateCallHref();
+  });
+
+  function updateCallHref() {
+    var d = driverDigits();
+    var a = document.getElementById('callDriver');
+    if (d.length >= 10) a.href = 'tel:+' + d;
+    else a.href = '#';
+  }
+  updateCallHref();
+  renderLog();
+
+  var lastCaller = '';
+  var lastJobId = null;
+
+  document.getElementById('leadForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var rawDriver = driverInput.value || driver;
+    var driverCheck = R ? R.validateDriverPhone(rawDriver) : { ok: driverDigits().length >= 10, digits: driverDigits(), reason: 'Set the driver cell in Driver setup first (or open a link with ?n=518…).' };
+    if (!driverCheck.ok) {
+      alert(driverCheck.reason);
+      document.getElementById('setupCard').scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+    var d = driverCheck.digits || driverDigits();
+    var name = document.getElementById('name').value.trim();
+    var phone = document.getElementById('phone').value.trim();
+    var locationV = document.getElementById('location').value.trim();
+    var vehicle = document.getElementById('vehicle').value.trim();
+    var need = document.getElementById('need').value;
+    var notes = document.getElementById('notes').value.trim();
+    var locCheck = R ? R.validatePickupLocation(locationV) : { ok: !!locationV, reason: 'Pickup location is required.' };
+    if (!locCheck.ok) { alert(locCheck.reason); return; }
+    // Ask Before Acting: consequential notify — stop unless caller confirms before opening Messages.
+    var confirmed = confirm('Ask Before Acting: open Messages to text this lead to the driver? You still must tap Send in Messages. Nothing is sent automatically.');
+    var gate = R ? R.askBeforeActing('notify_driver_sms', confirmed === true) : { ok: confirmed === true };
+    if (!gate.ok) { return; }
+    lastCaller = e164ish(phone);
+    var job = {
+      id: 'j_' + Date.now(),
+      at: new Date().toISOString(),
+      status: 'sent',
+      name: name,
+      phone: phone,
+      location: locationV,
+      vehicle: vehicle,
+      need: need,
+      notes: notes,
+      driver: d
+    };
+    lastJobId = job.id;
+    var arr = loadLog();
+    arr.push(job);
+    saveLog(arr);
+    var body =
+      'TOW LEAD (Tow.Center)\n' +
+      'Need: ' + need + '\n' +
+      'Name: ' + name + '\n' +
+      'Callback: ' + phone + '\n' +
+      'Pickup: ' + locationV + '\n' +
+      'Vehicle: ' + vehicle +
+      (notes ? '\nNotes: ' + notes : '') +
+      '\n— Reply YES to take it, NO if you cannot, or call them back.';
+    var href = 'sms:+' + d + '?&body=' + encodeURIComponent(body);
+    if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+      href = 'sms:+' + d + '&body=' + encodeURIComponent(body);
+    }
+    document.getElementById('afterSend').classList.remove('hidden');
+    window.location.href = href;
+  });
+
+  function setJobStatus(status) {
+    if (!lastJobId) return;
+    var arr = loadLog();
+    for (var i = 0; i < arr.length; i++) {
+      if (arr[i].id === lastJobId) {
+        arr[i].status = status;
+        arr[i].decidedAt = new Date().toISOString();
+        break;
+      }
+    }
+    saveLog(arr);
+  }
+
+  function replyToCaller(text, status) {
+    if (!lastCaller || lastCaller.length < 10) {
+      alert('Submit a lead first so we know the caller number — or reply in the SMS thread on your phone.');
+      return;
+    }
+    setJobStatus(status);
+    var href = 'sms:+' + lastCaller + '?&body=' + encodeURIComponent(text);
+    if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+      href = 'sms:+' + lastCaller + '&body=' + encodeURIComponent(text);
+    }
+    window.location.href = href;
+  }
+  document.getElementById('replyYes').addEventListener('click', function () {
+    replyToCaller('YES — I can take this job. On my way / calling you now. — CJ Towing', 'booked');
+  });
+  document.getElementById('replyNo').addEventListener('click', function () {
+    replyToCaller('NO — I cannot take this one right now. Sorry. — CJ Towing', 'declined');
+  });
+
+  document.getElementById('exportLog').addEventListener('click', function () {
+    var blob = new Blob([JSON.stringify(loadLog(), null, 2)], { type: 'application/json' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'tow-center-job-log.json';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  });
+  document.getElementById('clearLog').addEventListener('click', function () {
+    var confirmed = confirm('Clear the on-device job log? This does not delete SMS on your phone.');
+    var gate = R ? R.askBeforeActing('clear_job_log', confirmed === true) : { ok: confirmed === true };
+    if (!gate.ok) return;
+    localStorage.removeItem(LOG_KEY);
+    renderLog();
+  });
+
+  var simSteps = [
+    { who: 'desk', t: 'CJ Towing dispatch — what’s going on and where’s the vehicle?' },
+    { who: 'caller', t: 'Need a tow. I’m on Route 7 near Latham, gray Honda Civic, won’t start.' },
+    { who: 'desk', t: 'Got it — tow for a gray Honda Civic on Route 7 near Latham. What’s your name and best callback number?' },
+    { who: 'caller', t: 'Alex Rivera, 518-555-0142.' },
+    { who: 'desk', t: 'Thanks Alex. Any keys with the car, and is it in a safe spot off the travel lane?' },
+    { who: 'caller', t: 'Keys yes — I’m in a side lot.' },
+    { who: 'desk', t: 'Read-back: Alex Rivera, 518-555-0142, Route 7 / Latham side lot, gray Honda Civic, need tow. The driver will text or call you back.' }
+  ];
+  var simI = 0;
+  var simBox = document.getElementById('sim');
+  document.getElementById('simNext').addEventListener('click', function () {
+    if (simI === 0) simBox.innerHTML = '';
+    if (simI >= simSteps.length) {
+      simBox.innerHTML += '<p class="warn">End of labeled Quick Sim. Real PSTN answering needs paid telephony later — this MVP uses web + SMS. LiveKit press-play is local only unless a public demo URL is verified (Lane K).</p>';
+      this.textContent = 'Replay Quick Sim';
+      simI = 0;
+      return;
+    }
+    var s = simSteps[simI++];
+    var div = document.createElement('div');
+    div.className = 'sim-line ' + s.who;
+    div.textContent = (s.who === 'desk' ? 'Desk: ' : 'Caller: ') + s.t;
+    simBox.appendChild(div);
+    this.textContent = simI >= simSteps.length ? 'Finish' : 'Next line';
+  });
+})();
+  </script>
+</body>
+</html>
