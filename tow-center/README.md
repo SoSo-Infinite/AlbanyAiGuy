@@ -14,6 +14,15 @@ Static intake for solo tow drivers — **CJ Towing** warm lead (Albany AI Guy / 
 
 LiveKit press-play remains **local / unknown public URL** until rail-truth says otherwise.
 
+### Rail-truth (Lane K)
+
+| Item | Status |
+| --- | --- |
+| Notify path | `sms:` compose — **no Twilio** |
+| SSO / login | **Off** (static page) |
+| Entity | **Tow C Inc.** — not “Tow.Center LLC” |
+| First-month $ | **[CHAD LOCKS]** — do not invent |
+
 ## What it does
 
 1. Caller enters **name, phone, pickup location, vehicle, need**.

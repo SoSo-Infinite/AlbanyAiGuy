@@ -1,10 +1,10 @@
 # Tow.Center → CJ Towing — Twilio-free MVP handoff
 
 **Date:** 2026-09-28  
-**Verdict:** **READY to offer this week** (Twilio-free web + SMS compose MVP) — after Chad locks trial/pay terms flagged below and pastes CJ’s real cell into `?n=`.  
+**Verdict:** **READY to offer this week** (Twilio-free web + SMS compose MVP) — after Chad pastes CJ’s real cell into `?n=` and locks first-month amount if/when CJ opts in.  
 **Do not contact CJ** until Chad sends.  
 **Do not provision Twilio.**  
-**Do not invent** public demo URLs, Stripe links, EIN, free-trial length, or first-month dollar amounts.
+**Do not invent** public demo URLs, Stripe links, EIN, or first-month dollar amounts.
 
 ## Live URL (verified)
 
@@ -38,53 +38,53 @@ Workaround CJ can do free himself (optional, not built by us today): short voice
 
 ---
 
-## Free trial + paywall TERMS (Chad locks required)
+## Pay model (Chad’s locks)
 
-**Do not send dollar amounts or trial length to CJ until Chad fills the locks.**
+**Use this tool free until you have made money from jobs that came through it.**  
+CJ only starts paying when **he** is confident that revenue came from the tool’s help **and** he likes it — then he signs up for the subscription.
 
 | Term | Status |
 | --- | --- |
-| Free-trial length | **[CHAD LOCKS: free-trial length]** |
-| First-month amount (after trial, to keep supported Tow.Center / voice path) | **[CHAD LOCKS: first-month amount]** |
-| Full missed-call / inbound voice grand-slam (separate from SMS trial) | Lane C rate card already locked: **$1,000** setup + **$599/mo** — only cite if Chad wants that ladder in the same message |
-| Setup deposit for fuller voice system | Rate-card / Lane H default context exists; **do not invent a deposit line in the CJ SMS-trial paste unless Chad confirms** |
+| Free period | Until CJ has made money from jobs attributed to the system **and** he is confident + likes it (no fixed calendar trial) |
+| First-month subscription amount (when he opts in) | **[CHAD LOCKS: first-month amount]** — fill before quoting a number to CJ |
 | Payment automation | **None.** No Stripe. No new paid rails (Lane H). |
 | Named manual rails Chad may use | Venmo **@InfiniteKid** · PayPal **cjames112@gmail.com** — options only; no bot automation |
+| Annual lock | **None.** Say the word and we stop. |
 
 ---
 
 ## One-page handoff text (Chad → CJ)
 
-*Paste after Chad fills the CHAD LOCKS brackets. Do not invent numbers.*
+*Paste after Chad fills **[CHAD LOCKS: first-month amount]** if he wants a number in the message. Do not invent dollars.*
 
 ---
 
 CJ —
 
-Built you a simple Tow.Center trial that doesn’t need any new paid phone software.
+Built you a simple Tow.Center setup that doesn’t need any new paid phone software.
 
 **What it does**
 - People who need a tow open your link and fill name, phone, where the car is, and the vehicle.
 - Their phone texts **you** the job as a normal SMS.
 - You reply YES, NO, or call them back on that same thread — even if you were under a truck or asleep when they first tried you.
 
-**How to start the free trial (today)**
+**How to start today (free)**
 1. Open: https://tow-center-mvp.vercel.app
 2. Enter your cell → Save → bookmark the link (it will look like `…?n=yournumber`).
 3. Put that link in your voicemail / Facebook / a QR on the truck: “Missed me? Open this and text me the job.”
 4. Have a friend send you one test job. Confirm the SMS hits your phone and reply YES once.
 
-**What “a couple gigs booked” looks like**
-- Two real people use the link and text you leads.
-- You reply and roll (or schedule) at least two of those jobs.
+**What “making money from it” looks like**
+- Real people use the link and text you leads.
+- You reply and roll (or schedule) those jobs.
 - That’s proof the link is catching money you’d otherwise miss while you’re under a truck or sleeping.
 
-**When the trial ends → first subscription month**
-- Trial length: **[CHAD LOCKS: free-trial length]**
-- First month to keep it as a supported Albany AI Guy system: **[CHAD LOCKS: first-month amount]**
-- (Optional — only if Chad includes it:) Full answered-line / missed-call voice path later is the separate grand-slam on the rate card ($1,000 setup + $599/mo) — not required to use this free SMS link trial.
-- Pay options Chad may use (manual): Venmo **@InfiniteKid** · PayPal **cjames112@gmail.com**
-- No annual lock on the trial. Say the word and we stop.
+**When you start paying**
+- Use it **free until you’ve made money from jobs that came through this system**.
+- You only start paying when **you’re confident** that revenue came from the tool’s help **and you like it** — then you sign up for the monthly subscription.
+- First month when you opt in: **[CHAD LOCKS: first-month amount]**
+- Pay options (manual): Venmo **@InfiniteKid** · PayPal **cjames112@gmail.com**
+- No annual lock. Say the word and we stop.
 
 Questions → Chad · Albany AI Guy · cjames112@gmail.com
 
@@ -101,15 +101,18 @@ Questions → Chad · Albany AI Guy · cjames112@gmail.com
 | Zero new paid services | YES |
 | Zero Chad sign-in for MVP use | YES (static page) |
 | Twilio | NOT used / NOT provisioned |
+| SSO / login | OFF (static page) |
+| Legal entity | **Tow C Inc.** (not Tow.Center LLC) |
 | Contact CJ | NOT done (prep only) |
-| Free-trial length / first-month $ | **WAITING on Chad locks** |
+| Pay model | Free until money from the tool + CJ confident/likes it → then subscribe |
+| First-month $ | **WAITING on [CHAD LOCKS: first-month amount]** |
 | GitHub product path | `AlbanyAiGuy/tow-center/` |
 
-**READY to offer this week** after Chad (1) locks trial length + first-month amount, (2) pastes CJ’s real cell into `?n=`, (3) sends the handoff himself.
+**READY to offer this week** after Chad (1) pastes CJ’s real cell into `?n=`, (2) fills first-month amount if he wants a number in the paste, (3) sends the handoff himself.
 
 ## What Chad must do by hand
 
-1. Fill **[CHAD LOCKS: free-trial length]** and **[CHAD LOCKS: first-month amount]** in this file before sending.
+1. Fill **[CHAD LOCKS: first-month amount]** before quoting a subscription number to CJ.
 2. Get / confirm CJ’s cell → open live URL with `?n=` → Save → bookmark / QR.
 3. Send the handoff to CJ (email/text) — bots must not contact CJ.
 4. Optional: redeploy Vercel project `tow-center-mvp` from `tow-center/index.html` if the live site should match the latest HTML (Ask Before Acting on prod).
