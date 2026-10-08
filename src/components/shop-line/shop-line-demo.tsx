@@ -88,7 +88,6 @@ export function ShopLineDemo() {
   const [banner, setBanner] = useState<string | null>(null);
   const [view, setView] = useState<"caller" | "owner">("caller");
   const [voiceOK, setVoiceOK] = useState(false);
-  const [engine, setEngine] = useState<string>("");
   const [seconds, setSeconds] = useState(0);
 
   const srRef = useRef<SR | null>(null);
@@ -185,7 +184,6 @@ export function ShopLineDemo() {
         const d = await r.json();
         if (d?.reply) reply = d.reply;
         if (d?.slots) setSlots(d.slots);
-        if (d?.engine) setEngine(d.engine);
         booked = d?.booking;
       } catch {}
       setThinking(false);
@@ -559,7 +557,7 @@ export function ShopLineDemo() {
         <p>
           Demo notes: {SHOP_NAME} is a made-up shop. Texts on this page are
           shown, not sent. Voice uses your browser&apos;s mic and speech
-          {engine ? ` · brain: ${engine === "ai" ? "AI" : "backup"}` : ""}. This
+          . This
           page doesn&apos;t save what you say.
         </p>
         <p>

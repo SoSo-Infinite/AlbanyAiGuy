@@ -273,7 +273,7 @@ export function findName(text: string): string | undefined {
     /\b(?:i'?m|i am|my name is|name'?s|this is|it'?s|call me|put (?:it )?under)\s+([A-Za-z][a-zA-Z'-]{1,20})/i,
   );
   const bad =
-    /^(good|calling|looking|trying|wondering|just|here|interested|not|a|the|so|gonna|going|ok|okay|fine|great|free|available|me)$/i;
+    /^(good|calling|looking|trying|wondering|just|here|interested|not|a|the|so|gonna|going|ok|okay|fine|great|free|available|me|for|in|wondering|hoping|calling)$/i;
   if (m && !bad.test(m[1])) return cap(m[1]);
   return undefined;
 }

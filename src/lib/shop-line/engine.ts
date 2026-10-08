@@ -24,12 +24,23 @@ export function ruleReply(
   let slot: Slot | undefined;
   let asked: string | undefined;
   let name: string | undefined;
+  let wantTomorrow = false;
 
   messages.forEach((m, i) => {
     if (m.role !== "user") return;
     const prev = messages[i - 1]?.content.toLowerCase() ?? "";
+
     service = findService(m.content) ?? service;
-    const s = findSlot(m.content, slots);
+    if (/tomorrow/i.test(m.content)) wantTomorrow = true;
+    else if (/today|this (afternoon|morning|evening)|tonight/i.test(m.content))
+      wantTomorrow = false;
+    const ordered = wantTomorrow
+      ? [
+          ...slots.filter((x) => x.dayLabel === "tomorrow"),
+          ...slots.filter((x) => x.dayLabel !== "tomorrow"),
+        ]
+      : slots;
+    const s = findSlot(m.content, ordered);
     if (s.slot) {
       slot = s.slot;
       asked = undefined;
@@ -88,13 +99,21 @@ export function ruleReply(
     };
   }
 
+  const offer =
+    wantTomorrow && slots.some((x) => x.dayLabel === "tomorrow")
+      ? slots.filter((x) => x.dayLabel === "tomorrow")
+      : slots;
   let next: string;
-  if (!service)
-    next = "What are we doing for you, a haircut, a fade, or a beard trim?";
+  const ask = "What are we doing for you, a haircut, a fade, or a beard trim?";
+  if (!service && slot)
+    next = `${slot.time} ${slot.dayLabel} is open with ${slot.barber}. ${ask}`;
+  else if (!service && asked)
+    next = `${asked} is taken, sorry. ${upper(slotSentence(offer))}. ${ask}`;
+  else if (!service) next = ask;
   else if (!slot && asked)
-    next = `${asked} is taken, sorry. ${upper(slotSentence(slots))}. Want one of those?`;
+    next = `${asked} is taken, sorry. ${upper(slotSentence(offer))}. Want one of those?`;
   else if (!slot)
-    next = `Got it, a ${service.label.toLowerCase()}. ${upper(slotSentence(slots))}. Which works?`;
+    next = `Got it, a ${service.label.toLowerCase()}. ${upper(slotSentence(offer))}. Which works?`;
   else
     next = `${slot.time} ${slot.dayLabel} with ${slot.barber} is yours. What name should I put it under?`;
   return { reply: answer ? `${answer} ${next}` : next };
