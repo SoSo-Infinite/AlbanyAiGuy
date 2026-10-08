@@ -1,7 +1,7 @@
 "use client";
 
-import type { ReactNode } from "react";
 import { usePathname } from "next/navigation";
+import type { ReactNode } from "react";
 import { Toaster } from "sonner";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -25,7 +25,8 @@ function TopContactLine() {
           {CONTACT_EMAIL}
         </a>
         <p className="mt-4 max-w-4xl text-[clamp(1.35rem,2.6vw,1.85rem)] font-medium leading-snug text-black">
-          Contact me for help with veterans, people without a home, and anyone who needs a hand.
+          Contact me for help with veterans, people without a home, and anyone
+          who needs a hand.
         </p>
       </div>
     </section>
@@ -33,6 +34,9 @@ function TopContactLine() {
 }
 
 export function AppShell({ children }: { children: ReactNode }) {
+  const pathname = usePathname();
+  // The Shop Line demo is a full-screen, phone-first page with its own header.
+  if (pathname?.startsWith("/shop-line")) return <>{children}</>;
   return (
     <>
       <TopContactLine />
