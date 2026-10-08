@@ -7,11 +7,18 @@ export function SiteFooter() {
         <div>
           <p className="font-display text-lg">Albany AI Guy</p>
           <p className="mt-1 max-w-sm text-sm text-muted-foreground">
-            Regional AI infrastructure for the Capital Region. 518 / 838 overlay only.
+            Albany trunk-line concierge and AI voice receptionist for Capital
+            Region businesses. Coming soon — join the pilot.
           </p>
         </div>
         <p className="font-mono text-xs text-faint">
-          © 2026 AlbanyAIGuy.com · Operator of record · Not a chatbot wrapper
+          © 2026 Albany AI Guy · Chad Lenseth · Albany, NY ·{" "}
+          <a
+            href="mailto:hello@albanyaiguy.com"
+            className="hover:text-foreground"
+          >
+            hello@albanyaiguy.com
+          </a>
         </p>
       </div>
     </footer>

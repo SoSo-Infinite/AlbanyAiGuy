@@ -1,20 +1,26 @@
 "use client";
 
-import Link from "next/link";
 import { Menu } from "lucide-react";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { useAppSession } from "@/lib/store";
 import { useHydrated } from "@/lib/use-hydrated";
 import { cn } from "@/lib/utils";
 
 const LINKS = [
-  { href: "/#gate", label: "Deploy" },
-  { href: "/#ledger", label: "Ledger" },
-  { href: "/#engines", label: "Engines" },
-  { href: "/#territory", label: "Territory" },
-  { href: "/#doctrine", label: "Doctrine" },
+  { href: "/trunk-line", label: "Trunk line" },
+  { href: "/#receptionist", label: "AI receptionist" },
+  { href: "/shop-line", label: "Demo" },
+  { href: "/#faq", label: "FAQ" },
+  { href: "/contact", label: "Contact" },
 ];
 
 function Clock() {
@@ -79,20 +85,30 @@ export function SiteHeader() {
               <Link href="/console">Console</Link>
             </Button>
           ) : (
-            <Button asChild size="sm" variant="outline" className="hidden sm:inline-flex">
-              <a href="/#gate">Verify ZIP</a>
+            <Button
+              asChild
+              size="sm"
+              variant="outline"
+              className="hidden sm:inline-flex"
+            >
+              <a href="/#pilot">Join the pilot</a>
             </Button>
           )}
 
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="md:hidden" aria-label="Open menu">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="md:hidden"
+                aria-label="Open menu"
+              >
                 <Menu />
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="flex flex-col gap-6">
               <SheetHeader>
-                <SheetTitle>Network</SheetTitle>
+                <SheetTitle>Menu</SheetTitle>
               </SheetHeader>
               <nav className="flex flex-col gap-1">
                 {LINKS.map((l) => (

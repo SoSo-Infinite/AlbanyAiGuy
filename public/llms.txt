@@ -1,0 +1,28 @@
+# Albany AI Guy
+> Albany AI Guy is Chad Lenseth's Capital Region (518) project: a trunk-line concierge phone number and AI voice receptionist for local businesses. Callers will say what they need (a haircut, a heating repair, a plumber); the line finds a qualifying local shop and books it or requests a callback. Separately, shops can run their own AI front desk on the shop phone.
+
+Status: **coming soon / join the pilot.** The public phone number is not live yet. A working web demo of a single-shop AI front desk is at https://albanyaiguy.com/shop-line.
+
+Email: hello@albanyaiguy.com
+Area: Albany, Schenectady, Rensselaer, and Saratoga counties (core); wider 518 by request.
+Operator: Chad Lenseth, Albany, NY.
+
+## Live pages
+- [Home](https://albanyaiguy.com/): what Albany AI Guy is, and how to join the pilot
+- [Trunk line](https://albanyaiguy.com/trunk-line): the planned one-number concierge for Albany, and how the pilot works
+- [518 Shop Line demo](https://albanyaiguy.com/shop-line): talk to a fictional barbershop AI front desk in the browser
+- [Contact](https://albanyaiguy.com/contact): write the desk
+
+## Planned (not live yet)
+- Public trunk-line phone number
+- Directory pages for barbers, salons, HVAC, plumbers, and other 518 shops
+- Opt-in partner shops that receive bookings; public listings labeled "not a partner"
+
+## How it will work
+- Bookings only go to shops that have opted in as partners.
+- Other listings, when published, will be public information labeled "not a partner."
+- Emergencies: call 911. Gas smell: leave, then call 911 or your gas utility's emergency line.
+- No fake customer counts or reviews on this site.
+
+## Not for
+Medical, fire, or police emergencies — call 911.
