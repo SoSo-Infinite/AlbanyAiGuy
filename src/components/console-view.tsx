@@ -183,14 +183,14 @@ export function ConsoleLocked() {
         Console locked
       </p>
       <h1 className="mt-2 font-display text-headline">
-        No staging node on this device
+        This console isn&apos;t open to the public
       </h1>
       <p className="mt-3 text-muted-foreground">
-        The console only opens after a 518/838 ZIP clears the territory gate.
-        Verify from the network home, then come back.
+        It&apos;s a private staging tool. If you run a shop and want to join the
+        pilot, start from the home page.
       </p>
       <Button asChild className="mt-6 w-fit">
-        <Link href="/#gate">Verify ZIP</Link>
+        <Link href="/">Back to home</Link>
       </Button>
     </div>
   );

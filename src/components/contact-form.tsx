@@ -125,7 +125,7 @@ export function ContactForm() {
           maxLength={800}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          placeholder="What do you need staged — Service Shield, incubator, or scout desk?"
+          placeholder="The trunk line, an AI receptionist for your shop, or joining the pilot?"
         />
       </div>
 
