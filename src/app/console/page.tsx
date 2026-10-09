@@ -16,5 +16,9 @@ export default function ConsolePage() {
     );
   }
 
-  return <main>{session ? <ConsoleView session={session} /> : <ConsoleLocked />}</main>;
+  return (
+    <main>
+      {session ? <ConsoleView session={session} /> : <ConsoleLocked />}
+    </main>
+  );
 }

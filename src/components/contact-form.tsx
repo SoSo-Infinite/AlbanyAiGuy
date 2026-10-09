@@ -1,7 +1,7 @@
 "use client";
 
 import { Mail } from "lucide-react";
-import { useState, type FormEvent } from "react";
+import { type FormEvent, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -37,7 +37,10 @@ export function ContactForm() {
     <form onSubmit={onSubmit} className="space-y-5">
       <div className="grid gap-5 sm:grid-cols-2">
         <div className="space-y-1.5">
-          <Label htmlFor="contact-name" className="font-mono text-micro uppercase tracking-[0.12em]">
+          <Label
+            htmlFor="contact-name"
+            className="font-mono text-micro uppercase tracking-[0.12em]"
+          >
             Name
           </Label>
           <Input
@@ -71,7 +74,10 @@ export function ContactForm() {
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div className="space-y-1.5">
-          <Label htmlFor="contact-phone" className="font-mono text-micro uppercase tracking-[0.12em]">
+          <Label
+            htmlFor="contact-phone"
+            className="font-mono text-micro uppercase tracking-[0.12em]"
+          >
             Phone
           </Label>
           <Input
@@ -86,7 +92,10 @@ export function ContactForm() {
           />
         </div>
         <div className="space-y-1.5">
-          <Label htmlFor="contact-email" className="font-mono text-micro uppercase tracking-[0.12em]">
+          <Label
+            htmlFor="contact-email"
+            className="font-mono text-micro uppercase tracking-[0.12em]"
+          >
             Email
           </Label>
           <Input
@@ -103,7 +112,10 @@ export function ContactForm() {
       </div>
 
       <div className="space-y-1.5">
-        <Label htmlFor="contact-message" className="font-mono text-micro uppercase tracking-[0.12em]">
+        <Label
+          htmlFor="contact-message"
+          className="font-mono text-micro uppercase tracking-[0.12em]"
+        >
           Short message
         </Label>
         <Textarea

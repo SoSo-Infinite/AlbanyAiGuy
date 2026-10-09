@@ -12,7 +12,10 @@ export function AccordionItem({
   ...props
 }: ComponentProps<typeof AccordionPrimitive.Item>) {
   return (
-    <AccordionPrimitive.Item className={cn("border-b border-border", className)} {...props} />
+    <AccordionPrimitive.Item
+      className={cn("border-b border-border", className)}
+      {...props}
+    />
   );
 }
 

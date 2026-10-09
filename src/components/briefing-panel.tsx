@@ -63,11 +63,15 @@ export function BriefingPanel() {
     return (
       <section id="briefing" className="border-t border-border py-20 sm:py-24">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <p className="font-mono text-micro uppercase text-primary">Intelligence desk</p>
-          <h2 className="mt-2 font-display text-headline">Commission a 14-day brief</h2>
+          <p className="font-mono text-micro uppercase text-primary">
+            Intelligence desk
+          </p>
+          <h2 className="mt-2 font-display text-headline">
+            Commission a 14-day brief
+          </h2>
           <p className="mt-3 max-w-xl text-muted-foreground">
-            The desk will not write a plan for a ZIP it cannot verify. Pass the territory gate
-            first — then this panel unlocks.
+            The desk will not write a plan for a ZIP it cannot verify. Pass the
+            territory gate first — then this panel unlocks.
           </p>
           <Button asChild className="mt-6" variant="outline">
             <a href="#gate">Verify ZIP</a>
@@ -94,7 +98,9 @@ export function BriefingPanel() {
           county: node.county,
           notes,
         }),
-      }).then((r) => r.json())) as { ok: true; text: string } | { ok: false; error: string };
+      }).then((r) => r.json())) as
+        | { ok: true; text: string }
+        | { ok: false; error: string };
       if (!result.ok) setError(result.error);
       else setBrief(result.text);
     } catch {
@@ -107,11 +113,15 @@ export function BriefingPanel() {
   return (
     <section id="briefing" className="border-t border-border py-20 sm:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <p className="font-mono text-micro uppercase text-primary">Intelligence desk</p>
-        <h2 className="mt-2 font-display text-headline">Commission a 14-day execution brief</h2>
+        <p className="font-mono text-micro uppercase text-primary">
+          Intelligence desk
+        </p>
+        <h2 className="mt-2 font-display text-headline">
+          Commission a 14-day execution brief
+        </h2>
         <p className="mt-3 max-w-2xl text-muted-foreground">
-          Real Capital Region intelligence, written for {node.city} {node.zip} · {node.industry}.
-          User-initiated. One desk, not a chatbot toy.
+          Real Capital Region intelligence, written for {node.city} {node.zip} ·{" "}
+          {node.industry}. User-initiated. One desk, not a chatbot toy.
         </p>
 
         <div className="mt-8 grid gap-6 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
@@ -132,18 +142,24 @@ export function BriefingPanel() {
               />
             </label>
             <Button className="mt-4" onClick={run} disabled={busy}>
-              {busy ? <LoaderCircle className="animate-spin" /> : <ScrollText />}
+              {busy ? (
+                <LoaderCircle className="animate-spin" />
+              ) : (
+                <ScrollText />
+              )}
               {busy ? "Writing brief" : "Commission brief"}
             </Button>
-            {error ? <p className="mt-3 text-sm text-destructive">{error}</p> : null}
+            {error ? (
+              <p className="mt-3 text-sm text-destructive">{error}</p>
+            ) : null}
           </div>
           <div className="min-h-56 rounded-xl border border-border bg-card p-5">
             {brief ? (
               <div>{renderBrief(brief)}</div>
             ) : (
               <p className="text-sm text-faint">
-                Brief lands here. The model is instructed as Albany AI Guy — local, specific, no
-                invented shop names.
+                Brief lands here. The model is instructed as Albany AI Guy —
+                local, specific, no invented shop names.
               </p>
             )}
           </div>

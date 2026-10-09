@@ -2,7 +2,8 @@
 
 @theme {
   --font-sans: var(--font-ibm-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-instrument), ui-serif, Georgia, "Times New Roman", serif;
+  --font-display:
+    var(--font-instrument), ui-serif, Georgia, "Times New Roman", serif;
   --font-mono: var(--font-ibm-mono), ui-monospace, "SF Mono", Menlo, monospace;
 
   --color-background: #07090c;
@@ -117,7 +118,11 @@
       transparent 1px
     );
   background-size: 48px 48px;
-  mask-image: radial-gradient(ellipse 80% 70% at 50% 20%, #000 20%, transparent 80%);
+  mask-image: radial-gradient(
+    ellipse 80% 70% at 50% 20%,
+    #000 20%,
+    transparent 80%
+  );
 }
 
 .ticker-track {

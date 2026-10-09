@@ -1,15 +1,15 @@
 "use client";
 
-import Link from "next/link";
 import { Check, LoaderCircle, ShieldAlert, ShieldCheck } from "lucide-react";
-import { useEffect, useMemo, useState, type FormEvent } from "react";
+import Link from "next/link";
+import { type FormEvent, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { RegionMesh } from "@/components/region-mesh";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { TRACKS, industriesFor, type TrackId } from "@/lib/industries";
+import { industriesFor, TRACKS, type TrackId } from "@/lib/industries";
 import { useAppSession } from "@/lib/store";
 import { EXAMPLE_ZIPS, formatNodeId, lookupZip } from "@/lib/territory";
 import { useHydrated } from "@/lib/use-hydrated";
@@ -31,7 +31,9 @@ export function HeroGate() {
   const [track, setTrack] = useState<TrackId>("service");
   const [industry, setIndustry] = useState<string>(industriesFor("service")[0]);
   const [zip, setZip] = useState("");
-  const [phase, setPhase] = useState<"idle" | "checking" | "denied" | "ok">("idle");
+  const [phase, setPhase] = useState<"idle" | "checking" | "denied" | "ok">(
+    "idle",
+  );
   const [step, setStep] = useState(0);
   const [error, setError] = useState("");
 
@@ -44,7 +46,8 @@ export function HeroGate() {
   useEffect(() => {
     if (phase !== "checking") return;
     const reduced =
-      typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduced) {
       setStep(STEPS.length);
       return;
@@ -72,7 +75,8 @@ export function HeroGate() {
     setError("");
     setPhase("checking");
     const wait =
-      typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
         ? 80
         : 380 * STEPS.length + 180;
     window.setTimeout(() => {
@@ -87,12 +91,17 @@ export function HeroGate() {
         verifiedAt: Date.now(),
       });
       setPhase("ok");
-      toast.success(`${place.city} ${place.zip} verified. Staging node allocated.`);
+      toast.success(
+        `${place.city} ${place.zip} verified. Staging node allocated.`,
+      );
     }, wait);
   }
 
   return (
-    <section id="gate" className="relative overflow-hidden pt-10 pb-16 sm:pt-16 sm:pb-24">
+    <section
+      id="gate"
+      className="relative overflow-hidden pt-10 pb-16 sm:pt-16 sm:pb-24"
+    >
       <div className="pointer-events-none absolute inset-0 grid-bg" />
       <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 sm:px-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
         <div>
@@ -103,12 +112,13 @@ export function HeroGate() {
             </Badge>
           </div>
           <h1 className="enter-2 font-display text-display text-foreground">
-            AI infrastructure, locked to the <em className="text-primary">518</em>.
+            AI infrastructure, locked to the{" "}
+            <em className="text-primary">518</em>.
           </h1>
           <p className="enter-3 mt-5 max-w-xl text-base text-muted-foreground sm:text-lg">
-            Turnkey lead capture, after-hours response, and channel engines for Capital
-            Region operators, creators, and scouts. Fourteen days to a running system.
-            No outside-area access.
+            Turnkey lead capture, after-hours response, and channel engines for
+            Capital Region operators, creators, and scouts. Fourteen days to a
+            running system. No outside-area access.
           </p>
 
           <div className="enter-4 mt-8">
@@ -119,7 +129,9 @@ export function HeroGate() {
                 onSubmit={onSubmit}
                 className="rounded-xl border border-border bg-card p-4 shadow-[var(--shadow-border)] sm:p-5"
               >
-                <p className="font-mono text-micro uppercase text-faint">Territory gate</p>
+                <p className="font-mono text-micro uppercase text-faint">
+                  Territory gate
+                </p>
                 <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-3">
                   {TRACKS.map((t) => (
                     <button
@@ -136,7 +148,9 @@ export function HeroGate() {
                       <span className="block font-mono text-micro uppercase text-faint">
                         {t.kicker}
                       </span>
-                      <span className="mt-1 block text-sm font-medium leading-snug">{t.label}</span>
+                      <span className="mt-1 block text-sm font-medium leading-snug">
+                        {t.label}
+                      </span>
                     </button>
                   ))}
                 </div>
@@ -166,11 +180,17 @@ export function HeroGate() {
                       maxLength={5}
                       placeholder="12207"
                       value={zip}
-                      onChange={(e) => setZip(e.target.value.replace(/\D/g, "").slice(0, 5))}
+                      onChange={(e) =>
+                        setZip(e.target.value.replace(/\D/g, "").slice(0, 5))
+                      }
                       required
                     />
                   </div>
-                  <Button type="submit" disabled={phase === "checking"} className="h-11">
+                  <Button
+                    type="submit"
+                    disabled={phase === "checking"}
+                    className="h-11"
+                  >
                     {phase === "checking" ? (
                       <>
                         <LoaderCircle className="animate-spin" />
@@ -204,8 +224,8 @@ export function HeroGate() {
                   </p>
                 ) : (
                   <p className="mt-4 text-xs text-faint">
-                    Strictly gated to physical 518/838 locations. Free 14-day execution.
-                    Try {EXAMPLE_ZIPS.map((z) => z.zip).join(", ")}.
+                    Strictly gated to physical 518/838 locations. Free 14-day
+                    execution. Try {EXAMPLE_ZIPS.map((z) => z.zip).join(", ")}.
                   </p>
                 )}
               </form>
@@ -238,7 +258,9 @@ function VerifiedCard() {
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-center gap-2 text-ok">
           <ShieldCheck className="size-4" />
-          <span className="font-mono text-xs uppercase">Territory verified</span>
+          <span className="font-mono text-xs uppercase">
+            Territory verified
+          </span>
         </div>
         <Badge variant="ok">14-day staging</Badge>
       </div>

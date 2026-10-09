@@ -3,19 +3,22 @@ export const TRACKS = [
     id: "service" as const,
     label: "Local Service Shield",
     kicker: "Existing business",
-    summary: "After-hours capture, late-night reply, and a 518-tuned intake for contractors and brick-and-mortar operators.",
+    summary:
+      "After-hours capture, late-night reply, and a 518-tuned intake for contractors and brick-and-mortar operators.",
   },
   {
     id: "creator" as const,
     label: "Idea-to-Launch Incubator",
     kicker: "Art, media, games",
-    summary: "A 30-day publishing engine: calendar, asset scripts, and product structure for Capital Region creators.",
+    summary:
+      "A 30-day publishing engine: calendar, asset scripts, and product structure for Capital Region creators.",
   },
   {
     id: "scout" as const,
     label: "518 Bounty Engine",
     kicker: "No business required",
-    summary: "Mint a local scout link, route neighbors into staging, and collect payouts on every activated node.",
+    summary:
+      "Mint a local scout link, route neighbors into staging, and collect payouts on every activated node.",
   },
 ];
 

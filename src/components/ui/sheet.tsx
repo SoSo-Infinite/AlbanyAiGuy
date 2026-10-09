@@ -16,7 +16,10 @@ export function SheetOverlay({
 }: ComponentProps<typeof DialogPrimitive.Overlay>) {
   return (
     <DialogPrimitive.Overlay
-      className={cn("fixed inset-0 z-50 bg-background/70 backdrop-blur-sm", className)}
+      className={cn(
+        "fixed inset-0 z-50 bg-background/70 backdrop-blur-sm",
+        className,
+      )}
       {...props}
     />
   );
@@ -61,7 +64,9 @@ export function SheetContent({
 }
 
 export function SheetHeader({ className, ...props }: ComponentProps<"div">) {
-  return <div className={cn("flex flex-col gap-1.5 pr-8", className)} {...props} />;
+  return (
+    <div className={cn("flex flex-col gap-1.5 pr-8", className)} {...props} />
+  );
 }
 
 export function SheetTitle({
@@ -69,6 +74,9 @@ export function SheetTitle({
   ...props
 }: ComponentProps<typeof DialogPrimitive.Title>) {
   return (
-    <DialogPrimitive.Title className={cn("font-display text-title", className)} {...props} />
+    <DialogPrimitive.Title
+      className={cn("font-display text-title", className)}
+      {...props}
+    />
   );
 }

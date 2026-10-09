@@ -39,7 +39,12 @@ export function seedThread(industry: string): ChatTurn[] {
   return SEED[industry] ?? SEED.default;
 }
 
-export function draftReply(industry: string, message: string, city: string, zip: string): string {
+export function draftReply(
+  industry: string,
+  message: string,
+  city: string,
+  zip: string,
+): string {
   const text = message.toLowerCase();
   const where = `${city} / ${zip}`;
   if (/(no heat|furnace|boiler|cold air)/.test(text)) {
@@ -89,7 +94,7 @@ const NICHE_WEEKS: Record<string, [string, string, string, string]> = {
     "Local guest + paid tier sketch",
     "Issue 5 + a simple paid drop",
   ],
-  "Podcast": [
+  Podcast: [
     "Show format, 8-guest Capital Region list",
     "Record 3, edit 1, trailer",
     "Publish + clip engine",
@@ -130,7 +135,11 @@ export function thirtyDayPlan(niche: string): CalendarDay[] {
 }
 
 export function mintScoutCode(zip: string, city: string): string {
-  const city3 = city.replace(/[^A-Za-z]/g, "").slice(0, 4).toUpperCase() || "518";
+  const city3 =
+    city
+      .replace(/[^A-Za-z]/g, "")
+      .slice(0, 4)
+      .toUpperCase() || "518";
   const salt = zip.slice(-3);
   return `518-${city3}-${salt}`;
 }

@@ -2,7 +2,10 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   const input = (await req.json().catch(() => ({}))) as Record<string, unknown>;
-  const str = (v: unknown, max: number) => String(v ?? "").trim().slice(0, max);
+  const str = (v: unknown, max: number) =>
+    String(v ?? "")
+      .trim()
+      .slice(0, max);
   const track = str(input.track, 32);
   const zip = str(input.zip, 5);
   if (!track || !/^\d{5}$/.test(zip)) {
@@ -57,10 +60,15 @@ Operator notes: ${str(input.notes, 400) || "none"}`,
     });
   }
 
-  const body = (await res.json()) as { choices?: { message?: { content?: string } }[] };
+  const body = (await res.json()) as {
+    choices?: { message?: { content?: string } }[];
+  };
   const text = body.choices?.[0]?.message?.content?.trim() ?? "";
   if (!text) {
-    return NextResponse.json({ ok: false as const, error: "Empty brief. Retry once." });
+    return NextResponse.json({
+      ok: false as const,
+      error: "Empty brief. Retry once.",
+    });
   }
   return NextResponse.json({ ok: true as const, text });
 }

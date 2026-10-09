@@ -53,25 +53,38 @@ export function Doctrine() {
   return (
     <section id="doctrine" className="border-t border-border py-20 sm:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <p className="font-mono text-micro uppercase text-primary">Operating doctrine</p>
-        <h2 className="mt-2 font-display text-headline">The Capital Region does not need another chatbot</h2>
+        <p className="font-mono text-micro uppercase text-primary">
+          Operating doctrine
+        </p>
+        <h2 className="mt-2 font-display text-headline">
+          The Capital Region does not need another chatbot
+        </h2>
         <p className="mt-3 max-w-2xl text-muted-foreground">
-          It needs an operator of record. These are the rules the desk runs on — the same rules
-          that keep the gate closed to everyone else.
+          It needs an operator of record. These are the rules the desk runs on —
+          the same rules that keep the gate closed to everyone else.
         </p>
 
         <div className="mt-10 grid gap-3 md:grid-cols-2">
           {PILLARS.map((p, i) => (
-            <article key={p.title} className="rounded-xl border border-border bg-card p-6">
-              <p className="font-mono text-micro uppercase text-faint">0{i + 1}</p>
+            <article
+              key={p.title}
+              className="rounded-xl border border-border bg-card p-6"
+            >
+              <p className="font-mono text-micro uppercase text-faint">
+                0{i + 1}
+              </p>
               <h3 className="mt-2 font-display text-title">{p.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{p.body}</p>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                {p.body}
+              </p>
             </article>
           ))}
         </div>
 
         <div className="mt-14 max-w-3xl">
-          <h3 className="font-display text-title">Questions the desk actually gets</h3>
+          <h3 className="font-display text-title">
+            Questions the desk actually gets
+          </h3>
           <Accordion type="single" collapsible className="mt-4">
             {FAQ.map((f) => (
               <AccordionItem key={f.q} value={f.q}>

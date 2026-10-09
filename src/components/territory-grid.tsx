@@ -17,7 +17,8 @@ export function TerritoryGrid() {
     const s = q.trim().toLowerCase();
     if (!s) return MUNICIPALITIES;
     return MUNICIPALITIES.filter(
-      (m) => m.name.toLowerCase().includes(s) || m.county.toLowerCase().includes(s),
+      (m) =>
+        m.name.toLowerCase().includes(s) || m.county.toLowerCase().includes(s),
     );
   }, [q]);
 
@@ -25,10 +26,13 @@ export function TerritoryGrid() {
     <section id="territory" className="border-t border-border py-20 sm:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <p className="font-mono text-micro uppercase text-primary">Coverage</p>
-        <h2 className="mt-2 font-display text-headline">The overlay, municipality by municipality</h2>
+        <h2 className="mt-2 font-display text-headline">
+          The overlay, municipality by municipality
+        </h2>
         <p className="mt-3 max-w-2xl text-muted-foreground">
-          518 is the native code. 838 is the overlay — same dirt, same ZIPs. If your porch is in
-          this grid, the gate opens. If it isn’t, this desk will not pretend.
+          518 is the native code. 838 is the overlay — same dirt, same ZIPs. If
+          your porch is in this grid, the gate opens. If it isn’t, this desk
+          will not pretend.
         </p>
 
         <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -77,7 +81,9 @@ export function TerritoryGrid() {
           ))}
         </ul>
         {list.length === 0 ? (
-          <p className="mt-6 text-sm text-muted-foreground">No municipality matches that filter.</p>
+          <p className="mt-6 text-sm text-muted-foreground">
+            No municipality matches that filter.
+          </p>
         ) : null}
       </div>
     </section>

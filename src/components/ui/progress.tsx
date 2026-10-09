@@ -11,7 +11,10 @@ export function Progress({
 }: ComponentProps<typeof ProgressPrimitive.Root>) {
   return (
     <ProgressPrimitive.Root
-      className={cn("relative h-1.5 w-full overflow-hidden rounded-full bg-secondary", className)}
+      className={cn(
+        "relative h-1.5 w-full overflow-hidden rounded-full bg-secondary",
+        className,
+      )}
       {...props}
     >
       <ProgressPrimitive.Indicator
