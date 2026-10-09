@@ -29,9 +29,23 @@ function Clock() {
         }).format(new Date()),
       );
     };
-    tick();
-    const id = setInterval(tick, 1000);
-    return () => clearInterval(id);
+    // The clock is only shown at lg+; don't re-render every second on phones.
+    const wide = window.matchMedia("(min-width: 1024px)");
+    let id: number | undefined;
+    const sync = () => {
+      window.clearInterval(id);
+      id = undefined;
+      if (wide.matches) {
+        tick();
+        id = window.setInterval(tick, 1000);
+      }
+    };
+    sync();
+    wide.addEventListener("change", sync);
+    return () => {
+      window.clearInterval(id);
+      wide.removeEventListener("change", sync);
+    };
   }, []);
   return (
     <span className="hidden lg:inline font-mono text-xs tabular-nums text-muted-foreground">
