@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title:
     "The Albany trunk line: one number to find and book local shops (coming soon)",
   description:
-    "One local number for Albany, Schenectady, Troy, and Saratoga. Say what you need and the line finds a vetted local shop and books it or requests a callback. Coming soon — join the pilot.",
+    "One local number for Albany, Schenectady, Troy, and Saratoga. Say what you need and the line sends your request to a well-rated local shop. Coming soon — join the pilot.",
   alternates: { canonical: "/trunk-line" },
   openGraph: {
     type: "website",
@@ -36,15 +36,15 @@ const STEPS = [
   },
   {
     t: "The line figures out the job",
-    d: "It works out what kind of shop you need, where you are, and how soon. Emergencies are sent to 911 right away.",
+    d: "It works out what kind of shop you need, where you are, and how soon. If it sounds like an emergency, it tells you to call 911.",
   },
   {
     t: "It finds a qualifying local shop",
-    d: "It looks through Capital Region shops that have opted in as partners, starting with the best-rated one that has an opening.",
+    d: "It looks for Capital Region shops rated 4 stars or better on Google, and only sends requests to shops that have opted in as partners.",
   },
   {
-    t: "It books you or requests a callback",
-    d: "If the shop takes bookings, you get a time. If not, the shop gets a callback request. Either way, it reads the details back to you.",
+    t: "It sends your request",
+    d: "It reads the details back to you and sends them to the shop. It's a request until the shop confirms the time or calls you back.",
   },
 ];
 
@@ -60,8 +60,8 @@ export default function TrunkLinePage() {
           </h1>
           <p className="mt-5 max-w-2xl text-lg text-muted-foreground">
             A concierge phone line for the 518. Call, say what you need, and it
-            connects you with a trusted Capital Region business. The number
-            isn&apos;t live yet — this page explains how it will work.
+            sends your request to a well-rated Capital Region business. The
+            number isn&apos;t live yet — this page explains how it will work.
           </p>
           <p className="mt-4 text-sm text-muted-foreground">
             Planned number and caller guide:{" "}

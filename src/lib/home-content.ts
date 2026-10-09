@@ -6,11 +6,11 @@ export const HOME_FAQ = [
   },
   {
     q: "What does the AI voice receptionist do for a shop?",
-    a: "It answers the shop phone when you can't — mid-cut, on a job, after hours — talks to the caller like a front desk would, books the appointment or takes a callback request, and sends the owner a short summary. It can always hand off to a real person.",
+    a: "It answers the shop phone when you can't — mid-cut, on a job, after hours — talks to the caller like a front desk would, books the appointment or takes a callback request, and sends the owner a short summary. It isn't on real shop phones yet; the demo at albanyaiguy.com/shop-line shows how it works.",
   },
   {
     q: "What is the Albany trunk line?",
-    a: "One local number for the Capital Region. You call, say what you need (a haircut, a heating repair, a plumber), and the line finds a qualifying local shop and books it or asks the shop to call you back. Bookings only go to shops that have opted in.",
+    a: "One local number for the Capital Region. You call, say what you need (a haircut, a heating repair, a plumber), and the line finds a qualifying local shop and sends it your request. The shop confirms the time or calls you back. Bookings only go to shops that have opted in.",
   },
   {
     q: "Which areas does it cover?",

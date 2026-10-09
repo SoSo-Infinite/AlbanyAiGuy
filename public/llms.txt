@@ -1,5 +1,5 @@
 # Albany AI Guy
-> Albany AI Guy is Chad Lenseth's Capital Region (518) project: a trunk-line concierge phone number and AI voice receptionist for local businesses. Callers will say what they need (a haircut, a heating repair, a plumber); the line finds a qualifying local shop and books it or requests a callback. Separately, shops can run their own AI front desk on the shop phone.
+> Albany AI Guy is Chad Lenseth's Capital Region (518) project: a trunk-line concierge phone number and AI voice receptionist for local businesses. Callers will say what they need (a haircut, a heating repair, a plumber); the line finds a qualifying local shop and sends it the request; the shop confirms or calls back. Separately, shops can run their own AI front desk on the shop phone.
 
 Status: **coming soon / join the pilot.** The public phone number is not live yet. A working web demo of a single-shop AI front desk is at https://albanyaiguy.com/shop-line.
 

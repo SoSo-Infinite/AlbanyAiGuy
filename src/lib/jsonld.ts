@@ -39,7 +39,7 @@ export const SITE_JSON_LD = {
             name: "Trunk-line concierge (coming soon)",
             serviceType: "Concierge booking by phone",
             description:
-              "One local number that finds and books vetted Capital Region shops. Pilot stage — number not live yet.",
+              "One local number that sends your request to a well-rated Capital Region shop. Pilot stage — number not live yet.",
           },
         },
         {

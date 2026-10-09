@@ -89,7 +89,7 @@ export default function Home() {
           <p className="mt-5 max-w-2xl text-lg text-muted-foreground">
             I&apos;m Chad Lenseth, the Albany AI Guy. I&apos;m building two
             things for the Capital Region: one local number you can call to find
-            and book a trusted shop, and an AI receptionist that answers a
+            and book a well-rated shop, and an AI receptionist that answers a
             shop&apos;s phone when the owner can&apos;t. Neither is live yet —
             I&apos;m looking for a small group of Albany-area shops to pilot it
             with me.
@@ -114,8 +114,9 @@ export default function Home() {
           <p className="max-w-xl text-muted-foreground">
             One number for the 518. Call it, say what you need — a haircut
             today, no heat, a leaking pipe — and the line finds a qualifying
-            local shop, then books it or asks the shop to call you back.
-            Bookings only go to shops that have opted in as partners.
+            local shop and sends it your request. The shop confirms the time or
+            calls you back. Bookings only go to shops that have opted in as
+            partners.
           </p>
           <ul className="space-y-3 text-sm">
             <li className="rounded-lg border border-border bg-card p-4">
@@ -163,8 +164,8 @@ export default function Home() {
             </p>
             <p>
               It&apos;s built for small Capital Region shops that miss calls
-              because they&apos;re busy doing the work. It can always hand off
-              to a real person.
+              because they&apos;re busy doing the work. It isn&apos;t on real
+              shop phones yet; the demo shows how it works.
             </p>
           </div>
           <div>
