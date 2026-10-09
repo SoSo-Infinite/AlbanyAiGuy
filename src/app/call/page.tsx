@@ -235,6 +235,11 @@ export default function CallPage() {
               line. If you describe an emergency on the line, it will tell you
               to call 911.
             </p>
+            <p className="mt-3 max-w-2xl text-foreground/90">
+              If you&apos;re thinking about hurting yourself, call or text 988,
+              the Suicide &amp; Crisis Lifeline, any time. If someone mentions
+              self-harm on the line, it gives them 988 as well as 911.
+            </p>
           </div>
         </div>
       </section>

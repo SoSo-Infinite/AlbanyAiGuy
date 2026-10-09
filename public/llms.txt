@@ -23,6 +23,7 @@ Operator: Chad Lenseth, Albany, NY.
 - Bookings only go to shops that have opted in as partners.
 - Other listings, when published, will be public information labeled "not a partner."
 - Emergencies: call 911. Gas smell: leave, then call 911 or your gas utility's emergency line.
+- Thoughts of self-harm: call or text 988 (Suicide & Crisis Lifeline). If a caller mentions self-harm, the line gives 988 as well as 911.
 - The line says it's an AI at the start of every call, and says "request" until the shop confirms.
 - Only shops rated 4 stars or better on Google are recommended. No paid ranking.
 - Call audio is not recorded.

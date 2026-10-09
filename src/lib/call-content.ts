@@ -103,7 +103,7 @@ export const CALL_FAQ = [
   },
   {
     q: "What about emergencies?",
-    a: "The line doesn't handle them. For a fire, a medical emergency, or a gas smell, leave if it's unsafe and call 911.",
+    a: "The line doesn't handle them. For a fire, a medical emergency, or a gas smell, leave if it's unsafe and call 911. For thoughts of self-harm, call or text 988, the Suicide & Crisis Lifeline.",
   },
 ] as const;
 
