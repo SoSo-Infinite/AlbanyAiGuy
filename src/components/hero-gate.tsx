@@ -57,7 +57,9 @@ export function HeroGate() {
     STEPS.forEach((_, i) => {
       timers.push(window.setTimeout(() => setStep(i + 1), 380 * (i + 1)));
     });
-    return () => timers.forEach((t) => window.clearTimeout(t));
+    return () => {
+      for (const t of timers) window.clearTimeout(t);
+    };
   }, [phase]);
 
   function onSubmit(e: FormEvent) {

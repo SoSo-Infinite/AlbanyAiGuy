@@ -1,50 +1,58 @@
 "use client";
 
 import { LoaderCircle, ScrollText } from "lucide-react";
-import { useState } from "react";
+import { useId, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useAppSession } from "@/lib/store";
 import { useHydrated } from "@/lib/use-hydrated";
 
 function renderBrief(text: string) {
-  return text.split("\n").map((line, i) => {
+  // Stable keys from line content + occurrence count (lines can repeat).
+  const seen = new Map<string, number>();
+  return text.split("\n").map((line) => {
     const trimmed = line.trim();
-    if (!trimmed) return <div key={i} className="h-2" />;
+    const n = (seen.get(trimmed) ?? 0) + 1;
+    seen.set(trimmed, n);
+    const key = `${trimmed}#${n}`;
+    if (!trimmed) return <div key={key} className="h-2" />;
     if (trimmed.startsWith("### "))
       return (
-        <h4 key={i} className="mt-4 font-medium text-foreground">
+        <h4 key={key} className="mt-4 font-medium text-foreground">
           {trimmed.slice(4)}
         </h4>
       );
     if (trimmed.startsWith("## "))
       return (
-        <h3 key={i} className="mt-5 font-display text-title">
+        <h3 key={key} className="mt-5 font-display text-title">
           {trimmed.slice(3)}
         </h3>
       );
     if (trimmed.startsWith("# "))
       return (
-        <h3 key={i} className="mt-5 font-display text-title">
+        <h3 key={key} className="mt-5 font-display text-title">
           {trimmed.slice(2)}
         </h3>
       );
     if (trimmed.startsWith("- ") || trimmed.startsWith("* "))
       return (
-        <li key={i} className="ml-4 list-disc text-sm text-muted-foreground">
+        <li key={key} className="ml-4 list-disc text-sm text-muted-foreground">
           {trimmed.slice(2)}
         </li>
       );
     const numbered = trimmed.match(/^\d+\.\s+(.*)/);
     if (numbered)
       return (
-        <li key={i} className="ml-4 list-decimal text-sm text-muted-foreground">
+        <li
+          key={key}
+          className="ml-4 list-decimal text-sm text-muted-foreground"
+        >
           {numbered[1]}
         </li>
       );
     const bold = trimmed.replace(/\*\*(.*?)\*\*/g, "$1");
     return (
-      <p key={i} className="text-sm leading-relaxed text-muted-foreground">
+      <p key={key} className="text-sm leading-relaxed text-muted-foreground">
         {bold}
       </p>
     );
@@ -58,6 +66,7 @@ export function BriefingPanel() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [brief, setBrief] = useState("");
+  const notesId = useId();
 
   if (!hydrated || !session) {
     return (
@@ -129,11 +138,12 @@ export function BriefingPanel() {
             <p className="font-mono text-xs text-faint">
               {node.nodeId} · {node.track}
             </p>
-            <label className="mt-4 block">
+            <label htmlFor={notesId} className="mt-4 block">
               <span className="text-xs font-medium text-muted-foreground">
                 Optional notes for the desk
               </span>
               <Textarea
+                id={notesId}
                 className="mt-1.5"
                 maxLength={400}
                 value={notes}

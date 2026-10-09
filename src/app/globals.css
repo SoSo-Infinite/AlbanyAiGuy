@@ -101,6 +101,7 @@
   .pulse-dot,
   .mesh-pulse,
   .mesh-scan {
+    /* biome-ignore lint/complexity/noImportantStyles: reduced-motion must override every animation shorthand on these classes */
     animation: none !important;
   }
 }

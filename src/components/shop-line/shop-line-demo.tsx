@@ -394,15 +394,14 @@ export function ShopLineDemo() {
             ))}
             {interim && <div className={`${s.me} ${s.ghost}`}>{interim}</div>}
             {thinking && (
-              <div
+              <output
                 className={`${s.them} ${s.typing}`}
-                role="status"
                 aria-label="Front desk is typing"
               >
                 <i />
                 <i />
                 <i />
-              </div>
+              </output>
             )}
             {booking && (
               <div className={s.confirm}>
@@ -427,7 +426,7 @@ export function ShopLineDemo() {
           </div>
 
           {!booking && todaySlots.length > 0 && (
-            <div className={s.chips} role="group" aria-label="Open times">
+            <fieldset className={s.chips} aria-label="Open times">
               <span className={s.dim}>Open {todaySlots[0].dayLabel}:</span>
               {todaySlots
                 .filter((x) => x.dayLabel === todaySlots[0].dayLabel)
@@ -441,7 +440,7 @@ export function ShopLineDemo() {
                     {x.time.replace(":00", "")}
                   </button>
                 ))}
-            </div>
+            </fieldset>
           )}
 
           <div className={s.controls}>
