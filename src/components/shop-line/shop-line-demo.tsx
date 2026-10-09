@@ -306,8 +306,10 @@ export function ShopLineDemo() {
   return (
     <div className={s.page}>
       <header className={s.top}>
-        <a href="/" className={s.brand} aria-label="Albany AI Guy home">
-          <span className={s.mark}>A</span>
+        <a href="/" className={s.brand}>
+          <span className={s.mark} aria-hidden>
+            A
+          </span>
           <span>
             Albany AI Guy <span className={s.dim}>· 518 Shop Line</span>
           </span>
@@ -315,239 +317,243 @@ export function ShopLineDemo() {
         <span className={s.demoPill}>Live demo</span>
       </header>
 
-      <section className={s.hero}>
-        <p className={s.kicker}>AI front desk for 518 shops</p>
-        <h1 className={s.h1}>
-          Your phone rings mid-cut.
-          <br />
-          <span className={s.grad}>It still gets booked.</span>
-        </h1>
-        <p className={s.sub}>
-          Call the demo shop below. Talk or type like a customer. The AI front
-          desk offers real open times, books you, and texts the owner.
-        </p>
-      </section>
+      <main>
+        <section className={s.hero}>
+          <p className={s.kicker}>AI front desk for 518 shops</p>
+          <h1 className={s.h1}>
+            Your phone rings mid-cut.
+            <br />
+            <span className={s.grad}>It still gets booked.</span>
+          </h1>
+          <p className={s.sub}>
+            Call the demo shop below. Talk or type like a customer. The AI front
+            desk offers real open times, books you, and texts the owner.
+          </p>
+        </section>
 
-      <div className={s.seg} role="tablist" aria-label="Choose a side">
-        <button
-          role="tab"
-          aria-selected={view === "caller"}
-          className={view === "caller" ? s.segOn : s.segBtn}
-          onClick={() => setView("caller")}
-          type="button"
-        >
-          Customer calling
-        </button>
-        <button
-          role="tab"
-          aria-selected={view === "owner"}
-          className={view === "owner" ? s.segOn : s.segBtn}
-          onClick={() => setView("owner")}
-          type="button"
-        >
-          Owner&apos;s phone{" "}
-          {ownerTexts.length > 0 && (
-            <span className={s.badge}>{ownerTexts.length}</span>
-          )}
-        </button>
-      </div>
+        <div className={s.seg} role="tablist" aria-label="Choose a side">
+          <button
+            role="tab"
+            aria-selected={view === "caller"}
+            className={view === "caller" ? s.segOn : s.segBtn}
+            onClick={() => setView("caller")}
+            type="button"
+          >
+            Customer calling
+          </button>
+          <button
+            role="tab"
+            aria-selected={view === "owner"}
+            className={view === "owner" ? s.segOn : s.segBtn}
+            onClick={() => setView("owner")}
+            type="button"
+          >
+            Owner&apos;s phone{" "}
+            {ownerTexts.length > 0 && (
+              <span className={s.badge}>{ownerTexts.length}</span>
+            )}
+          </button>
+        </div>
 
-      <main className={s.stage}>
-        <section
-          className={`${s.card} ${view === "caller" ? s.show : s.hideMobile}`}
-          aria-label="Customer call"
-        >
-          <div className={s.callHead}>
-            <div className={s.avatar} aria-hidden>
-              ✂
+        <div className={s.stage}>
+          <section
+            className={`${s.card} ${view === "caller" ? s.show : s.hideMobile}`}
+            aria-label="Customer call"
+          >
+            <div className={s.callHead}>
+              <div className={s.avatar} aria-hidden>
+                ✂
+              </div>
+              <div className={s.callWho}>
+                <strong>{SHOP_NAME}</strong>
+                <span className={s.dim}>
+                  {live
+                    ? listening
+                      ? "Listening…"
+                      : speaking
+                        ? "Speaking…"
+                        : thinking
+                          ? "Checking the book…"
+                          : `On call ${mm}:${ss}`
+                    : "Fictional demo shop · AI front desk"}
+                </span>
+              </div>
+              {live && (
+                <span
+                  className={`${s.dot} ${listening ? s.dotOn : ""}`}
+                  aria-hidden
+                />
+              )}
             </div>
-            <div className={s.callWho}>
-              <strong>{SHOP_NAME}</strong>
+
+            <div className={s.log} ref={scrollRef} aria-live="polite">
+              {messages.map((m, i) => (
+                <div
+                  key={`${i}-${m.content.slice(0, 8)}`}
+                  className={m.role === "user" ? s.me : s.them}
+                >
+                  {m.content}
+                </div>
+              ))}
+              {interim && <div className={`${s.me} ${s.ghost}`}>{interim}</div>}
+              {thinking && (
+                <output
+                  className={`${s.them} ${s.typing}`}
+                  aria-label="Front desk is typing"
+                >
+                  <i />
+                  <i />
+                  <i />
+                </output>
+              )}
+              {booking && (
+                <div className={s.confirm}>
+                  <div className={s.check} aria-hidden>
+                    ✓
+                  </div>
+                  <div>
+                    <strong>Booked · {booking.ref}</strong>
+                    <p>
+                      {booking.service} ·{" "}
+                      {booking.slot.dayLabel === "today" ? "Today" : "Tomorrow"}{" "}
+                      {booking.slot.time} with {booking.slot.barber}
+                    </p>
+                    <p className={s.sms}>
+                      Text to customer: “{SHOP_NAME}: You&apos;re booked,{" "}
+                      {booking.name}. {booking.service}, {booking.slot.dayLabel}{" "}
+                      {booking.slot.time}. Reply C to cancel.”
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {!booking && todaySlots.length > 0 && (
+              <fieldset className={s.chips} aria-label="Open times">
+                <span className={s.dim}>Open {todaySlots[0].dayLabel}:</span>
+                {todaySlots
+                  .filter((x) => x.dayLabel === todaySlots[0].dayLabel)
+                  .map((x) => (
+                    <button
+                      key={x.id}
+                      type="button"
+                      className={s.chip}
+                      onClick={() => send(`Can I get ${x.time} ${x.dayLabel}?`)}
+                    >
+                      {x.time.replace(":00", "")}
+                    </button>
+                  ))}
+              </fieldset>
+            )}
+
+            <div className={s.controls}>
+              {voiceOK && (
+                <button
+                  type="button"
+                  onClick={startCall}
+                  className={live ? s.hang : s.call}
+                  aria-label={
+                    live ? "Hang up" : "Call the shop with your voice"
+                  }
+                >
+                  {live ? "End call" : booking ? "Call again" : "Call the shop"}
+                </button>
+              )}
+              <form
+                className={s.typeRow}
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (live) stopListening();
+                  send(input);
+                }}
+              >
+                <input
+                  className={s.input}
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  placeholder={
+                    voiceOK
+                      ? "…or type: “Can I get a fade today?”"
+                      : "Type: “Can I get a fade today?”"
+                  }
+                  aria-label="Message the shop"
+                  maxLength={300}
+                />
+                <button
+                  type="submit"
+                  className={s.sendBtn}
+                  disabled={!input.trim() || thinking}
+                  aria-label="Send"
+                >
+                  ↑
+                </button>
+              </form>
+            </div>
+          </section>
+
+          <section
+            className={`${s.card} ${s.owner} ${view === "owner" ? s.show : s.hideMobile}`}
+            aria-label="Owner's phone"
+          >
+            <div className={s.lock}>
+              <span className={s.lockTime}>{lockTime}</span>
               <span className={s.dim}>
-                {live
-                  ? listening
-                    ? "Listening…"
-                    : speaking
-                      ? "Speaking…"
-                      : thinking
-                        ? "Checking the book…"
-                        : `On call ${mm}:${ss}`
-                  : "Fictional demo shop · AI front desk"}
+                Marco&apos;s phone · in his pocket, mid-cut
               </span>
             </div>
-            {live && (
-              <span
-                className={`${s.dot} ${listening ? s.dotOn : ""}`}
-                aria-hidden
-              />
-            )}
-          </div>
-
-          <div className={s.log} ref={scrollRef} aria-live="polite">
-            {messages.map((m, i) => (
-              <div
-                key={`${i}-${m.content.slice(0, 8)}`}
-                className={m.role === "user" ? s.me : s.them}
-              >
-                {m.content}
+            {ownerTexts.length === 0 ? (
+              <div className={s.empty}>
+                <p>No missed calls.</p>
+                <p className={s.dim}>
+                  Book a time as the customer and watch the owner&apos;s text
+                  land here.
+                </p>
               </div>
-            ))}
-            {interim && <div className={`${s.me} ${s.ghost}`}>{interim}</div>}
-            {thinking && (
-              <output
-                className={`${s.them} ${s.typing}`}
-                aria-label="Front desk is typing"
-              >
-                <i />
-                <i />
-                <i />
-              </output>
-            )}
-            {booking && (
-              <div className={s.confirm}>
-                <div className={s.check} aria-hidden>
-                  ✓
-                </div>
-                <div>
-                  <strong>Booked · {booking.ref}</strong>
-                  <p>
-                    {booking.service} ·{" "}
-                    {booking.slot.dayLabel === "today" ? "Today" : "Tomorrow"}{" "}
-                    {booking.slot.time} with {booking.slot.barber}
-                  </p>
-                  <p className={s.sms}>
-                    Text to customer: “{SHOP_NAME}: You&apos;re booked,{" "}
-                    {booking.name}. {booking.service}, {booking.slot.dayLabel}{" "}
-                    {booking.slot.time}. Reply C to cancel.”
-                  </p>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {!booking && todaySlots.length > 0 && (
-            <fieldset className={s.chips} aria-label="Open times">
-              <span className={s.dim}>Open {todaySlots[0].dayLabel}:</span>
-              {todaySlots
-                .filter((x) => x.dayLabel === todaySlots[0].dayLabel)
-                .map((x) => (
-                  <button
-                    key={x.id}
-                    type="button"
-                    className={s.chip}
-                    onClick={() => send(`Can I get ${x.time} ${x.dayLabel}?`)}
-                  >
-                    {x.time.replace(":00", "")}
-                  </button>
+            ) : (
+              <ul className={s.notes}>
+                {ownerTexts.map((t, i) => (
+                  <li key={`${t.at}-${i}`} className={s.note}>
+                    <div className={s.noteHead}>
+                      <span className={s.app}>Messages · Shop Line</span>
+                      <span className={s.dim}>{t.at}</span>
+                    </div>
+                    <p>{t.body}</p>
+                  </li>
                 ))}
-            </fieldset>
-          )}
-
-          <div className={s.controls}>
-            {voiceOK && (
-              <button
-                type="button"
-                onClick={startCall}
-                className={live ? s.hang : s.call}
-                aria-label={live ? "Hang up" : "Call the shop with your voice"}
-              >
-                {live ? "End call" : booking ? "Call again" : "Call the shop"}
-              </button>
+              </ul>
             )}
-            <form
-              className={s.typeRow}
-              onSubmit={(e) => {
-                e.preventDefault();
-                if (live) stopListening();
-                send(input);
-              }}
-            >
-              <input
-                className={s.input}
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder={
-                  voiceOK
-                    ? "…or type: “Can I get a fade today?”"
-                    : "Type: “Can I get a fade today?”"
-                }
-                aria-label="Message the shop"
-                maxLength={300}
-              />
-              <button
-                type="submit"
-                className={s.sendBtn}
-                disabled={!input.trim() || thinking}
-                aria-label="Send"
-              >
-                ↑
+            <div className={s.stats}>
+              <div>
+                <strong>{ownerTexts.length}</strong>
+                <span className={s.dim}>booked by AI today</span>
+              </div>
+              <div>
+                <strong>0</strong>
+                <span className={s.dim}>calls missed</span>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        {booking && (
+          <section className={s.cta}>
+            <h2>That&apos;s what your customers would get.</h2>
+            <p>
+              Your shop&apos;s name, your hours, your open times, your number.
+              Try it free for 14 days. No contract, and a real person picks up:
+              me, Chad Lenseth, here in Albany.
+            </p>
+            <div className={s.ctaRow}>
+              <a className={s.call} href={TRIAL_MAIL}>
+                Start my free 14 days
+              </a>
+              <button type="button" className={s.ghostBtn} onClick={reset}>
+                Try another call
               </button>
-            </form>
-          </div>
-        </section>
-
-        <section
-          className={`${s.card} ${s.owner} ${view === "owner" ? s.show : s.hideMobile}`}
-          aria-label="Owner's phone"
-        >
-          <div className={s.lock}>
-            <span className={s.lockTime}>{lockTime}</span>
-            <span className={s.dim}>
-              Marco&apos;s phone · in his pocket, mid-cut
-            </span>
-          </div>
-          {ownerTexts.length === 0 ? (
-            <div className={s.empty}>
-              <p>No missed calls.</p>
-              <p className={s.dim}>
-                Book a time as the customer and watch the owner&apos;s text land
-                here.
-              </p>
             </div>
-          ) : (
-            <ul className={s.notes}>
-              {ownerTexts.map((t, i) => (
-                <li key={`${t.at}-${i}`} className={s.note}>
-                  <div className={s.noteHead}>
-                    <span className={s.app}>Messages · Shop Line</span>
-                    <span className={s.dim}>{t.at}</span>
-                  </div>
-                  <p>{t.body}</p>
-                </li>
-              ))}
-            </ul>
-          )}
-          <div className={s.stats}>
-            <div>
-              <strong>{ownerTexts.length}</strong>
-              <span className={s.dim}>booked by AI today</span>
-            </div>
-            <div>
-              <strong>0</strong>
-              <span className={s.dim}>calls missed</span>
-            </div>
-          </div>
-        </section>
+          </section>
+        )}
       </main>
-
-      {booking && (
-        <section className={s.cta}>
-          <h2>That&apos;s what your customers would get.</h2>
-          <p>
-            Your shop&apos;s name, your hours, your open times, your number. Try
-            it free for 14 days. No contract, and a real person picks up: me,
-            Chad Lenseth, here in Albany.
-          </p>
-          <div className={s.ctaRow}>
-            <a className={s.call} href={TRIAL_MAIL}>
-              Start my free 14 days
-            </a>
-            <button type="button" className={s.ghostBtn} onClick={reset}>
-              Try another call
-            </button>
-          </div>
-        </section>
-      )}
 
       {banner && (
         <button

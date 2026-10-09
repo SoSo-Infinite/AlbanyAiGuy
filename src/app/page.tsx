@@ -236,7 +236,7 @@ export default function Home() {
           (me) behind it when something needs fixing.{" "}
           <a
             href="https://www.linkedin.com/in/chad-lenseth-26b55938"
-            className="text-primary underline-offset-4 hover:underline"
+            className="text-primary underline underline-offset-4"
             rel="me noopener"
           >
             Find me on LinkedIn

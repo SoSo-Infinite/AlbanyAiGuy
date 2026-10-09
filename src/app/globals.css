@@ -27,7 +27,7 @@
   --color-ring: #7ec8e3;
   --color-elevated: #161c24;
   --color-ice: #7ec8e3;
-  --color-faint: #5c6876;
+  --color-faint: #7a8696; /* was #5c6876 (3.5:1); now ≥4.5:1 on background, card and secondary */
   --color-ok: #6fbf96;
   --color-ok-foreground: #062016;
 
