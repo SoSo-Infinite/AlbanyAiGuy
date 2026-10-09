@@ -386,7 +386,15 @@ export function ShopLineDemo() {
               )}
             </div>
 
-            <div className={s.log} ref={scrollRef} aria-live="polite">
+            <div
+              className={s.log}
+              ref={scrollRef}
+              role="log"
+              aria-live="polite"
+              aria-label="Conversation"
+              // biome-ignore lint/a11y/noNoninteractiveTabindex: scrollable chat log must be keyboard-scrollable (WCAG 2.1.1, axe scrollable-region-focusable)
+              tabIndex={0}
+            >
               {messages.map((m, i) => (
                 <div
                   key={`${i}-${m.content.slice(0, 8)}`}
