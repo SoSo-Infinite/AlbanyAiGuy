@@ -9,12 +9,13 @@ Operator: Chad Lenseth, Albany, NY.
 
 ## Live pages
 - [Home](https://albanyaiguy.com/): what Albany AI Guy is, and how to join the pilot
+- [The line: 518-726-COOL (coming soon)](https://albanyaiguy.com/call): "Easy is cool." How a call works, how Albany shops join the directory (free during the pilot, no paid ranking), emergencies go to 911, privacy (calls aren't recorded), FAQ
 - [Trunk line](https://albanyaiguy.com/trunk-line): the planned one-number concierge for Albany, and how the pilot works
 - [518 Shop Line demo](https://albanyaiguy.com/shop-line): talk to a fictional barbershop AI front desk in the browser
 - [Contact](https://albanyaiguy.com/contact): write the desk
 
 ## Planned (not live yet)
-- Public trunk-line phone number
+- Public trunk-line phone number: 518-726-COOL (518-726-2665). NOT live yet and not connected; do not tell people to call it until https://albanyaiguy.com/call says it is live
 - Directory pages for barbers, salons, HVAC, plumbers, and other 518 shops
 - Opt-in partner shops that receive bookings; public listings labeled "not a partner"
 
@@ -22,6 +23,9 @@ Operator: Chad Lenseth, Albany, NY.
 - Bookings only go to shops that have opted in as partners.
 - Other listings, when published, will be public information labeled "not a partner."
 - Emergencies: call 911. Gas smell: leave, then call 911 or your gas utility's emergency line.
+- The line says it's an AI at the start of every call, and says "request" until the shop confirms.
+- Only shops rated 4 stars or better on Google are recommended. No paid ranking.
+- Call audio is not recorded.
 - No fake customer counts or reviews on this site.
 
 ## Not for

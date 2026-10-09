@@ -63,6 +63,15 @@ export default function TrunkLinePage() {
             connects you with a trusted Capital Region business. The number
             isn&apos;t live yet — this page explains how it will work.
           </p>
+          <p className="mt-4 text-sm text-muted-foreground">
+            Planned number and caller guide:{" "}
+            <Link
+              href="/call"
+              className="text-primary underline underline-offset-4"
+            >
+              Easy is cool. 518-726-COOL (coming soon)
+            </Link>
+          </p>
         </div>
       </section>
 
@@ -121,7 +130,7 @@ export default function TrunkLinePage() {
             on a fictional barbershop in the{" "}
             <Link
               href="/shop-line"
-              className="text-primary underline-offset-4 hover:underline"
+              className="text-primary underline underline-offset-4"
             >
               518 Shop Line demo
             </Link>

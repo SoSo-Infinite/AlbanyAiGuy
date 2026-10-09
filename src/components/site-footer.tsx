@@ -11,7 +11,7 @@ export function SiteFooter() {
             Region businesses. Coming soon — join the pilot.
           </p>
         </div>
-        <p className="font-mono text-xs text-faint">
+        <p className="font-mono text-xs text-muted-foreground">
           © 2026 Albany AI Guy · Chad Lenseth · Albany, NY ·{" "}
           <a
             href="mailto:hello@albanyaiguy.com"
