@@ -10,7 +10,7 @@ type OwnerText = { at: string; body: string };
 const SHOP_NAME = "Chairside Barber Co.";
 const GREETING = `Thanks for calling ${SHOP_NAME}, this is the front desk. Marco's mid-cut, but I can get you booked. What can I do for you?`;
 const TRIAL_MAIL =
-  "mailto:hello@albanyaiguy.com?subject=518%20Shop%20Line%20-%2014-day%20trial&body=Hi%20Chad%2C%20I%20tried%20the%20Shop%20Line%20demo.%20My%20shop%20is%3A%20";
+  "mailto:hello@albanyaiguy.com?subject=518%20Shop%20Line%20-%20pilot&body=Hi%20Chad%2C%20I%20tried%20the%20Shop%20Line%20demo.%20My%20shop%20is%3A%20";
 
 // Minimal typing for the browser speech API (not in lib.dom for all targets).
 type SR = {
@@ -540,12 +540,13 @@ export function ShopLineDemo() {
             <h2>That&apos;s what your customers would get.</h2>
             <p>
               Your shop&apos;s name, your hours, your open times, your number.
-              Try it free for 14 days. No contract, and a real person picks up:
-              me, Chad Lenseth, here in Albany.
+              I&apos;m starting a small pilot with Albany-area shops. No
+              contract, and a real person picks up: me, Chad Lenseth, here in
+              Albany.
             </p>
             <div className={s.ctaRow}>
               <a className={s.call} href={TRIAL_MAIL}>
-                Start my free 14 days
+                Join the pilot
               </a>
               <button type="button" className={s.ghostBtn} onClick={reset}>
                 Try another call
@@ -570,8 +571,8 @@ export function ShopLineDemo() {
       <footer className={s.foot}>
         <p>
           Demo notes: {SHOP_NAME} is a made-up shop. Texts on this page are
-          shown, not sent. Voice uses your browser&apos;s mic and speech . This
-          page doesn&apos;t save what you say.
+          shown, not sent. Voice uses your browser&apos;s mic and speech
+          recognition. This page doesn&apos;t save what you say.
         </p>
         <p>
           Albany AI Guy ·{" "}

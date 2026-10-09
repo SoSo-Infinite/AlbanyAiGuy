@@ -70,7 +70,7 @@ export function ruleReply(
     )
   ) {
     answer =
-      "I'm an AI front desk demo built by Albany AI Guy, that's Chad Lenseth here in Albany. Any shop can try it free for 14 days.";
+      "I'm an AI front desk demo built by Albany AI Guy, that's Chad Lenseth here in Albany. Albany-area shops can join the pilot at hello@albanyaiguy.com.";
   } else if (/(how much|price|cost|charge)/.test(last)) {
     answer = `${servicesLine()}.`;
   } else if (/(hours|open|close|what time do you)/.test(last) && !slot) {
