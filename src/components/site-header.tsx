@@ -1,19 +1,11 @@
 "use client";
 
-import { Menu } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { MobileMenu } from "@/components/mobile-menu";
 import { Button } from "@/components/ui/button";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
 import { useAppSession } from "@/lib/store";
 import { useHydrated } from "@/lib/use-hydrated";
-import { cn } from "@/lib/utils";
 
 const LINKS = [
   { href: "/trunk-line", label: "Trunk line" },
@@ -95,44 +87,7 @@ export function SiteHeader() {
             </Button>
           )}
 
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="md:hidden"
-                aria-label="Open menu"
-              >
-                <Menu />
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="right" className="flex flex-col gap-6">
-              <SheetHeader>
-                <SheetTitle>Menu</SheetTitle>
-              </SheetHeader>
-              <nav className="flex flex-col gap-1">
-                {LINKS.map((l) => (
-                  <a
-                    key={l.href}
-                    href={l.href}
-                    className={cn(
-                      "rounded-md px-3 py-3 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground",
-                    )}
-                  >
-                    {l.label}
-                  </a>
-                ))}
-                {live ? (
-                  <Link
-                    href="/console"
-                    className="rounded-md px-3 py-3 text-sm text-primary hover:bg-secondary"
-                  >
-                    Staging console
-                  </Link>
-                ) : null}
-              </nav>
-            </SheetContent>
-          </Sheet>
+          <MobileMenu links={LINKS} showConsole={Boolean(live)} />
         </div>
       </div>
     </header>
