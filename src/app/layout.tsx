@@ -18,9 +18,6 @@ const mono = IBM_Plex_Mono({
   subsets: ["latin"],
   weight: ["400", "500"],
   variable: "--font-ibm-mono",
-  // Small eyebrow/label text only — never the LCP element, so don't let it
-  // compete with the body/display fonts for early bandwidth on phones.
-  preload: false,
 });
 
 const display = Instrument_Serif({
