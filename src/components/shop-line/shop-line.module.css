@@ -46,6 +46,7 @@
 .brand {
   display: flex;
   align-items: center;
+  min-height: 44px;
   gap: 10px;
   font-weight: 600;
   font-size: 15px;
@@ -124,6 +125,7 @@
   flex: 1;
   border: 0;
   border-radius: 9px;
+  min-height: 44px;
   padding: 8px 10px;
   font: inherit;
   font-size: 14px;
@@ -345,7 +347,8 @@
   background: rgba(255, 255, 255, 0.06);
   color: var(--text);
   border-radius: 999px;
-  padding: 6px 12px;
+  min-height: 44px;
+  padding: 6px 14px;
   font: inherit;
   font-size: 14px;
   font-weight: 600;

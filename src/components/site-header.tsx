@@ -56,7 +56,7 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur-md">
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
-        <Link href="/" className="flex items-center gap-2.5 min-w-0">
+        <Link href="/" className="flex min-h-11 items-center gap-2.5 min-w-0">
           <span className="grid size-7 place-items-center rounded-sm bg-primary text-primary-foreground font-mono text-xs font-medium">
             518
           </span>

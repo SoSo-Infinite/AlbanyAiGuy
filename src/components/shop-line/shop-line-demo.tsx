@@ -89,6 +89,9 @@ export function ShopLineDemo() {
   const [view, setView] = useState<"caller" | "owner">("caller");
   const [voiceOK, setVoiceOK] = useState(false);
   const [seconds, setSeconds] = useState(0);
+  // Lock-screen clock is client-only: rendering clock() on the server (UTC) and
+  // again in the browser caused a hydration mismatch (React #418).
+  const [lockTime, setLockTime] = useState("");
 
   const srRef = useRef<SR | null>(null);
   const liveRef = useRef(false);
@@ -105,6 +108,12 @@ export function ShopLineDemo() {
       .then((r) => r.json())
       .then((d) => d?.slots && setSlots(d.slots))
       .catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    setLockTime(clock());
+    const id = setInterval(() => setLockTime(clock()), 30_000);
+    return () => clearInterval(id);
   }, []);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: scroll when the transcript changes
@@ -483,7 +492,7 @@ export function ShopLineDemo() {
           aria-label="Owner's phone"
         >
           <div className={s.lock}>
-            <span className={s.lockTime}>{clock()}</span>
+            <span className={s.lockTime}>{lockTime}</span>
             <span className={s.dim}>
               Marco&apos;s phone · in his pocket, mid-cut
             </span>
@@ -556,8 +565,7 @@ export function ShopLineDemo() {
       <footer className={s.foot}>
         <p>
           Demo notes: {SHOP_NAME} is a made-up shop. Texts on this page are
-          shown, not sent. Voice uses your browser&apos;s mic and speech
-          . This
+          shown, not sent. Voice uses your browser&apos;s mic and speech . This
           page doesn&apos;t save what you say.
         </p>
         <p>
