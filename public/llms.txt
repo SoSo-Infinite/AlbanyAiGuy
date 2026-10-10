@@ -12,6 +12,7 @@ Operator: Chad Lenseth, Albany, NY.
 - [The line: 518-726-COOL (coming soon)](https://albanyaiguy.com/call): "Easy is cool." How a call works, how Albany shops join the directory (free during the pilot, no paid ranking), emergencies go to 911, privacy (calls aren't recorded), FAQ
 - [Trunk line](https://albanyaiguy.com/trunk-line): the planned one-number concierge for Albany, and how the pilot works
 - [518 Shop Line demo](https://albanyaiguy.com/shop-line): talk to a fictional barbershop AI front desk in the browser
+- [Things I've built](https://albanyaiguy.com/work): Chad's real, checkable projects (518 Shop Line demo, the trunk line in private testing, HelpGetUp, Live Well Go, AeraSell store audit), each with what it does and what isn't live yet
 - [Contact](https://albanyaiguy.com/contact): write the desk
 
 ## Planned (not live yet)

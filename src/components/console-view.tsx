@@ -162,9 +162,6 @@ export function ConsoleView({ session }: { session: Session }) {
       </div>
 
       <div className="mt-8 flex flex-wrap gap-2">
-        <Button asChild>
-          <a href="/#briefing">Commission brief</a>
-        </Button>
         <Button asChild variant="outline">
           <Link href="/">Back to network</Link>
         </Button>
