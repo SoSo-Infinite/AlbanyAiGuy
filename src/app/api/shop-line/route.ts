@@ -3,6 +3,13 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { type Msg, ruleReply } from "@/lib/shop-line/engine";
 import {
+  aiEnabled,
+  checkRequest,
+  createLimiter,
+  dailyMax,
+  MAX_BODY_BYTES,
+} from "@/lib/shop-line/guard";
+import {
   type Booking,
   makeRef,
   openSlots,
@@ -15,21 +22,43 @@ export const maxDuration = 20;
 
 const MODEL = process.env.SHOP_LINE_MODEL || "openai/gpt-4.1-mini";
 
-// Light per-instance limiter so one visitor can't burn the demo budget.
-const hits = new Map<string, { n: number; t: number }>();
-function limited(ip: string) {
-  const now = Date.now();
-  const h = hits.get(ip);
-  if (!h || now - h.t > 10 * 60_000) {
-    hits.set(ip, { n: 1, t: now });
-    return false;
-  }
-  h.n += 1;
-  return h.n > 60;
+const limiter = createLimiter();
+
+function postJson(body: unknown, status = 200) {
+  return NextResponse.json(body, {
+    status,
+    headers: { "Cache-Control": "no-store" },
+  });
 }
 
 export async function POST(req: Request) {
-  const body = (await req.json().catch(() => ({}))) as {
+  const gate = checkRequest({
+    method: req.method,
+    contentType: req.headers.get("content-type"),
+    contentLength: req.headers.get("content-length"),
+    origin: req.headers.get("origin"),
+    host: req.headers.get("x-forwarded-host") || req.headers.get("host"),
+  });
+  // A cross-site Origin (403 from the guard) never reaches the paid model, but
+  // the visitor still gets the free rule engine, so a host-header mismatch can
+  // never break the public demo.
+  const crossSite = !gate.ok && gate.status === 403;
+  if (!gate.ok && !crossSite) {
+    return postJson({ ok: false, error: gate.error }, gate.status);
+  }
+
+  const text = await req.text();
+  if (new TextEncoder().encode(text).length > MAX_BODY_BYTES) {
+    return postJson({ ok: false, error: "That message is too long." }, 413);
+  }
+
+  let parsed: unknown = {};
+  try {
+    if (text.length > 0) parsed = JSON.parse(text);
+  } catch {
+    parsed = {};
+  }
+  const body = (parsed ?? {}) as {
     messages?: unknown;
     taken?: unknown;
   };
@@ -52,16 +81,21 @@ export async function POST(req: Request) {
   const slots = openSlots(new Date(), taken);
 
   if (!messages.length || messages.at(-1)?.role !== "user") {
-    return NextResponse.json(
+    return postJson(
       { ok: false, error: "Say something to the shop first." },
-      { status: 400 },
+      400,
     );
   }
   const userTurns = messages.filter((m) => m.role === "user").length;
   const ip =
     req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "anon";
 
-  if (userTurns <= 16 && !limited(ip)) {
+  if (
+    aiEnabled(process.env) &&
+    !crossSite &&
+    userTurns <= 16 &&
+    limiter.allowAi(ip, dailyMax(process.env))
+  ) {
     try {
       let booking: Booking | undefined;
       const result = await generateText({
@@ -118,7 +152,7 @@ export async function POST(req: Request) {
       });
       const reply = result.text.trim();
       if (reply)
-        return NextResponse.json({
+        return postJson({
           ok: true,
           engine: "ai",
           reply,
@@ -131,7 +165,7 @@ export async function POST(req: Request) {
   }
 
   const { reply, booking } = ruleReply(messages, slots);
-  return NextResponse.json({
+  return postJson({
     ok: true,
     engine: "basic",
     reply,

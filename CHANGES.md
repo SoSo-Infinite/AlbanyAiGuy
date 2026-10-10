@@ -1,3 +1,7 @@
+# Packet Q13 — shop-line AI cost guard (2026-10-10)
+
+`/api/shop-line` calls the paid model only when `SHOP_LINE_AI` is exactly `on`, and then only up to `SHOP_LINE_AI_DAILY_MAX` AI calls per server instance per UTC day (default 200, clamped 0..2000). The per-IP limit remains, the IP map cannot grow without bound, and oversized or cross-origin POSTs are rejected. Over the cap, visitors still get the rule engine (status 200). With no env vars set, live behavior is identical to today: the rule engine answers.
+
 # Packet Q4 — missed-call cost calculator (2026-10-10)
 
 Local only. Nothing from this pass was deployed, pushed, or committed.
