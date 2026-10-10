@@ -4,18 +4,9 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { MobileMenu } from "@/components/mobile-menu";
 import { Button } from "@/components/ui/button";
+import { NAV_LINKS } from "@/lib/nav";
 import { useAppSession } from "@/lib/store";
 import { useHydrated } from "@/lib/use-hydrated";
-
-const LINKS = [
-  { href: "/trunk-line", label: "Trunk line" },
-  { href: "/#receptionist", label: "AI receptionist" },
-  { href: "/shop-line", label: "Demo" },
-  { href: "/work", label: "Work" },
-  { href: "/tips", label: "Tips" },
-  { href: "/#faq", label: "FAQ" },
-  { href: "/contact", label: "Contact" },
-];
 
 function Clock() {
   const [now, setNow] = useState<string>("--:--:--");
@@ -75,7 +66,7 @@ export function SiteHeader() {
         </Link>
 
         <nav className="hidden md:flex items-center gap-5">
-          {LINKS.map((l) => (
+          {NAV_LINKS.map((l) => (
             <a
               key={l.href}
               href={l.href}
@@ -103,7 +94,7 @@ export function SiteHeader() {
             </Button>
           )}
 
-          <MobileMenu links={LINKS} showConsole={Boolean(live)} />
+          <MobileMenu links={[...NAV_LINKS]} showConsole={Boolean(live)} />
         </div>
       </div>
     </header>

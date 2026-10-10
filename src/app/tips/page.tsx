@@ -107,6 +107,17 @@ export default function TipsPage() {
             still tap send, and their privacy terms apply there. These tips are
             general information, not legal, medical or financial advice.
           </p>
+          <p className="mt-6 text-muted-foreground">
+            Estimate missed-call revenue from your own numbers.
+          </p>
+          <p>
+            <Link
+              href="/tools/missed-calls"
+              className="inline-flex min-h-11 items-center rounded-sm underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
+            >
+              Missed-call cost calculator
+            </Link>
+          </p>
         </div>
       </section>
     </main>

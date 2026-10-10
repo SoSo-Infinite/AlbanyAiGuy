@@ -1,3 +1,18 @@
+# Packet Q4 — missed-call cost calculator (2026-10-10)
+
+Local only. Nothing from this pass was deployed, pushed, or committed.
+
+## What changed
+- New page `/tools/missed-calls`: missed calls per week, percent that would have booked, and average job value. Defaults are 10, 30%, and $150. A month is 52/12 weeks and a year is 52 weeks. Monthly and yearly figures round half up to whole dollars. Blank, negative, non-numeric, and huge inputs are rejected. The result says "This is an estimate from your own numbers." The page does not list prices, packages, or offers, and it ends with the header nav's Contact link (`/contact`).
+- The form has visible labels, `inputmode="numeric"`, a polite live region, and 44px targets. The default estimate is in the server-rendered HTML, so it shows with JavaScript off. With JavaScript, the result updates as you type. Without JavaScript, Calculate submits the form with GET and the page renders that estimate.
+- The math is in `src/lib/missed-calls.ts`.
+- `/tips` ends with a link to the calculator. The header nav items are unchanged; the Contact label is shared from `src/lib/nav.ts`.
+- `src/app/sitemap.ts` includes `/tools/missed-calls` (`/tips` was already listed). `public/llms.txt` lists the calculator.
+- `npm test` runs `node --test --experimental-strip-types` (Node's built-in runner). No new dependencies. `tsconfig.json` sets `allowImportingTsExtensions` so those `.ts` test imports typecheck.
+
+## Not in this pass
+Pricing, offers, the trunk line, the phone line, the senior check-in, contact details, and deploys.
+
 # SEO + AI-visibility pass — branch `seo-ai-visibility-2026-10-08`
 
 Prepared Oct 8, 2026 (ET). **Local only.** Nothing has been pushed or deployed, and no Vercel, DNS or GitHub settings were changed.

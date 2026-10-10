@@ -14,6 +14,7 @@ Operator: Chad Lenseth, Albany, NY.
 - [518 Shop Line demo](https://albanyaiguy.com/shop-line): talk to a fictional barbershop AI front desk in the browser
 - [Things I've built](https://albanyaiguy.com/work): Chad's real, checkable projects (518 Shop Line demo, the trunk line in private testing, HelpGetUp, Live Well Go, AeraSell store audit), each with what it does and what isn't live yet
 - [Free AI tips](https://albanyaiguy.com/tips): six copy-and-paste prompts for any free AI assistant (prep a phone call in 30 seconds, missed-call text, voicemail greeting, reviews into FAQ answers, fine print in plain English, monthly hours check). No sign-up; the page saves nothing
+- [Missed-call cost calculator](https://albanyaiguy.com/tools/missed-calls): estimate monthly and yearly revenue missed from calls per week, the percent that would have booked, and average job value. Uses only the numbers you enter
 - [Contact](https://albanyaiguy.com/contact): write the desk
 
 ## Planned (not live yet)
