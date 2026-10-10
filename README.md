@@ -11,7 +11,7 @@ This is the production Next.js app for the desk:
 - Live ledger + Capital Region mesh
 - Service Shield, Idea-to-Launch Incubator, 518 Bounty Engine
 - Staging console (14-day window)
-- Intelligence desk (`POST /api/briefing`, needs `XAI_API_KEY`)
+- (Removed 2026-10-09: the old intelligence desk, `POST /api/briefing`.)
 
 The homepage is a working prototype. Persistence, payouts, SMS, and real operator accounts are tracked as GitHub issues.
 
