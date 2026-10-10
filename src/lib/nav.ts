@@ -5,6 +5,7 @@ export const NAV_LINKS = [
   { href: "/trunk-line", label: "Trunk line" },
   { href: "/#receptionist", label: "AI receptionist" },
   { href: "/shop-line", label: "Demo" },
+  { href: "/try", label: "Try" },
   { href: "/work", label: "Work" },
   { href: "/tips", label: "Tips" },
   { href: "/#faq", label: "FAQ" },

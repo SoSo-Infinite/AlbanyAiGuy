@@ -21,12 +21,20 @@ const FIELD_ORDER: MissedCallFieldKey[] = [
 
 export function MissedCallCalculator({
   initial,
+  idPrefix = "",
+  showContactLink = true,
 }: {
   initial: Record<MissedCallFieldKey, string>;
+  /** Keeps field ids unique when this form sits under another element with the same ids. */
+  idPrefix?: string;
+  /** The standalone page links to contact. The /try hub keeps one contact link at the bottom. */
+  showContactLink?: boolean;
 }) {
   const [values, setValues] = useState(initial);
   const estimate = estimateMissedCalls(values);
   const invalidField = estimate.ok ? null : estimate.field;
+  const resultId = `${idPrefix}missed-call-result`;
+  const headingId = `${idPrefix}estimate-heading`;
 
   return (
     <div>
@@ -38,11 +46,12 @@ export function MissedCallCalculator({
         <div className="grid gap-5">
           {FIELD_ORDER.map((field) => {
             const meta = MISSED_CALL_FIELDS[field];
+            const inputId = `${idPrefix}${meta.id}`;
             return (
               <div key={field} className="grid gap-2">
-                <Label htmlFor={meta.id}>{meta.label}</Label>
+                <Label htmlFor={inputId}>{meta.label}</Label>
                 <Input
-                  id={meta.id}
+                  id={inputId}
                   name={meta.query}
                   type="text"
                   inputMode="numeric"
@@ -58,7 +67,7 @@ export function MissedCallCalculator({
                     }))
                   }
                   aria-invalid={invalidField === field ? true : undefined}
-                  aria-describedby="missed-call-result"
+                  aria-describedby={resultId}
                   className="min-h-11"
                 />
               </div>
@@ -70,13 +79,15 @@ export function MissedCallCalculator({
         </div>
       </form>
 
-      <section aria-labelledby="estimate-heading" className="mt-10">
-        <h2 id="estimate-heading" className="font-display text-headline">
+      <section aria-labelledby={headingId} className="mt-10">
+        <h2 id={headingId} className="font-display text-headline">
           Estimated revenue missed
         </h2>
         <output
-          id="missed-call-result"
-          htmlFor="missed-calls booking-percent average-job-value"
+          id={resultId}
+          htmlFor={FIELD_ORDER.map(
+            (field) => `${idPrefix}${MISSED_CALL_FIELDS[field].id}`,
+          ).join(" ")}
           aria-live="polite"
           aria-atomic="true"
           className="mt-4 block"
@@ -89,14 +100,16 @@ export function MissedCallCalculator({
         </output>
       </section>
 
-      <p className="mt-10">
-        <Link
-          href="/contact"
-          className="inline-flex min-h-11 items-center rounded-sm underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
-        >
-          {CONTACT_NAV_LABEL}
-        </Link>
-      </p>
+      {showContactLink ? (
+        <p className="mt-10">
+          <Link
+            href="/contact"
+            className="inline-flex min-h-11 items-center rounded-sm underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
+          >
+            {CONTACT_NAV_LABEL}
+          </Link>
+        </p>
+      ) : null}
     </div>
   );
 }

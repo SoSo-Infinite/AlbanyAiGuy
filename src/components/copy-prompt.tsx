@@ -8,11 +8,19 @@ import { chatgptHref } from "@/lib/tips-content";
 export function CopyPrompt({
   prompt,
   title,
+  href,
+  openLabel = "Open in ChatGPT",
+  openClassName,
 }: {
   prompt: string;
   title: string;
+  /** Use this href instead of encoding `prompt` (the call-prep demo has a fixed URL). */
+  href?: string;
+  openLabel?: string;
+  openClassName?: string;
 }) {
   const [status, setStatus] = useState("");
+  const openHref = href ?? chatgptHref(prompt);
   const copy = async () => {
     try {
       await navigator.clipboard.writeText(prompt);
@@ -27,13 +35,9 @@ export function CopyPrompt({
         <Button type="button" variant="outline" onClick={copy}>
           Copy prompt<span className="sr-only">: {title}</span>
         </Button>
-        <Button asChild variant="ghost">
-          <a
-            href={chatgptHref(prompt)}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Open in ChatGPT
+        <Button asChild variant="ghost" className={openClassName}>
+          <a href={openHref} target="_blank" rel="noopener noreferrer">
+            {openLabel}
             <span className="sr-only">
               {" "}
               with the prompt for {title} (opens in a new tab)
