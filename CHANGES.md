@@ -1,6 +1,10 @@
+# Packet Q14 — offline guard tests on Node 22 (2026-10-10)
+
+`npm test` runs Node's test runner through `tests/support/register.mjs` and `tests/support/loader.mjs` (no `tsx`, no new dependencies). The loader maps `@/` to `src/`, transpiles repo `.ts` and `.tsx` with the TypeScript already installed, and stubs CSS. The ported guard tests cover the dark call line (no `tel:` links, 988 and 911), JSON-LD, robots and sitemap, home and `/s/` copy with no payout promise, the shop-line rule engine, and territory ZIPs. Sitemap expectations match the public routes that exist now, including `/try`, `/work`, `/tips`, and `/tools/missed-calls`. `.nvmrc` is `22` and `engines.node` is `22.x` (pins Vercel builds to Node 22 too). No app code or copy changes.
+
 # Packet Q13 — shop-line AI cost guard (2026-10-10)
 
-`/api/shop-line` calls the paid model only when `SHOP_LINE_AI` is exactly `on`, and then only up to `SHOP_LINE_AI_DAILY_MAX` AI calls per server instance per UTC day (default 200, clamped 0..2000). The per-IP limit remains, the IP map cannot grow without bound, and oversized or cross-origin POSTs are rejected. Over the cap, visitors still get the rule engine (status 200). With no env vars set, live behavior is identical to today: the rule engine answers.
+`/api/shop-line` calls the paid model only when `SHOP_LINE_AI` is exactly `on`, and then only up to `SHOP_LINE_AI_DAILY_MAX` AI calls per server instance per UTC day (default 200, clamped 0..2000). The per-IP limit remains, the IP map cannot grow without bound, non-JSON and oversized POSTs are rejected, and cross-origin POSTs never reach the paid model (they get the rule engine). Over the cap, visitors still get the rule engine (status 200). With no env vars set, live behavior is identical to today: the rule engine answers.
 
 # Packet Q4 — missed-call cost calculator (2026-10-10)
 
