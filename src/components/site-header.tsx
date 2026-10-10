@@ -12,6 +12,7 @@ const LINKS = [
   { href: "/#receptionist", label: "AI receptionist" },
   { href: "/shop-line", label: "Demo" },
   { href: "/work", label: "Work" },
+  { href: "/tips", label: "Tips" },
   { href: "/#faq", label: "FAQ" },
   { href: "/contact", label: "Contact" },
 ];
