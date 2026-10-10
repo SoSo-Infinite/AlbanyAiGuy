@@ -9,7 +9,7 @@ nvm use
 npm test
 ```
 
-Node 22 or newer (`.nvmrc` is `22`, `engines.node` is `>=22`). `npm test` runs:
+Node 22 (`.nvmrc` is `22`, `engines.node` is `22.x`). `npm test` runs:
 
 ```bash
 node --import ./tests/support/register.mjs --test tests/*.test.ts
