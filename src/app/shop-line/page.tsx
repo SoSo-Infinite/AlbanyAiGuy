@@ -1,16 +1,17 @@
 import type { Metadata } from "next";
 import { ShopLineDemo } from "@/components/shop-line/shop-line-demo";
+import { socialMeta } from "@/lib/social";
 
 export const metadata: Metadata = {
   title: { absolute: "518 Shop Line · Call the AI front desk | Albany AI Guy" },
   description:
     "Your phone rings mid-cut. It still gets booked. Call a demo barbershop, book a time by voice or text, and watch the owner get the text.",
-  openGraph: {
+  ...socialMeta({
     title: "518 Shop Line: call the AI front desk",
     description:
       "Talk to it like a customer. It books you and texts the owner. Pilot forming now for 518 shops.",
     url: "https://albanyaiguy.com/shop-line",
-  },
+  }),
   alternates: { canonical: "/shop-line" },
 };
 

@@ -5,6 +5,7 @@ import { MissedCallCalculator } from "@/components/missed-call-calculator";
 import { Badge } from "@/components/ui/badge";
 import { MISSED_CALL_DEFAULTS } from "@/lib/missed-calls";
 import { CONTACT_NAV_LABEL } from "@/lib/nav";
+import { socialMeta } from "@/lib/social";
 import {
   CALL_PREP_OPEN_LABEL,
   CALL_PREP_PROMPT,
@@ -25,16 +26,14 @@ export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
   alternates: { canonical: "/try" },
-  openGraph: {
+  ...socialMeta({
     type: "website",
     siteName: "Albany AI Guy",
     url: "https://albanyaiguy.com/try",
     title: `${TITLE} | Albany AI Guy`,
     description: DESCRIPTION,
-    images: [
-      { url: "/og.jpg", width: 1200, height: 630, alt: "Albany AI Guy" },
-    ],
-  },
+    image: { url: "/og.jpg", width: 1200, height: 630, alt: "Albany AI Guy" },
+  }),
 };
 
 const sectionClass = "scroll-mt-20 border-t border-border py-12 sm:py-16";

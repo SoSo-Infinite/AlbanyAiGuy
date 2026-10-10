@@ -1,26 +1,25 @@
 import type { Metadata } from "next";
 import { ContactForm } from "@/components/contact-form";
+import { socialMeta } from "@/lib/social";
 
 export const metadata: Metadata = {
   title: "Contact",
   description:
     "Contact Albany AI Guy (Chad Lenseth) about the Albany trunk line, an AI voice receptionist for your shop, or joining the pilot. hello@albanyaiguy.com",
   alternates: { canonical: "/contact" },
-  openGraph: {
+  ...socialMeta({
     type: "website",
     siteName: "Albany AI Guy",
     url: "https://albanyaiguy.com/contact",
     title: "Contact | Albany AI Guy",
     description: "Write Chad at hello@albanyaiguy.com",
-    images: [
-      {
-        url: "/og.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Albany AI Guy — coming soon, join the pilot",
-      },
-    ],
-  },
+    image: {
+      url: "/og.jpg",
+      width: 1200,
+      height: 630,
+      alt: "Albany AI Guy — coming soon, join the pilot",
+    },
+  }),
 };
 
 export default function ContactPage() {

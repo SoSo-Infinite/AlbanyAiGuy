@@ -1,3 +1,7 @@
+# Packet Q15 — per-page X preview tags (2026-10-10)
+
+Indexable pages now set `twitter` from the same title, description, and image as their Open Graph tags. `src/lib/social.ts` builds both objects, and the title and description strings are the ones each page already used. `/shop-line` keeps its file-convention share card: `twitter-image.png` is a byte copy of `opengraph-image.png`, so X no longer uses `/og.jpg` for that page. `/s/[code]`, `/console`, and the not-found page still inherit the layout card. No titles, descriptions, prices, or other copy changed.
+
 # Packet Q14 — offline guard tests on Node 22 (2026-10-10)
 
 `npm test` runs Node's test runner through `tests/support/register.mjs` and `tests/support/loader.mjs` (no `tsx`, no new dependencies). The loader maps `@/` to `src/`, transpiles repo `.ts` and `.tsx` with the TypeScript already installed, and stubs CSS. The ported guard tests cover the dark call line (no `tel:` links, 988 and 911), JSON-LD, robots and sitemap, home and `/s/` copy with no payout promise, the shop-line rule engine, and territory ZIPs. Sitemap expectations match the public routes that exist now, including `/try`, `/work`, `/tips`, and `/tools/missed-calls`. `.nvmrc` is `22` and `engines.node` is `22.x` (pins Vercel builds to Node 22 too). No app code or copy changes.

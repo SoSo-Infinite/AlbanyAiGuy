@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { HOME_FAQ, HOME_FAQ_JSON_LD } from "@/lib/home-content";
+import { socialMeta } from "@/lib/social";
 
 export const metadata: Metadata = {
   title: {
@@ -12,22 +13,20 @@ export const metadata: Metadata = {
   description:
     "One local number for Albany, NY, and an AI phone receptionist that answers and books for Capital Region shops — barbers, salons, HVAC, plumbers. Coming soon — join the pilot.",
   alternates: { canonical: "/" },
-  openGraph: {
+  ...socialMeta({
     type: "website",
     siteName: "Albany AI Guy",
     url: "https://albanyaiguy.com/",
     title: "Albany AI Guy",
     description:
       "Albany trunk-line concierge and AI voice receptionist for local businesses. Coming soon — join the pilot.",
-    images: [
-      {
-        url: "/og.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Albany AI Guy — coming soon, join the pilot",
-      },
-    ],
-  },
+    image: {
+      url: "/og.jpg",
+      width: 1200,
+      height: 630,
+      alt: "Albany AI Guy — coming soon, join the pilot",
+    },
+  }),
 };
 
 const PILOT_MAILTO = `mailto:hello@albanyaiguy.com?subject=${encodeURIComponent("Albany AI Guy pilot")}`;

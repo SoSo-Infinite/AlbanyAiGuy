@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { socialMeta } from "@/lib/social";
 import { HOW_I_BUILD, WORK, WORK_JSON_LD } from "@/lib/work-content";
 
 const TITLE = "Things I’ve built";
@@ -12,16 +13,14 @@ export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
   alternates: { canonical: "/work" },
-  openGraph: {
+  ...socialMeta({
     type: "website",
     siteName: "Albany AI Guy",
     url: "https://albanyaiguy.com/work",
     title: `${TITLE} | Albany AI Guy`,
     description: DESCRIPTION,
-    images: [
-      { url: "/og.jpg", width: 1200, height: 630, alt: "Albany AI Guy" },
-    ],
-  },
+    image: { url: "/og.jpg", width: 1200, height: 630, alt: "Albany AI Guy" },
+  }),
 };
 
 const PILOT_MAILTO = `mailto:hello@albanyaiguy.com?subject=${encodeURIComponent("Albany AI Guy pilot")}`;

@@ -5,6 +5,7 @@ import {
   MISSED_CALL_FIELDS,
   type MissedCallFieldKey,
 } from "@/lib/missed-calls";
+import { socialMeta } from "@/lib/social";
 
 const TITLE = "Missed-call cost calculator";
 const DESCRIPTION =
@@ -14,16 +15,14 @@ export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
   alternates: { canonical: "/tools/missed-calls" },
-  openGraph: {
+  ...socialMeta({
     type: "website",
     siteName: "Albany AI Guy",
     url: "https://albanyaiguy.com/tools/missed-calls",
     title: `${TITLE} | Albany AI Guy`,
     description: DESCRIPTION,
-    images: [
-      { url: "/og.jpg", width: 1200, height: 630, alt: "Albany AI Guy" },
-    ],
-  },
+    image: { url: "/og.jpg", width: 1200, height: 630, alt: "Albany AI Guy" },
+  }),
 };
 
 type SearchParams = Promise<{

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { socialMeta } from "@/lib/social";
 
 export const metadata: Metadata = {
   title:
@@ -9,22 +10,20 @@ export const metadata: Metadata = {
   description:
     "One local number for Albany, Schenectady, Troy, and Saratoga. Say what you need and the line sends your request to a well-rated local shop. Coming soon — join the pilot.",
   alternates: { canonical: "/trunk-line" },
-  openGraph: {
+  ...socialMeta({
     type: "website",
     siteName: "Albany AI Guy",
     url: "https://albanyaiguy.com/trunk-line",
     title: "The Albany trunk line (coming soon)",
     description:
       "One local number to find and book Capital Region shops. Coming soon — join the pilot.",
-    images: [
-      {
-        url: "/og.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Albany AI Guy — coming soon, join the pilot",
-      },
-    ],
-  },
+    image: {
+      url: "/og.jpg",
+      width: 1200,
+      height: 630,
+      alt: "Albany AI Guy — coming soon, join the pilot",
+    },
+  }),
 };
 
 const PILOT_MAILTO = `mailto:hello@albanyaiguy.com?subject=${encodeURIComponent("Albany trunk line pilot")}`;

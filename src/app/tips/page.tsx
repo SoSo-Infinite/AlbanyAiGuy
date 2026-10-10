@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { CopyPrompt } from "@/components/copy-prompt";
 import { Badge } from "@/components/ui/badge";
+import { socialMeta } from "@/lib/social";
 import { TIPS, TIPS_JSON_LD } from "@/lib/tips-content";
 
 const TITLE = "Free AI tips";
@@ -12,16 +13,14 @@ export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
   alternates: { canonical: "/tips" },
-  openGraph: {
+  ...socialMeta({
     type: "website",
     siteName: "Albany AI Guy",
     url: "https://albanyaiguy.com/tips",
     title: `${TITLE} | Albany AI Guy`,
     description: DESCRIPTION,
-    images: [
-      { url: "/og.jpg", width: 1200, height: 630, alt: "Albany AI Guy" },
-    ],
-  },
+    image: { url: "/og.jpg", width: 1200, height: 630, alt: "Albany AI Guy" },
+  }),
 };
 
 export default function TipsPage() {

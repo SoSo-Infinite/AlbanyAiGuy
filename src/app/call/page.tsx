@@ -16,6 +16,7 @@ import {
   CALL_LINE_TEL,
   mailto,
 } from "@/lib/call-line";
+import { socialMeta } from "@/lib/social";
 
 const TITLE = CALL_LINE_LIVE
   ? `Easy is cool. Call ${CALL_LINE.vanity}`
@@ -28,21 +29,19 @@ export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
   alternates: { canonical: CALL_LINE.path },
-  openGraph: {
+  ...socialMeta({
     type: "website",
     siteName: "Albany AI Guy",
     url: `https://albanyaiguy.com${CALL_LINE.path}`,
     title: TITLE,
     description: DESCRIPTION,
-    images: [
-      {
-        url: "/og.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Albany AI Guy",
-      },
-    ],
-  },
+    image: {
+      url: "/og.jpg",
+      width: 1200,
+      height: 630,
+      alt: "Albany AI Guy",
+    },
+  }),
 };
 
 const NOTIFY_MAILTO = mailto("Tell me when 518-726-COOL is live");
