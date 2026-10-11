@@ -20,7 +20,7 @@ export const PRIVACY_ITEMS = [
     title: "Try it demos",
     source: "/try",
     points: [
-      "Four demos. No sign-up, and nothing is stored.",
+      "Two demos. No sign-up, and nothing is stored.",
       "In the 518 Shop Line demo, the shop is made up and texts are shown, not sent. Voice uses your browser's mic and speech recognition. The page doesn't save what you say.",
     ],
   },

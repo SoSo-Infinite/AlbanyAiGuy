@@ -14,7 +14,8 @@ describe("home and referral copy make no payout promise", () => {
       text,
       /Albany's trunk-line concierge and AI voice receptionist for local businesses/,
     );
-    assert.match(text, /Neither is live yet/);
+    // The home intro greeting paragraph was removed (Chad, 2026-10-11).
+    assert.equal(text.includes("I'm Chad Lenseth, the Albany AI Guy"), false);
     assert.match(text, /The public number isn't live yet/);
     assert.match(
       text,

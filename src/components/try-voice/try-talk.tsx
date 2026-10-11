@@ -2,13 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { formatWholeDollars } from "@/lib/missed-calls";
-import {
-  CALL_PREP_OPEN_LABEL,
-  CALL_PREP_URL,
-  demoById,
-  TRY_DEMOS,
-  type TryDemoId,
-} from "@/lib/try-demos";
+import { demoById, TRY_DEMOS, type TryDemoId } from "@/lib/try-demos";
 import {
   beginSession,
   bookingFromApi,
@@ -387,8 +381,6 @@ function VoicePanel({
       setResult((current) => ({
         ...step,
         missed: step.missed ?? current?.missed ?? null,
-        callPrep: step.callPrep ?? current?.callPrep ?? null,
-        greetingScript: step.greetingScript ?? current?.greetingScript ?? null,
         booking: step.booking ?? current?.booking ?? null,
         bookingSummary: step.bookingSummary ?? current?.bookingSummary ?? null,
       }));
@@ -436,8 +428,6 @@ function VoicePanel({
           : "";
 
   const missed = result?.missed?.ok ? result.missed : null;
-  const callPrep = result?.callPrep ?? null;
-  const greeting = result?.greetingScript ?? null;
   const summary = result?.bookingSummary ?? null;
 
   return (
@@ -509,30 +499,6 @@ function VoicePanel({
             <p>{formatWholeDollars(missed.yearlyDollars)} a year</p>
             <p>{missed.math}</p>
             <p>{missed.note}</p>
-          </div>
-        ) : null}
-        {callPrep ? (
-          <div className="try-result">
-            <p>{callPrep.script}</p>
-            <ol>
-              {callPrep.questions.map((question) => (
-                <li key={question}>{question}</li>
-              ))}
-            </ol>
-            <a
-              href={CALL_PREP_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="try-prep-link"
-            >
-              {CALL_PREP_OPEN_LABEL}
-              <span className="sr-only"> (opens in a new tab)</span>
-            </a>
-          </div>
-        ) : null}
-        {greeting ? (
-          <div className="try-result">
-            <p>{greeting}</p>
           </div>
         ) : null}
         {summary ? (

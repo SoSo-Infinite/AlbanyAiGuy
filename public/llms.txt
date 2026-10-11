@@ -12,7 +12,7 @@ Operator: Chad Lenseth, Albany, NY.
 - [The line: 518-726-COOL (coming soon)](https://albanyaiguy.com/call): "Easy is cool." How a call works, how Albany shops join the directory (free during the pilot, no paid ranking), emergencies go to 911, privacy (calls aren't recorded), FAQ
 - [Trunk line](https://albanyaiguy.com/trunk-line): the planned one-number concierge for Albany, and how the pilot works
 - [518 Shop Line demo](https://albanyaiguy.com/shop-line): talk to a fictional barbershop AI front desk in the browser
-- [Try it](https://albanyaiguy.com/try): four demos with no sign-up (watch the 518 Shop Line answer a call, missed-call cost calculator, call-prep helper, hear a greeting spoken in the browser). Nothing is stored on a server
+- [Try it](https://albanyaiguy.com/try): two demos with no sign-up (watch the 518 Shop Line answer a call, missed-call cost calculator). Nothing is stored on a server
 - [Things I've built](https://albanyaiguy.com/work): Chad's real, checkable projects (518 Shop Line demo, the trunk line in private testing, HelpGetUp, Live Well Go, AeraSell store audit), each with what it does and what isn't live yet
 - [Free AI tips](https://albanyaiguy.com/tips): six copy-and-paste prompts for any free AI assistant (prep a phone call in 30 seconds, missed-call text, voicemail greeting, reviews into FAQ answers, fine print in plain English, monthly hours check). No sign-up; the page saves nothing
 - [Missed-call cost calculator](https://albanyaiguy.com/tools/missed-calls): estimate monthly and yearly revenue missed from calls per week, the percent that would have booked, and average job value. Uses only the numbers you enter

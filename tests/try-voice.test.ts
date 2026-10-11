@@ -4,18 +4,14 @@ import { dirname, join } from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 import TryPage from "../src/app/try/page.tsx";
-import { buildShopGreeting } from "../src/lib/hear-your-shop.ts";
 import { estimateMissedCalls } from "../src/lib/missed-calls.ts";
 import {
   BROWSING_PIVOT,
   beginSession,
-  buildCallPrep,
   createSession,
-  hearYourShopFrom,
   isBrowsingReply,
   MISSED_QUESTIONS,
   OPENING_LINE,
-  PREP_QUESTIONS,
   parseSpokenNumber,
   SHOP_HANDOFF,
   SILENCE_LINE,
@@ -27,16 +23,9 @@ import { renderPage } from "./render-page.ts";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 
-const ANCHORS = [
-  "shop-line",
-  "missed-calls",
-  "call-prep",
-  "hear-your-shop",
-] as const;
+const ANCHORS = ["shop-line", "missed-calls"] as const;
 
-function opened(
-  demo: "shop-line" | "missed-calls" | "call-prep" | "hear-your-shop",
-) {
+function opened(demo: "shop-line" | "missed-calls") {
   return beginSession(createSession(demo));
 }
 
@@ -51,7 +40,7 @@ test("opening line, silence prompt, and browsing pivot are exact", () => {
     "For example, I can help a barber set up online booking in under ten minutes.",
   );
 
-  const started = opened("call-prep");
+  const started = opened("missed-calls");
   assert.deepEqual(started.say, [OPENING_LINE]);
   assert.equal(started.armSilence, true);
 
@@ -71,8 +60,14 @@ test("opening line, silence prompt, and browsing pivot are exact", () => {
     assert.equal(isBrowsingReply(phrase), true, phrase);
     const step = visitorSession(started.state, phrase);
     assert.equal(step.say[0], BROWSING_PIVOT, phrase);
-    assert.equal(step.say[1], PREP_QUESTIONS.who, phrase);
+    assert.equal(step.say[1], MISSED_QUESTIONS.calls, phrase);
   }
+
+  // The pivot also leads straight into the shop-line demo.
+  const shop = opened("shop-line");
+  const pivot = visitorSession(silenceSession(shop.state).state, "browsing");
+  assert.deepEqual(pivot.say, [BROWSING_PIVOT, SHOP_HANDOFF]);
+  assert.equal(pivot.listen, true);
 });
 
 test("spoken numbers cover digits, words, percent, and dollars", () => {
@@ -107,44 +102,6 @@ test("missed-calls flow matches estimateMissedCalls", () => {
   }
 });
 
-test("call-prep template has a script and exactly three questions", () => {
-  const direct = buildCallPrep("the water company", "a high bill");
-  assert.equal(typeof direct.script, "string");
-  assert.equal(direct.script.length > 0, true);
-  assert.equal(direct.questions.length, 3);
-
-  let step = visitorSession(opened("call-prep").state, "the water company");
-  assert.equal(step.say[0], PREP_QUESTIONS.problem);
-  step = visitorSession(step.state, "a high bill");
-  assert.ok(step.callPrep);
-  assert.equal(step.callPrep?.questions.length, 3);
-  assert.equal(step.callPrep?.script, direct.script);
-  assert.deepEqual(step.callPrep?.questions, direct.questions);
-});
-
-test("hear-your-shop flow matches buildShopGreeting", () => {
-  const input = {
-    shop: "North Pearl Cuts",
-    service: "fades",
-    hours: "9 to 5",
-  };
-  assert.deepEqual(hearYourShopFrom(input), buildShopGreeting(input));
-  assert.deepEqual(
-    hearYourShopFrom({ shop: input.shop, service: "skip", hours: "nothing" }),
-    buildShopGreeting({ shop: input.shop, service: "", hours: "" }),
-  );
-
-  let step = visitorSession(opened("hear-your-shop").state, input.shop);
-  step = visitorSession(step.state, input.service);
-  step = visitorSession(step.state, input.hours);
-  const built = buildShopGreeting(input);
-  assert.equal(built.ok, true);
-  if (built.ok) {
-    assert.equal(step.greetingScript, built.script);
-    assert.equal(step.say[0], built.script);
-  }
-});
-
 test("shop-line handoff posts the same request shape", () => {
   const step = visitorSession(
     opened("shop-line").state,
@@ -160,12 +117,12 @@ test("shop-line handoff posts the same request shape", () => {
   assert.equal(step.say[0], SHOP_HANDOFF);
 });
 
-test("promise badges are the four exact lines", () => {
+test("promise badges are the four exact lines, with 2 demos", () => {
   assert.deepEqual(
     [...TRY_PROMISE_BADGES],
     [
       "Try it in 10 seconds",
-      "4 demos",
+      "2 demos",
       "No signup",
       "Nothing you say is saved",
     ],
@@ -175,17 +132,20 @@ test("promise badges are the four exact lines", () => {
     assert.equal(page.includes(badge), true, badge);
   }
   assert.equal(page.includes(">Nothing is stored<"), false);
+  assert.equal(page.includes("4 demos"), false);
 });
 
-test("/try keeps the four anchors and the privacy sentence", () => {
+test("/try keeps the two anchors and the privacy sentence", () => {
   const page = readFileSync(join(root, "src/app/try/page.tsx"), "utf8");
   for (const id of ANCHORS) {
     assert.match(page, new RegExp(`id="${id}"`));
   }
-  assert.match(page, /Four demos\. No sign-up, and nothing is stored\./);
+  assert.match(page, /Two demos\. No sign-up, and nothing is stored\./);
   const html = renderPage(TryPage);
-  assert.match(html, /Four demos\. No sign-up, and nothing is stored\./);
-  assert.match(html, /Talk now/);
+  assert.match(html, /Two demos\. No sign-up, and nothing is stored\./);
+  assert.equal(/Four demos|Three demos/.test(html), false);
+  assert.equal((html.match(/Talk now/g) ?? []).length, 2);
+  assert.equal(/Call prep|Hear your shop|Answer the phone/.test(html), false);
   assert.match(
     html,
     /Voice uses your browser(?:&#x27;|&#39;|&apos;|')s mic and speech recognition/,

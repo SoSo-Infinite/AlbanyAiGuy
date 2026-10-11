@@ -1487,7 +1487,6 @@ a:not(.hero-try):not([class~="bg-primary"]):not([class~="bg-secondary"]):not(
 
 .try-end:focus-visible,
 .try-send:focus-visible,
-.try-prep-link:focus-visible,
 .try-compose-input:focus-visible {
   outline: 3px solid var(--color-ring);
   outline-offset: 2px;
@@ -1567,14 +1566,6 @@ a:not(.hero-try):not([class~="bg-primary"]):not([class~="bg-secondary"]):not(
 .try-result-figure {
   font-family: var(--font-display), Georgia, serif;
   font-size: 1.6rem;
-}
-
-.try-prep-link {
-  display: inline-flex;
-  min-height: 2.75rem;
-  align-items: center;
-  margin-top: 0.5rem;
-  color: var(--color-primary);
 }
 
 .try-compose {

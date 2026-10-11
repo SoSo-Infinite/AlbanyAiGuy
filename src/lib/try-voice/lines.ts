@@ -1,5 +1,5 @@
 /**
- * Shared lines for the four /try voice agents.
+ * Shared lines for the two /try voice agents.
  * Exact strings. The page does not store what a visitor says.
  */
 
@@ -16,7 +16,7 @@ export const SILENCE_MS = 6000;
 
 export const TRY_PROMISE_BADGES = [
   "Try it in 10 seconds",
-  "4 demos",
+  "2 demos",
   "No signup",
   "Nothing you say is saved",
 ] as const;

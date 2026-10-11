@@ -95,14 +95,6 @@ export default function Home() {
               Albany&apos;s trunk-line concierge and AI voice receptionist for
               local businesses
             </h1>
-            <p className="mt-5 max-w-2xl text-lg text-muted-foreground">
-              I&apos;m Chad Lenseth, the Albany AI Guy. I&apos;m building two
-              things for the Capital Region: one local number you can call to
-              find and book a well-rated shop, and an AI receptionist that
-              answers a shop&apos;s phone when the owner can&apos;t. Neither is
-              live yet — I&apos;m looking for a small group of Albany-area shops
-              to pilot it with me.
-            </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Button asChild size="lg">
                 <a href={PILOT_MAILTO}>Join the pilot</a>
