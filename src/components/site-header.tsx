@@ -1,12 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { MobileMenu } from "@/components/mobile-menu";
 import { Button } from "@/components/ui/button";
 import { NAV_LINKS } from "@/lib/nav";
 import { useAppSession } from "@/lib/store";
 import { useHydrated } from "@/lib/use-hydrated";
+import { cn } from "@/lib/utils";
 
 function Clock() {
   const [now, setNow] = useState<string>("--:--:--");
@@ -51,9 +53,38 @@ export function SiteHeader() {
   const hydrated = useHydrated();
   const session = useAppSession((s) => s.session);
   const live = hydrated && session;
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+  const [overHero, setOverHero] = useState(isHome);
+
+  useEffect(() => {
+    if (!isHome) return;
+    const hero = document.getElementById("home-hero");
+    if (!hero) return;
+    const update = () => {
+      const next = hero.getBoundingClientRect().bottom > 64;
+      setOverHero((prev) => (prev === next ? prev : next));
+    };
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
+  }, [isHome]);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur-md">
+    <header
+      className={cn(
+        "top-0 z-40 motion-safe:transition-[background-color,border-color,backdrop-filter] motion-safe:duration-300",
+        isHome
+          ? overHero
+            ? "fixed inset-x-0 border-b border-transparent bg-transparent"
+            : "fixed inset-x-0 border-b border-border bg-background/80 backdrop-blur-md"
+          : "sticky border-b border-border bg-background/80 backdrop-blur-md",
+      )}
+    >
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
         <Link href="/" className="flex min-h-11 items-center gap-2.5 min-w-0">
           <span className="grid size-7 place-items-center rounded-sm bg-primary text-primary-foreground font-mono text-xs font-medium">

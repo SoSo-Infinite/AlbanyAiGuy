@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { HomeHero } from "@/components/hero/home-hero";
+import { TopContactLine } from "@/components/top-contact-line";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { HOME_FAQ, HOME_FAQ_JSON_LD } from "@/lib/home-content";
@@ -76,8 +78,12 @@ export default function Home() {
         }}
       />
 
-      {/* Hero */}
-      <section className="relative overflow-hidden pt-12 pb-16 sm:pt-20 sm:pb-24">
+      <HomeHero />
+
+      <section
+        id="intro"
+        className="relative scroll-mt-20 overflow-hidden pt-12 pb-16 sm:pt-20 sm:pb-24"
+      >
         <div className="pointer-events-none absolute inset-0 grid-bg" />
         <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
           <Badge>Albany, NY · 518 · Coming soon</Badge>
@@ -103,6 +109,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <TopContactLine />
 
       <Section
         id="trunk-line"
