@@ -5,7 +5,7 @@ export function TopContactLine() {
   return (
     <section
       aria-label="Contact"
-      className="border-b-4 border-black bg-white text-black"
+      className="reveal border-b-4 border-black bg-white text-black"
     >
       <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
         <a

@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { MascotSpot } from "@/components/motion/mascot-spot";
+import { PageBand } from "@/components/motion/page-band";
+import { PageTransition } from "@/components/motion/page-transition";
+import { Reveal } from "@/components/motion/reveal";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { socialMeta } from "@/lib/social";
@@ -49,109 +53,119 @@ const STEPS = [
 
 export default function TrunkLinePage() {
   return (
-    <main>
-      <section className="relative overflow-hidden pt-12 pb-12 sm:pt-20">
-        <div className="pointer-events-none absolute inset-0 grid-bg" />
-        <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
-          <Badge>Coming soon · Pilot forming now</Badge>
-          <h1 className="mt-5 max-w-4xl font-display text-display">
-            The Albany trunk line: one number to find and book a local shop
-          </h1>
-          <p className="mt-5 max-w-2xl text-lg text-muted-foreground">
-            A concierge phone line for the 518. Call, say what you need, and it
-            sends your request to a well-rated Capital Region business. The
-            number isn&apos;t live yet — this page explains how it will work.
-          </p>
-          <p className="mt-4 text-sm text-muted-foreground">
-            Planned number and caller guide:{" "}
-            <Link
-              href="/call"
-              className="text-primary underline underline-offset-4"
-            >
-              Easy is cool. 518-726-COOL (coming soon)
-            </Link>
-          </p>
-        </div>
-      </section>
-
-      <section className="border-t border-border py-14">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <h2 className="font-display text-headline">How it will work</h2>
-          <ol className="mt-8 grid gap-4 sm:grid-cols-2">
-            {STEPS.map((s, i) => (
-              <li
-                key={s.t}
-                className="rounded-xl border border-border bg-card p-5"
-              >
-                <p className="font-mono text-micro uppercase text-primary">
-                  Step {i + 1}
-                </p>
-                <p className="mt-2 font-medium">{s.t}</p>
-                <p className="mt-1 text-sm text-muted-foreground">{s.d}</p>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
-
-      <section className="border-t border-border py-14">
-        <div className="mx-auto grid max-w-6xl gap-8 px-4 sm:px-6 lg:grid-cols-2">
-          <div>
-            <h2 className="font-display text-headline">Ground rules</h2>
-            <ul className="mt-5 space-y-3 text-muted-foreground">
-              <li>Bookings only go to shops that have opted in as partners.</li>
-              <li>
-                Any shop listed without opting in will be clearly labeled “not a
-                partner.”
-              </li>
-              <li>Not for emergencies — call 911.</li>
-            </ul>
-          </div>
-          <div>
-            <h2 className="font-display text-headline">Where it starts</h2>
-            <p className="mt-5 text-muted-foreground">
-              Albany, Schenectady, Rensselaer, and Saratoga counties — Albany,
-              Troy, Schenectady, Saratoga Springs, and the towns around them —
-              then the wider 518 by request. First categories: barbers, hair and
-              nail salons, HVAC, plumbers, electricians, and auto repair.
+    <PageTransition>
+      <main className="site-main">
+        <PageBand />
+        <Reveal
+          as="section"
+          className="relative overflow-hidden pt-12 pb-12 sm:pt-20"
+        >
+          <div className="pointer-events-none absolute inset-0 grid-bg" />
+          <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
+            <Badge>Coming soon · Pilot forming now</Badge>
+            <h1 className="mt-5 max-w-4xl font-display text-display">
+              The Albany trunk line: one number to find and book a local shop
+            </h1>
+            <p className="mt-5 max-w-2xl text-lg text-muted-foreground">
+              A concierge phone line for the 518. Call, say what you need, and
+              it sends your request to a well-rated Capital Region business. The
+              number isn&apos;t live yet — this page explains how it will work.
             </p>
+            <p className="mt-4 text-sm text-muted-foreground">
+              Planned number and caller guide:{" "}
+              <Link
+                href="/call"
+                className="text-primary underline underline-offset-4"
+              >
+                Easy is cool. 518-726-COOL (coming soon)
+              </Link>
+            </p>
+            <MascotSpot className="mascot-aside" />
           </div>
-        </div>
-      </section>
+        </Reveal>
 
-      <section className="border-t border-border py-14">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <h2 className="font-display text-headline">
-            Own a shop? Be one of the first partners.
-          </h2>
-          <p className="mt-4 max-w-2xl text-muted-foreground">
-            The same assistant can answer your own shop phone, too. See it work
-            on a fictional barbershop in the{" "}
-            <Link
-              href="/shop-line"
-              className="text-primary underline underline-offset-4"
-            >
-              518 Shop Line demo
-            </Link>
-            , then email{" "}
-            <a
-              href={PILOT_MAILTO}
-              className="font-mono text-primary underline-offset-4 hover:underline"
-            >
-              hello@albanyaiguy.com
-            </a>{" "}
-            to join the pilot.
-          </p>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Button asChild size="lg">
-              <a href={PILOT_MAILTO}>Join the pilot</a>
-            </Button>
-            <Button asChild size="lg" variant="outline">
-              <Link href="/">Back to home</Link>
-            </Button>
+        <Reveal as="section" className="border-t border-border py-14">
+          <div className="mx-auto max-w-6xl px-4 sm:px-6">
+            <h2 className="font-display text-headline">How it will work</h2>
+            <Reveal as="ol" stagger className="mt-8 grid gap-4 sm:grid-cols-2">
+              {STEPS.map((s, i) => (
+                <Reveal
+                  as="li"
+                  key={s.t}
+                  className="motion-card rounded-xl border border-border bg-card p-5"
+                >
+                  <p className="font-mono text-micro uppercase text-primary">
+                    Step {i + 1}
+                  </p>
+                  <p className="mt-2 font-medium">{s.t}</p>
+                  <p className="mt-1 text-sm text-muted-foreground">{s.d}</p>
+                </Reveal>
+              ))}
+            </Reveal>
           </div>
-        </div>
-      </section>
-    </main>
+        </Reveal>
+
+        <Reveal as="section" className="border-t border-border py-14">
+          <div className="mx-auto grid max-w-6xl gap-8 px-4 sm:px-6 lg:grid-cols-2">
+            <div>
+              <h2 className="font-display text-headline">Ground rules</h2>
+              <ul className="mt-5 space-y-3 text-muted-foreground">
+                <li>
+                  Bookings only go to shops that have opted in as partners.
+                </li>
+                <li>
+                  Any shop listed without opting in will be clearly labeled “not
+                  a partner.”
+                </li>
+                <li>Not for emergencies — call 911.</li>
+              </ul>
+            </div>
+            <div>
+              <h2 className="font-display text-headline">Where it starts</h2>
+              <p className="mt-5 text-muted-foreground">
+                Albany, Schenectady, Rensselaer, and Saratoga counties — Albany,
+                Troy, Schenectady, Saratoga Springs, and the towns around them —
+                then the wider 518 by request. First categories: barbers, hair
+                and nail salons, HVAC, plumbers, electricians, and auto repair.
+              </p>
+            </div>
+          </div>
+        </Reveal>
+
+        <Reveal as="section" className="border-t border-border py-14">
+          <div className="mx-auto max-w-6xl px-4 sm:px-6">
+            <h2 className="font-display text-headline">
+              Own a shop? Be one of the first partners.
+            </h2>
+            <p className="mt-4 max-w-2xl text-muted-foreground">
+              The same assistant can answer your own shop phone, too. See it
+              work on a fictional barbershop in the{" "}
+              <Link
+                href="/shop-line"
+                className="text-primary underline underline-offset-4"
+              >
+                518 Shop Line demo
+              </Link>
+              , then email{" "}
+              <a
+                href={PILOT_MAILTO}
+                className="font-mono text-primary underline-offset-4 hover:underline"
+              >
+                hello@albanyaiguy.com
+              </a>{" "}
+              to join the pilot.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Button asChild size="lg">
+                <a href={PILOT_MAILTO}>Join the pilot</a>
+              </Button>
+              <Button asChild size="lg" variant="outline">
+                <Link href="/">Back to home</Link>
+              </Button>
+            </div>
+          </div>
+        </Reveal>
+      </main>
+    </PageTransition>
   );
 }

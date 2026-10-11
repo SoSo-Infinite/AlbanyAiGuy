@@ -1,3 +1,31 @@
+# Packet Q18b — site-wide motion (2026-10-11)
+
+Same visual language as the home hero, on the rest of the site. No copy, links, form fields, prices, or legal text changed. The home hero scene, its tests, and `/shop-line` are unchanged.
+
+## What was built
+- Shared reveal: `src/components/motion/reveal.tsx`. Sections and cards fade, rise, and (on a fine pointer) blur in with `animation-timeline: view()` where the browser supports it. Older browsers use one shared `IntersectionObserver` (`MotionFallback`) that never hides content in the server HTML. Card grids stagger.
+- Route transition: `PageTransition` wraps page mains in React `<ViewTransition>` (crossfade plus a short rise). The header and footer keep fixed view-transition names so they stay still. If the installed React runtime has no `ViewTransition` export, the wrapper renders children unchanged. `prefers-reduced-motion: reduce` sets those animations to 0s.
+- Micro-interactions: primary, secondary, outline, ghost, and destructive buttons get the hero glow, a slight lift, and a press scale, and only when motion is allowed. Focus rings stay. Cards with `motion-card` lift and pick up a border glow on hover or focus-visible. Nav and footer links draw an underline. In-page text links ease their underline offset. The emergency note and the privacy cards do not lift.
+- Page band: `/try`, `/work`, `/tips`, `/tools/missed-calls`, `/contact`, `/call`, `/trunk-line`, `/privacy`, and the 404 page get a slim navy plaza strip. It reuses the poster landmark projection (towers, capitol roof, egg, one pulse arc, twinkling windows). CSS only. No WebGL.
+- Footer: a skyline silhouette line sits above the footer text. A slow opacity sheen is the only motion.
+- Mascot cutout (360 webp, `alt=""`, `loading="lazy"`, fixed box, `aria-hidden`): `/try` beside the demo list, `/contact` beside the form, `/tools/missed-calls` beside the calculator, `/work` and `/tips` and `/trunk-line` in the intro margin, 404 in a side column with a slow lost sway. He whirls in, floats, and the glow turns. A tap spins the whole image. Margin spots hide below 1280px. The demo-list spot hides below 640px. Every spot hides below 380px. Nothing on `/privacy`, `/call`, `/s/`, `/console`, or `/shop-line`.
+
+## Per page
+- `/` — reveals on the sections under the hero, route transition, button and card motion. Hero scene untouched.
+- `/try`, `/work`, `/tips`, `/tools/missed-calls`, `/contact`, `/trunk-line` — band, reveals, mascot, route transition.
+- `/call` — band, reveals, route transition. No mascot. Privacy cards do not lift. Emergency note does not lift.
+- `/privacy` — band, reveals, route transition. No mascot and no card lift.
+- 404 — band, reveal, lost pose, route transition.
+- `/s/[code]` and `/console` — route transition only.
+- `/shop-line` — not touched.
+
+## Known limits
+- Scroll-driven reveals need `animation-timeline: view()`. Other browsers get the single observer after hydration. Above-the-fold blocks that are already on screen do not replay a hide-and-show.
+- Route transitions need a browser that implements the View Transitions API (the Next.js guide: Chromium 125+ and recent Safari and Firefox). Everyone else gets an instant swap.
+- On a coarse pointer, reveals skip blur, the arc does not dash, and the whirlwind glow does not spin. Twinkle stays an opacity pulse.
+- The mascot is the flat cutout only. The whole image moves. Eyes, face, and hands are not redrawn.
+- Not built (future): rotating Albany scenes, and the site as a live animated ad.
+
 # Packet Q15 — per-page X preview tags (2026-10-10)
 
 Indexable pages now set `twitter` from the same title, description, and image as their Open Graph tags. `src/lib/social.ts` builds both objects, and the title and description strings are the ones each page already used. `/shop-line` keeps its file-convention share card: `twitter-image.png` is a byte copy of `opengraph-image.png`, so X no longer uses `/og.jpg` for that page. `/s/[code]`, `/console`, and the not-found page still inherit the layout card. No titles, descriptions, prices, or other copy changed.

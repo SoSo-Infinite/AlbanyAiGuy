@@ -76,6 +76,7 @@ export function SiteHeader() {
 
   return (
     <header
+      style={{ viewTransitionName: "site-header" }}
       className={cn(
         "top-0 z-40 motion-safe:transition-[background-color,border-color,backdrop-filter] motion-safe:duration-300",
         isHome
@@ -101,7 +102,7 @@ export function SiteHeader() {
             <a
               key={l.href}
               href={l.href}
-              className="text-sm text-muted-foreground transition-colors duration-150 hover:text-foreground"
+              className="nav-link rounded-sm text-sm text-muted-foreground transition-colors duration-150 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
             >
               {l.label}
             </a>

@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
 import { ContactForm } from "@/components/contact-form";
+import { MascotSpot } from "@/components/motion/mascot-spot";
+import { PageBand } from "@/components/motion/page-band";
+import { PageTransition } from "@/components/motion/page-transition";
+import { Reveal } from "@/components/motion/reveal";
 import { socialMeta } from "@/lib/social";
 
 export const metadata: Metadata = {
@@ -24,31 +28,40 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <main className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
-      <div className="max-w-2xl">
-        <p className="font-mono text-micro uppercase text-primary">
-          Contact desk
-        </p>
-        <h1 className="mt-2 font-display text-headline">
-          Contact Albany AI Guy
-        </h1>
-        <p className="mt-3 text-muted-foreground">
-          Questions about the trunk line, an AI receptionist for your shop, or
-          joining the pilot? This form opens a draft in your own email app,
-          addressed to{" "}
-          <a
-            href="mailto:hello@albanyaiguy.com"
-            className="font-mono text-primary underline-offset-4 hover:underline"
-          >
-            hello@albanyaiguy.com
-          </a>
-          . I read every message myself.
-        </p>
-      </div>
+    <PageTransition>
+      <main className="site-main">
+        <PageBand />
+        <div className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
+          <Reveal as="div" className="max-w-2xl">
+            <p className="font-mono text-micro uppercase text-primary">
+              Contact desk
+            </p>
+            <h1 className="mt-2 font-display text-headline">
+              Contact Albany AI Guy
+            </h1>
+            <p className="mt-3 text-muted-foreground">
+              Questions about the trunk line, an AI receptionist for your shop,
+              or joining the pilot? This form opens a draft in your own email
+              app, addressed to{" "}
+              <a
+                href="mailto:hello@albanyaiguy.com"
+                className="font-mono text-primary underline-offset-4 hover:underline"
+              >
+                hello@albanyaiguy.com
+              </a>
+              . I read every message myself.
+            </p>
+          </Reveal>
 
-      <div className="mt-10 max-w-2xl rounded-xl border border-border bg-card p-5 sm:p-8">
-        <ContactForm />
-      </div>
-    </main>
+          <Reveal
+            as="div"
+            className="mt-10 max-w-2xl rounded-xl border border-border bg-card p-5 sm:p-8"
+          >
+            <ContactForm />
+          </Reveal>
+          <MascotSpot className="mascot-aside mascot-by-form" />
+        </div>
+      </main>
+    </PageTransition>
   );
 }

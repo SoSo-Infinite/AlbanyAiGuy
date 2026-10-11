@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
 import { MissedCallCalculator } from "@/components/missed-call-calculator";
+import { MascotSpot } from "@/components/motion/mascot-spot";
+import { PageBand } from "@/components/motion/page-band";
+import { PageTransition } from "@/components/motion/page-transition";
+import { Reveal } from "@/components/motion/reveal";
 import { Badge } from "@/components/ui/badge";
 import {
   MISSED_CALL_FIELDS,
@@ -51,30 +55,39 @@ export default async function MissedCallsPage({
   };
 
   return (
-    <main>
-      <section className="relative overflow-hidden pt-12 pb-10 sm:pt-20 sm:pb-14">
-        <div className="pointer-events-none absolute inset-0 grid-bg" />
-        <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
-          <Badge>Albany, NY · 518 · Calculator</Badge>
-          <h1 className="mt-5 max-w-3xl font-display text-display">
-            Missed-call cost calculator
-          </h1>
-          <p className="mt-5 max-w-2xl text-lg text-muted-foreground">
-            Enter how many calls you miss in a week, what percent of them would
-            have booked, and the average value of a job. The figure below uses
-            only those numbers.
-          </p>
-        </div>
-      </section>
+    <PageTransition>
+      <main className="site-main">
+        <PageBand />
+        <Reveal
+          as="section"
+          className="relative overflow-hidden pt-12 pb-10 sm:pt-20 sm:pb-14"
+        >
+          <div className="pointer-events-none absolute inset-0 grid-bg" />
+          <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
+            <Badge>Albany, NY · 518 · Calculator</Badge>
+            <h1 className="mt-5 max-w-3xl font-display text-display">
+              Missed-call cost calculator
+            </h1>
+            <p className="mt-5 max-w-2xl text-lg text-muted-foreground">
+              Enter how many calls you miss in a week, what percent of them
+              would have booked, and the average value of a job. The figure
+              below uses only those numbers.
+            </p>
+          </div>
+        </Reveal>
 
-      <section className="border-t border-border py-12 sm:py-16">
-        <div className="mx-auto max-w-3xl px-4 sm:px-6">
-          <MissedCallCalculator
-            key={`${initial.missedCallsPerWeek}\n${initial.bookingPercent}\n${initial.averageJobValue}`}
-            initial={initial}
-          />
-        </div>
-      </section>
-    </main>
+        <Reveal as="section" className="border-t border-border py-12 sm:py-16">
+          <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
+            <div className="mx-auto max-w-3xl">
+              <MissedCallCalculator
+                key={`${initial.missedCallsPerWeek}\n${initial.bookingPercent}\n${initial.averageJobValue}`}
+                initial={initial}
+              />
+            </div>
+            <MascotSpot className="mascot-aside" />
+          </div>
+        </Reveal>
+      </main>
+    </PageTransition>
   );
 }

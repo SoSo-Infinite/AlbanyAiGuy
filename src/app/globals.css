@@ -662,3 +662,582 @@
     opacity: 0.85;
   }
 }
+
+/* Site-wide motion. Content stays visible without these rules. */
+
+.site-main
+a:not(.hero-try):not([class~="bg-primary"]):not([class~="bg-secondary"]):not(
+  [class~="border"]
+) {
+  text-underline-offset: 0.22em;
+}
+
+.nav-link,
+.footer-link {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 1px;
+}
+
+.page-band {
+  height: 4.75rem;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      ellipse 42% 90% at 78% 0%,
+      rgba(180, 206, 230, 0.16),
+      transparent 62%
+    ),
+    linear-gradient(180deg, #050814 0%, #0c1830 62%, #07090c 100%);
+  pointer-events: none;
+}
+
+.page-band-svg,
+.footer-skyline-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.band-arc {
+  fill: none;
+  stroke: #9af6ff;
+  stroke-width: 3;
+  stroke-linecap: round;
+  opacity: 0;
+}
+
+.footer-skyline {
+  height: 2.5rem;
+  overflow: hidden;
+  background: linear-gradient(180deg, #07090c 0%, #0c1830 100%);
+  pointer-events: none;
+}
+
+.footer-skyline-sheen {
+  opacity: 0.07;
+  pointer-events: none;
+}
+
+.mascot-spot {
+  position: relative;
+  z-index: 2;
+  width: 132px;
+  height: 158px;
+  flex: none;
+  pointer-events: none;
+  user-select: none;
+}
+
+.mascot-arrive,
+.mascot-idle,
+.mascot-hit {
+  position: absolute;
+  inset: 0;
+}
+
+.mascot-hit {
+  display: block;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.mascot-hit img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.mascot-glow {
+  position: absolute;
+  right: 14%;
+  bottom: 6%;
+  left: 14%;
+  height: 36%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 200, 240, 0.4), transparent 68%);
+  pointer-events: none;
+}
+
+.mascot-trail {
+  position: absolute;
+  right: 8%;
+  bottom: 10%;
+  left: 8%;
+  height: 46%;
+  border: 2px solid rgba(0, 200, 240, 0.45);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.mascot-aside {
+  position: absolute;
+  top: 1rem;
+  right: 0.25rem;
+}
+
+.mascot-by-form {
+  top: 8.5rem;
+}
+
+.mascot-404 {
+  justify-self: end;
+  align-self: end;
+}
+
+@media (max-width: 1279px) {
+  .mascot-aside {
+    display: none;
+  }
+}
+
+@media (max-width: 1023px) {
+  .mascot-404 {
+    justify-self: start;
+    margin-top: 0.5rem;
+  }
+}
+
+@media (max-width: 639px) {
+  .mascot-row {
+    display: none;
+  }
+}
+
+@media (max-width: 379px) {
+  .mascot-spot {
+    display: none;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: reveal-lite linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 34%;
+    }
+
+    .reveal-grid > .reveal:nth-child(2) {
+      animation-range: entry 5% entry 40%;
+    }
+
+    .reveal-grid > .reveal:nth-child(3) {
+      animation-range: entry 9% entry 44%;
+    }
+
+    .reveal-grid > .reveal:nth-child(4) {
+      animation-range: entry 13% entry 48%;
+    }
+
+    .reveal-grid > .reveal:nth-child(n + 5) {
+      animation-range: entry 16% entry 52%;
+    }
+
+    .mascot-arrive {
+      animation: mascot-whirl linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 46%;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) and (hover: hover) and (
+      pointer: fine
+    ) {
+    .reveal {
+      animation-name: reveal-rise;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .site-main
+    a:not(.hero-try):not([class~="bg-primary"]):not(
+      [class~="bg-secondary"]
+    ):not([class~="border"]) {
+    transition:
+      text-underline-offset 200ms ease,
+      color 160ms ease;
+  }
+
+  .site-main
+    a:not(.hero-try):not([class~="bg-primary"]):not(
+      [class~="bg-secondary"]
+    ):not([class~="border"]):hover,
+  .site-main
+    a:not(.hero-try):not([class~="bg-primary"]):not(
+      [class~="bg-secondary"]
+    ):not([class~="border"]):focus-visible {
+    text-decoration-line: underline;
+    text-underline-offset: 0.34em;
+  }
+
+  .nav-link,
+  .footer-link {
+    transition:
+      background-size 220ms ease,
+      color 150ms ease;
+  }
+
+  .nav-link:hover,
+  .nav-link:focus-visible,
+  .footer-link:hover,
+  .footer-link:focus-visible {
+    background-size: 100% 1px;
+  }
+
+  .motion-card {
+    transition:
+      transform 180ms ease,
+      box-shadow 180ms ease,
+      border-color 180ms ease;
+  }
+
+  .motion-card:hover,
+  .motion-card:focus-visible {
+    transform: translateY(-3px);
+    border-color: color-mix(
+      in oklab,
+      var(--color-ice) 50%,
+      var(--color-border)
+    );
+    box-shadow:
+      0 10px 28px rgba(0, 200, 240, 0.12),
+      0 0 0 1px rgba(126, 200, 227, 0.28);
+  }
+
+  .band-twinkle-a {
+    animation: band-twinkle 5.6s ease-in-out infinite;
+  }
+
+  .band-twinkle-b {
+    animation: band-twinkle 6.4s ease-in-out infinite 0.8s;
+  }
+
+  .band-twinkle-c {
+    animation: band-twinkle 4.9s ease-in-out infinite 1.4s;
+  }
+
+  .band-arc {
+    opacity: 0.8;
+    stroke-dasharray: 8 92;
+    animation: band-dash 4.8s ease-in-out infinite;
+  }
+
+  .footer-skyline-sheen {
+    animation: footer-sheen 9s ease-in-out infinite;
+  }
+
+  .mascot-idle {
+    animation: mascot-float 5.8s ease-in-out infinite;
+  }
+
+  .mascot-pose-lost .mascot-idle {
+    animation-name: mascot-lost;
+  }
+
+  .mascot-glow {
+    background:
+      radial-gradient(circle, rgba(0, 200, 240, 0.38), transparent 68%),
+      conic-gradient(
+        from 20deg,
+        transparent 0 18%,
+        rgba(0, 200, 240, 0.85) 32%,
+        transparent 48%,
+        rgba(224, 176, 58, 0.85) 66%,
+        transparent 82%
+      );
+    animation: mascot-glow-spin 14s linear infinite;
+  }
+
+  .mascot-trail {
+    animation: mascot-trail 900ms ease-out both;
+  }
+
+  .mascot-hit.is-spinning {
+    animation: mascot-spin 0.7s cubic-bezier(0.15, 0.7, 0.2, 1);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) and (pointer: coarse) {
+  .band-arc {
+    animation: none;
+    opacity: 0.5;
+    stroke-dasharray: none;
+  }
+
+  .mascot-glow {
+    animation: none;
+    background: radial-gradient(
+      circle,
+      rgba(0, 200, 240, 0.35),
+      transparent 68%
+    );
+  }
+
+  .mascot-trail {
+    display: none;
+  }
+}
+
+@supports not (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    html.motion-io .reveal.reveal-in {
+      animation: reveal-lite 680ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    html.motion-io .reveal-grid > .reveal.reveal-in:nth-child(2) {
+      animation-delay: 70ms;
+    }
+
+    html.motion-io .reveal-grid > .reveal.reveal-in:nth-child(3) {
+      animation-delay: 140ms;
+    }
+
+    html.motion-io .reveal-grid > .reveal.reveal-in:nth-child(4) {
+      animation-delay: 210ms;
+    }
+
+    html.motion-io .reveal.reveal-wait {
+      opacity: 0;
+      translate: 0 12px;
+    }
+
+    .mascot-arrive {
+      animation: mascot-whirl 780ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) and (hover: hover) and (
+      pointer: fine
+    ) {
+    html.motion-io .reveal.reveal-in {
+      animation-name: reveal-rise;
+    }
+
+    html.motion-io .reveal.reveal-wait {
+      filter: blur(6px);
+    }
+  }
+}
+
+::view-transition {
+  pointer-events: none;
+}
+
+::view-transition-group(site-header),
+::view-transition-group(site-footer) {
+  z-index: 100;
+  animation: none;
+}
+
+::view-transition-old(site-header),
+::view-transition-old(site-footer) {
+  display: none;
+}
+
+::view-transition-new(site-header),
+::view-transition-new(site-footer) {
+  animation: none;
+}
+
+::view-transition-old(.route-fade) {
+  animation: 180ms ease-in both route-fade-out;
+}
+
+::view-transition-new(.route-rise) {
+  animation: 340ms cubic-bezier(0.22, 1, 0.36, 1) both route-rise-in;
+}
+
+@keyframes reveal-lite {
+  from {
+    opacity: 0;
+    translate: 0 14px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@keyframes reveal-rise {
+  from {
+    opacity: 0;
+    translate: 0 14px;
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+    filter: blur(0);
+  }
+}
+
+@keyframes band-twinkle {
+  0%,
+  100% {
+    opacity: 0.32;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes band-dash {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -100;
+  }
+}
+
+@keyframes footer-sheen {
+  0%,
+  100% {
+    opacity: 0.04;
+  }
+  50% {
+    opacity: 0.14;
+  }
+}
+
+@keyframes mascot-whirl {
+  from {
+    opacity: 0;
+    transform: translateY(16px) rotate(-22deg) scale(0.7);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes mascot-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+@keyframes mascot-lost {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-8deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(6deg);
+  }
+}
+
+@keyframes mascot-glow-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes mascot-trail {
+  0% {
+    opacity: 0;
+    transform: scale(0.55) rotate(-16deg);
+  }
+  35% {
+    opacity: 0.75;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.2) rotate(24deg);
+  }
+}
+
+@keyframes mascot-spin {
+  from {
+    transform: rotate(0deg) scale(1);
+  }
+  40% {
+    transform: rotate(200deg) scale(1.05);
+  }
+  to {
+    transform: rotate(360deg) scale(1);
+  }
+}
+
+@keyframes route-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes route-rise-in {
+  from {
+    opacity: 0;
+    translate: 0 10px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal-in,
+  .reveal-wait,
+  .band-twinkle,
+  .band-twinkle-a,
+  .band-twinkle-b,
+  .band-twinkle-c,
+  .band-arc,
+  .mascot-arrive,
+  .mascot-idle,
+  .mascot-glow,
+  .mascot-hit,
+  .mascot-trail,
+  .footer-skyline-sheen,
+  .motion-card,
+  .nav-link,
+  .footer-link {
+    /* biome-ignore lint/complexity/noImportantStyles: reduced motion has to win over every shorthand above */
+    animation: none !important;
+    /* biome-ignore lint/complexity/noImportantStyles: reduced motion has to win over every shorthand above */
+    transition: none !important;
+  }
+
+  .reveal,
+  .reveal-wait,
+  .mascot-arrive,
+  .mascot-idle,
+  .mascot-hit,
+  .band-twinkle {
+    /* biome-ignore lint/complexity/noImportantStyles: hidden keyframes must not leave content invisible */
+    opacity: 1 !important;
+    /* biome-ignore lint/complexity/noImportantStyles: hidden keyframes must not leave content invisible */
+    filter: none !important;
+    /* biome-ignore lint/complexity/noImportantStyles: hidden keyframes must not leave content invisible */
+    translate: none !important;
+    /* biome-ignore lint/complexity/noImportantStyles: hidden keyframes must not leave content invisible */
+    transform: none !important;
+  }
+
+  .band-arc {
+    opacity: 0.4;
+    stroke-dasharray: none;
+  }
+
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    /* biome-ignore lint/complexity/noImportantStyles: route motion must not run when the visitor asked for less motion */
+    animation-duration: 0s !important;
+    /* biome-ignore lint/complexity/noImportantStyles: route motion must not run when the visitor asked for less motion */
+    animation-delay: 0s !important;
+  }
+}

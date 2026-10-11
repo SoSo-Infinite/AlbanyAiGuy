@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { PageBand } from "@/components/motion/page-band";
+import { PageTransition } from "@/components/motion/page-transition";
+import { Reveal } from "@/components/motion/reveal";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -59,7 +62,8 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section
+    <Reveal
+      as="section"
       id={id}
       aria-labelledby={`${id}-title`}
       className="scroll-mt-20 border-t border-border py-14 sm:py-20"
@@ -71,7 +75,7 @@ function Section({
         </h2>
         <div className="mt-8">{children}</div>
       </div>
-    </section>
+    </Reveal>
   );
 }
 
@@ -130,252 +134,257 @@ function PrimaryCta({ className }: { className?: string }) {
 
 export default function CallPage() {
   return (
-    <main>
-      <script
-        type="application/ld+json"
-        // biome-ignore lint/security/noDangerouslySetInnerHtml: static JSON-LD, "<" escaped
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(CALL_JSON_LD).replace(/</g, "\\u003c"),
-        }}
-      />
+    <PageTransition>
+      <main className="site-main">
+        <PageBand />
+        <script
+          type="application/ld+json"
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: static JSON-LD, "<" escaped
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(CALL_JSON_LD).replace(/</g, "\\u003c"),
+          }}
+        />
 
-      {/* Hero */}
-      <section className="relative overflow-hidden pt-10 pb-14 sm:pt-20 sm:pb-20">
-        <div className="pointer-events-none absolute inset-0 grid-bg" />
-        <div className="relative mx-auto grid max-w-6xl gap-10 px-4 sm:px-6 lg:grid-cols-[1.2fr_1fr] lg:items-end">
-          <div>
-            <Badge className="enter-1">
-              Albany, NY ·{" "}
-              {CALL_LINE_LIVE ? "Live now" : "Coming soon · Not live yet"}
-            </Badge>
-            <h1 className="enter-2 mt-5 font-display text-display">
-              {CALL_LINE.tagline}
-              <span className="block text-primary">
-                {CALL_LINE_LIVE
-                  ? `Call ${CALL_LINE.vanity}.`
-                  : `${CALL_LINE.vanity} is coming soon.`}
-              </span>
-            </h1>
-            <p className="enter-3 mt-5 max-w-xl text-lg text-muted-foreground">
-              One local number for when you need a barber, a salon, a plumber,
-              heat that works, an electrician, a mechanic, a cleaner, or a
-              locksmith. Say what you need, and the line sends the job to a
-              well-rated Albany shop.
-            </p>
-            <div className="enter-4 mt-7 hidden flex-wrap gap-3 md:flex">
-              <PrimaryCta />
-              <Button asChild size="lg" variant="outline">
-                <a href="#businesses">Own an Albany shop?</a>
-              </Button>
+        {/* Hero */}
+        <section className="relative overflow-hidden pt-10 pb-14 sm:pt-20 sm:pb-20">
+          <div className="pointer-events-none absolute inset-0 grid-bg" />
+          <div className="relative mx-auto grid max-w-6xl gap-10 px-4 sm:px-6 lg:grid-cols-[1.2fr_1fr] lg:items-end">
+            <div>
+              <Badge className="enter-1">
+                Albany, NY ·{" "}
+                {CALL_LINE_LIVE ? "Live now" : "Coming soon · Not live yet"}
+              </Badge>
+              <h1 className="enter-2 mt-5 font-display text-display">
+                {CALL_LINE.tagline}
+                <span className="block text-primary">
+                  {CALL_LINE_LIVE
+                    ? `Call ${CALL_LINE.vanity}.`
+                    : `${CALL_LINE.vanity} is coming soon.`}
+                </span>
+              </h1>
+              <p className="enter-3 mt-5 max-w-xl text-lg text-muted-foreground">
+                One local number for when you need a barber, a salon, a plumber,
+                heat that works, an electrician, a mechanic, a cleaner, or a
+                locksmith. Say what you need, and the line sends the job to a
+                well-rated Albany shop.
+              </p>
+              <div className="enter-4 mt-7 hidden flex-wrap gap-3 md:flex">
+                <PrimaryCta />
+                <Button asChild size="lg" variant="outline">
+                  <a href="#businesses">Own an Albany shop?</a>
+                </Button>
+              </div>
+            </div>
+            <div className="enter-3">
+              <NumberCard />
             </div>
           </div>
-          <div className="enter-3">
-            <NumberCard />
-          </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Callers */}
-      <Section
-        id="how-it-works"
-        eyebrow="For callers"
-        title={CALL_LINE_LIVE ? "How a call works" : "How a call will work"}
-      >
-        <ol className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
-          {CALLER_STEPS.map((s, i) => (
-            <li
-              key={s.t}
-              className="rounded-xl border border-border bg-card p-5"
-            >
-              <p className="font-mono text-micro uppercase text-primary">
-                Step {i + 1}
-              </p>
-              <h3 className="mt-2 font-medium">{s.t}</h3>
-              <p className="mt-1 text-sm text-muted-foreground">{s.d}</p>
-            </li>
-          ))}
-        </ol>
-        <div className="mt-8">
-          <h3 className="text-sm font-medium">Shops the line knows</h3>
-          <ul className="mt-3 flex flex-wrap gap-2">
-            {SHOP_TYPES.map((t) => (
+        {/* Callers */}
+        <Section
+          id="how-it-works"
+          eyebrow="For callers"
+          title={CALL_LINE_LIVE ? "How a call works" : "How a call will work"}
+        >
+          <ol className="reveal-grid grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+            {CALLER_STEPS.map((s, i) => (
               <li
-                key={t}
-                className="rounded-full border border-border px-3 py-1.5 text-sm text-muted-foreground"
+                key={s.t}
+                className="reveal motion-card rounded-xl border border-border bg-card p-5"
               >
-                {t}
+                <p className="font-mono text-micro uppercase text-primary">
+                  Step {i + 1}
+                </p>
+                <h3 className="mt-2 font-medium">{s.t}</h3>
+                <p className="mt-1 text-sm text-muted-foreground">{s.d}</p>
               </li>
             ))}
-          </ul>
-        </div>
-      </Section>
-
-      {/* Emergencies */}
-      <section
-        id="emergencies"
-        aria-labelledby="emergencies-title"
-        className="scroll-mt-20 border-t border-border py-10"
-      >
-        <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <div
-            role="note"
-            className="rounded-2xl border border-destructive/50 bg-destructive/10 p-5 sm:p-7"
-          >
-            <h2
-              id="emergencies-title"
-              className="font-display text-headline text-foreground"
-            >
-              Emergency? Call 911.
-            </h2>
-            <p className="mt-3 max-w-2xl text-foreground/90">
-              This line is not for emergencies. For a fire, a medical emergency,
-              or someone in danger, call 911. If you smell gas, leave the
-              building first, then call 911 or your gas utility&apos;s emergency
-              line. If you describe an emergency on the line, it will tell you
-              to call 911.
-            </p>
-            <p className="mt-3 max-w-2xl text-foreground/90">
-              If you&apos;re thinking about hurting yourself, call or text 988,
-              the Suicide &amp; Crisis Lifeline, any time. If someone mentions
-              self-harm on the line, it gives them 988 as well as 911.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Businesses */}
-      <Section
-        id="businesses"
-        eyebrow="For Albany businesses"
-        title="Get your shop on the line"
-      >
-        <ul className="grid gap-3 sm:grid-cols-2">
-          {BUSINESS_POINTS.map((p) => (
-            <li
-              key={p.t}
-              className="rounded-xl border border-border bg-card p-5"
-            >
-              <h3 className="font-medium">{p.t}</h3>
-              <p className="mt-1 text-sm text-muted-foreground">{p.d}</p>
-            </li>
-          ))}
-        </ul>
-        <div className="mt-8 grid gap-8 lg:grid-cols-2">
-          <div>
-            <h3 className="font-medium">What the line never does</h3>
-            <ul className="mt-3 space-y-2 text-muted-foreground">
-              {NEVER_DOES.map((n) => (
-                <li key={n} className="flex gap-2">
-                  <span aria-hidden className="text-faint">
-                    —
-                  </span>
-                  {n}
+          </ol>
+          <div className="mt-8">
+            <h3 className="text-sm font-medium">Shops the line knows</h3>
+            <ul className="mt-3 flex flex-wrap gap-2">
+              {SHOP_TYPES.map((t) => (
+                <li
+                  key={t}
+                  className="rounded-full border border-border px-3 py-1.5 text-sm text-muted-foreground"
+                >
+                  {t}
                 </li>
               ))}
             </ul>
           </div>
-          <div>
-            <h3 className="font-medium">Not signed up?</h3>
-            <p className="mt-3 text-muted-foreground">
-              The line can still mention your shop with its Google rating and
-              read out your public phone number, so the caller calls you
-              directly. Signing up lets the line send you the job.
-            </p>
-            <p className="mt-3 text-muted-foreground">
-              Want to hear how it sounds? Try the{" "}
-              <Link
-                href="/shop-line"
-                className="text-primary underline underline-offset-4"
+        </Section>
+
+        {/* Emergencies */}
+        <Reveal
+          as="section"
+          id="emergencies"
+          aria-labelledby="emergencies-title"
+          className="scroll-mt-20 border-t border-border py-10"
+        >
+          <div className="mx-auto max-w-6xl px-4 sm:px-6">
+            <div
+              role="note"
+              className="rounded-2xl border border-destructive/50 bg-destructive/10 p-5 sm:p-7"
+            >
+              <h2
+                id="emergencies-title"
+                className="font-display text-headline text-foreground"
               >
-                518 Shop Line demo
-              </Link>{" "}
-              with a fictional barbershop.
-            </p>
+                Emergency? Call 911.
+              </h2>
+              <p className="mt-3 max-w-2xl text-foreground/90">
+                This line is not for emergencies. For a fire, a medical
+                emergency, or someone in danger, call 911. If you smell gas,
+                leave the building first, then call 911 or your gas
+                utility&apos;s emergency line. If you describe an emergency on
+                the line, it will tell you to call 911.
+              </p>
+              <p className="mt-3 max-w-2xl text-foreground/90">
+                If you&apos;re thinking about hurting yourself, call or text
+                988, the Suicide &amp; Crisis Lifeline, any time. If someone
+                mentions self-harm on the line, it gives them 988 as well as
+                911.
+              </p>
+            </div>
           </div>
-        </div>
-        <div className="mt-8 flex flex-wrap gap-3">
-          <Button asChild size="lg">
-            <a href={JOIN_MAILTO}>Join the directory</a>
-          </Button>
-        </div>
-      </Section>
+        </Reveal>
 
-      {/* Privacy */}
-      <Section
-        id="privacy"
-        eyebrow="Privacy"
-        title="No recordings. Just the request."
-      >
-        <ul className="grid gap-3 sm:grid-cols-3">
-          <li className="rounded-xl border border-border bg-card p-5">
-            <h3 className="font-medium">Calls aren&apos;t recorded</h3>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Call audio isn&apos;t saved. Speech is turned into text in the
-              moment so the line can understand you.
-            </p>
-          </li>
-          <li className="rounded-xl border border-border bg-card p-5">
-            <h3 className="font-medium">Only what the shop needs</h3>
-            <p className="mt-1 text-sm text-muted-foreground">
-              If you make a request, your first name, number, the time you want,
-              and an optional email go to the shop you chose. Nothing goes to
-              shops that haven&apos;t signed up.
-            </p>
-          </li>
-          <li className="rounded-xl border border-border bg-card p-5">
-            <h3 className="font-medium">It says it&apos;s an AI</h3>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Every call starts by saying you&apos;re talking to an AI
-              assistant. It never pretends to be a person.
-            </p>
-          </li>
-        </ul>
-        <p className="mt-6 max-w-2xl text-sm text-muted-foreground">
-          Before launch, this page will say exactly how long request details are
-          kept. Questions:{" "}
-          <a
-            href={`mailto:${CALL_LINE.email}`}
-            className="font-mono text-primary underline underline-offset-4"
-          >
-            {CALL_LINE.email}
-          </a>
-        </p>
-      </Section>
-
-      {/* FAQ */}
-      <Section id="faq" eyebrow="FAQ" title="Questions people ask">
-        <div className="max-w-3xl divide-y divide-border border-y border-border">
-          {CALL_FAQ.map((f) => (
-            <details key={f.q} className="call-faq group">
-              <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-4 py-4 font-medium">
-                {f.q}
-                <span
-                  aria-hidden
-                  className="text-faint transition-transform duration-300 group-open:rotate-45"
+        {/* Businesses */}
+        <Section
+          id="businesses"
+          eyebrow="For Albany businesses"
+          title="Get your shop on the line"
+        >
+          <ul className="reveal-grid grid gap-3 sm:grid-cols-2">
+            {BUSINESS_POINTS.map((p) => (
+              <li
+                key={p.t}
+                className="reveal motion-card rounded-xl border border-border bg-card p-5"
+              >
+                <h3 className="font-medium">{p.t}</h3>
+                <p className="mt-1 text-sm text-muted-foreground">{p.d}</p>
+              </li>
+            ))}
+          </ul>
+          <div className="mt-8 grid gap-8 lg:grid-cols-2">
+            <div>
+              <h3 className="font-medium">What the line never does</h3>
+              <ul className="mt-3 space-y-2 text-muted-foreground">
+                {NEVER_DOES.map((n) => (
+                  <li key={n} className="flex gap-2">
+                    <span aria-hidden className="text-faint">
+                      —
+                    </span>
+                    {n}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-medium">Not signed up?</h3>
+              <p className="mt-3 text-muted-foreground">
+                The line can still mention your shop with its Google rating and
+                read out your public phone number, so the caller calls you
+                directly. Signing up lets the line send you the job.
+              </p>
+              <p className="mt-3 text-muted-foreground">
+                Want to hear how it sounds? Try the{" "}
+                <Link
+                  href="/shop-line"
+                  className="text-primary underline underline-offset-4"
                 >
-                  +
-                </span>
-              </summary>
-              <p className="pb-5 text-muted-foreground">{f.a}</p>
-            </details>
-          ))}
-        </div>
-        <p className="mt-8 text-sm text-muted-foreground">
-          More about the plan on the{" "}
-          <Link
-            href="/trunk-line"
-            className="text-primary underline underline-offset-4"
-          >
-            trunk line overview
-          </Link>
-          .
-        </p>
-      </Section>
+                  518 Shop Line demo
+                </Link>{" "}
+                with a fictional barbershop.
+              </p>
+            </div>
+          </div>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Button asChild size="lg">
+              <a href={JOIN_MAILTO}>Join the directory</a>
+            </Button>
+          </div>
+        </Section>
 
-      {/* Phone-first sticky action bar */}
-      <div className="call-bar sticky bottom-0 z-30 border-t border-border px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] md:hidden">
-        <PrimaryCta className="w-full" />
-      </div>
-    </main>
+        {/* Privacy */}
+        <Section
+          id="privacy"
+          eyebrow="Privacy"
+          title="No recordings. Just the request."
+        >
+          <ul className="reveal-grid grid gap-3 sm:grid-cols-3">
+            <li className="reveal rounded-xl border border-border bg-card p-5">
+              <h3 className="font-medium">Calls aren&apos;t recorded</h3>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Call audio isn&apos;t saved. Speech is turned into text in the
+                moment so the line can understand you.
+              </p>
+            </li>
+            <li className="reveal rounded-xl border border-border bg-card p-5">
+              <h3 className="font-medium">Only what the shop needs</h3>
+              <p className="mt-1 text-sm text-muted-foreground">
+                If you make a request, your first name, number, the time you
+                want, and an optional email go to the shop you chose. Nothing
+                goes to shops that haven&apos;t signed up.
+              </p>
+            </li>
+            <li className="reveal rounded-xl border border-border bg-card p-5">
+              <h3 className="font-medium">It says it&apos;s an AI</h3>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Every call starts by saying you&apos;re talking to an AI
+                assistant. It never pretends to be a person.
+              </p>
+            </li>
+          </ul>
+          <p className="mt-6 max-w-2xl text-sm text-muted-foreground">
+            Before launch, this page will say exactly how long request details
+            are kept. Questions:{" "}
+            <a
+              href={`mailto:${CALL_LINE.email}`}
+              className="font-mono text-primary underline underline-offset-4"
+            >
+              {CALL_LINE.email}
+            </a>
+          </p>
+        </Section>
+
+        {/* FAQ */}
+        <Section id="faq" eyebrow="FAQ" title="Questions people ask">
+          <div className="max-w-3xl divide-y divide-border border-y border-border">
+            {CALL_FAQ.map((f) => (
+              <details key={f.q} className="call-faq group">
+                <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-4 py-4 font-medium">
+                  {f.q}
+                  <span
+                    aria-hidden
+                    className="text-faint transition-transform duration-300 group-open:rotate-45"
+                  >
+                    +
+                  </span>
+                </summary>
+                <p className="pb-5 text-muted-foreground">{f.a}</p>
+              </details>
+            ))}
+          </div>
+          <p className="mt-8 text-sm text-muted-foreground">
+            More about the plan on the{" "}
+            <Link
+              href="/trunk-line"
+              className="text-primary underline underline-offset-4"
+            >
+              trunk line overview
+            </Link>
+            .
+          </p>
+        </Section>
+
+        {/* Phone-first sticky action bar */}
+        <div className="call-bar sticky bottom-0 z-30 border-t border-border px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] md:hidden">
+          <PrimaryCta className="w-full" />
+        </div>
+      </main>
+    </PageTransition>
   );
 }
