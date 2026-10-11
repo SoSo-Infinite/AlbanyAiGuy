@@ -17,8 +17,8 @@ import type { CitySim } from "./sim";
 import { glowMaterial, type HeroTextures } from "./textures";
 
 const POOL = 3;
-const TRAIL = 6;
-const SPARKS = 20;
+const TRAIL = 14;
+const SPARKS = 32;
 
 type Slot = {
   on: boolean;
@@ -84,7 +84,7 @@ function buildLife(textures: HeroTextures): Life {
   const sparkMat = new THREE.PointsMaterial({
     color: "#ffe1a8",
     map: textures.glow,
-    size: 0.16,
+    size: 0.32,
     transparent: true,
     opacity: 0,
     depthWrite: false,
@@ -110,7 +110,13 @@ function buildLife(textures: HeroTextures): Life {
   group.add(phone, check, shake);
   let phoneAge = -1;
   let seenLanding = 0;
-  let ambient = 1.2;
+  let ambient = 3.15;
+  const burst = new THREE.Sprite(glowMaterial(textures.ring, "#fff1c4", 0));
+  mats.push(burst.material);
+  burst.visible = false;
+  burst.renderOrder = 5;
+  group.add(burst);
+  let burstAge = -1;
   let roofCursor = 0;
   const scratch = { x: 0, y: 0, z: 0 };
   const tmp = new THREE.Vector3();
@@ -134,9 +140,9 @@ function buildLife(textures: HeroTextures): Life {
       { x: from.x, y: from.y, z: from.z },
       { x: to.x, y: to.y, z: to.z },
     );
-    slot.ctrl.set(ctrl.x, ctrl.y, ctrl.z);
+    slot.ctrl.set(ctrl.x, ctrl.y + 1.8, ctrl.z);
     const dist = distance3(from, to);
-    slot.dur = clamp(0.55 + dist * 0.06, 0.72, 1.35);
+    slot.dur = clamp(1.15 + dist * 0.07, 1.45, 2.15);
   };
 
   const launchBetweenRoofs = (fromIndex: number) => {
@@ -159,6 +165,9 @@ function buildLife(textures: HeroTextures): Life {
     tick: (sim, dt) => {
       if (sim.landingId !== seenLanding) {
         seenLanding = sim.landingId;
+        burstAge = 0;
+        burst.position.copy(sim.landingPos);
+        burst.visible = true;
         if (sim.landingEffect === "sparks") {
           sparkAge = 0;
           sparks.visible = true;
@@ -194,7 +203,7 @@ function buildLife(textures: HeroTextures): Life {
       }
 
       ambient += dt;
-      if (ambient > 4.8) {
+      if (ambient > 3.4) {
         ambient = 0;
         launchBetweenRoofs(roofCursor);
       }
@@ -211,17 +220,18 @@ function buildLife(textures: HeroTextures): Life {
           writeQuadBezier(scratch, slot.from, slot.ctrl, slot.to, eased);
           place(head, scratch);
           head.visible = true;
-          head.material.opacity = 0.95;
-          head.scale.setScalar(0.2);
+          head.material.opacity = 1;
+          head.scale.setScalar(1.45);
           for (let t = 0; t < TRAIL; t++) {
             const bit = bits[i * TRAIL + t];
             if (!bit) continue;
-            const behind = Math.max(0, eased - (t + 1) * 0.06);
+            const behind = Math.max(0, eased - (t + 1) * 0.05);
             writeQuadBezier(scratch, slot.from, slot.ctrl, slot.to, behind);
             place(bit, scratch);
-            bit.visible = true;
-            bit.material.opacity = (1 - t / TRAIL) * 0.45;
-            bit.scale.setScalar(0.1 * (1 - t / (TRAIL + 1)));
+            bit.visible = behind > 0.02;
+            const fall = 1 - t / TRAIL;
+            bit.material.opacity = fall * 0.95;
+            bit.scale.setScalar(0.85 * fall + 0.12);
           }
           if (p >= 1) {
             slot.on = false;
@@ -281,8 +291,8 @@ function buildLife(textures: HeroTextures): Life {
         const showCheck = phoneAge >= 0.9 && phoneAge < 1.85;
         phone.visible = showPhone;
         check.visible = showCheck;
-        phone.scale.setScalar(0.95 * pop);
-        check.scale.setScalar(0.95 * pop);
+        phone.scale.setScalar(1.85 * pop);
+        check.scale.setScalar(1.85 * pop);
         phone.material.opacity = showPhone
           ? phoneAge < 0.9
             ? 1
@@ -307,6 +317,15 @@ function buildLife(textures: HeroTextures): Life {
           check.visible = false;
           shake.visible = false;
         }
+      }
+
+      if (burstAge >= 0) {
+        burstAge += dt;
+        const p = clamp(burstAge / 0.85, 0, 1);
+        burst.visible = p < 1;
+        burst.scale.setScalar(0.45 + p * 3.1);
+        burst.material.opacity = (1 - p) * 0.95;
+        if (p >= 1) burstAge = -1;
       }
     },
     dispose: () => {

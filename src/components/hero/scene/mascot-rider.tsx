@@ -19,6 +19,28 @@ import { glowMaterial, type HeroTextures } from "./textures";
 const MASCOT_H = 2.35;
 const MASCOT_W = MASCOT_H * (709 / 851);
 const TRAIL = 8;
+const SCREEN_FRACTION = 0.165;
+const HEADER_CLEAR_PX = 72;
+
+const _proj = new THREE.Vector3();
+const _right = new THREE.Vector3();
+const _up = new THREE.Vector3();
+const _world = new THREE.Vector3();
+
+function screenPoint(
+  camera: THREE.Camera,
+  x: number,
+  y: number,
+  z: number,
+  width: number,
+  height: number,
+) {
+  _proj.set(x, y, z).project(camera);
+  return {
+    x: (_proj.x * 0.5 + 0.5) * width,
+    y: (1 - (_proj.y * 0.5 + 0.5)) * height,
+  };
+}
 
 /**
  * The billboard faces the camera because its art front is local +z.
@@ -116,11 +138,62 @@ export function MascotRider({
     }
 
     const bob = Math.sin(sim.time * 2.2) * 0.045;
-    rootGroup.position.set(
+    const cam = state.camera;
+    _world.set(
       current.position.x,
       current.position.y + bob,
       current.position.z,
     );
+    const dist = Math.max(0.5, cam.position.distanceTo(_world));
+    const fov = cam instanceof THREE.PerspectiveCamera ? cam.fov : 40;
+    const visibleH = 2 * Math.tan((fov * Math.PI) / 360) * dist;
+    const scale = (visibleH * SCREEN_FRACTION) / MASCOT_H;
+    const viewW = state.size.width;
+    const viewH = state.size.height;
+    const pxPerWorld = viewH / Math.max(visibleH, 0.001);
+    _right.setFromMatrixColumn(cam.matrixWorld, 0);
+    _up.setFromMatrixColumn(cam.matrixWorld, 1);
+    const placeTop = () =>
+      screenPoint(
+        cam,
+        _world.x,
+        _world.y + MASCOT_H * scale,
+        _world.z,
+        viewW,
+        viewH,
+      );
+    let top = placeTop();
+    if (top.y < HEADER_CLEAR_PX) {
+      _world.addScaledVector(_up, -(HEADER_CLEAR_PX - top.y + 2) / pxPerWorld);
+    }
+    const mid = screenPoint(
+      cam,
+      _world.x,
+      _world.y + MASCOT_H * scale * 0.46,
+      _world.z,
+      viewW,
+      viewH,
+    );
+    const halfW = (MASCOT_W * scale * 0.5 * viewH) / Math.max(visibleH, 0.001);
+    const halfH = (MASCOT_H * scale * 0.5 * viewH) / Math.max(visibleH, 0.001);
+    const zoneR = viewW * 0.5;
+    const zoneT = viewH * 0.68;
+    const zoneB = viewH * 0.98;
+    const overlaps =
+      mid.x + halfW > 0 &&
+      mid.x - halfW < zoneR &&
+      mid.y + halfH > zoneT &&
+      mid.y - halfH < zoneB;
+    if (overlaps) {
+      const push = zoneR - (mid.x - halfW) + 16;
+      if (push > 0) _world.addScaledVector(_right, push / pxPerWorld);
+    }
+    top = placeTop();
+    if (top.y < HEADER_CLEAR_PX) {
+      _world.addScaledVector(_up, -(HEADER_CLEAR_PX - top.y + 2) / pxPerWorld);
+    }
+    rootGroup.position.copy(_world);
+    rootGroup.scale.setScalar(scale);
     const vx = dt > 0 ? (current.position.x - prev.current.x) / dt : 0;
     prev.current.set(
       current.position.x,
@@ -174,8 +247,8 @@ export function MascotRider({
         scratch.current.y,
         scratch.current.z,
       );
-      mat.opacity = (1 - i / TRAIL) * trailAlpha.current * 0.8;
-      const size = 0.16 * (1 - i / (TRAIL + 2));
+      mat.opacity = (1 - i / TRAIL) * trailAlpha.current * 0.85;
+      const size = scale * 0.34 * (1 - i / (TRAIL + 2));
       sprite.scale.setScalar(size);
     }
 
@@ -222,15 +295,15 @@ export function MascotRider({
             >
               <planeGeometry args={[MASCOT_W, MASCOT_H]} />
             </mesh>
+            <sprite
+              position={[0.36, MASCOT_H * 0.72, 0.12]}
+              material={orbMat}
+              scale={[1.05, 1.05, 1]}
+              raycast={() => {}}
+            />
           </group>
         </group>
         <primitive object={vortex.points} />
-        <sprite
-          position={[0, 0.42, 0]}
-          material={orbMat}
-          scale={[0.48, 0.48, 1]}
-          raycast={() => {}}
-        />
         <sprite
           ref={ring}
           position={[0, 1.15, 0]}
@@ -281,7 +354,7 @@ function buildVortex(): {
   geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
   geo.setAttribute("color", new THREE.BufferAttribute(colors, 3));
   const mat = new THREE.PointsMaterial({
-    size: 0.11,
+    size: 0.16,
     vertexColors: true,
     transparent: true,
     depthWrite: false,

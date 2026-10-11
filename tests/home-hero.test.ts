@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync, statSync } from "node:fs";
+import { join } from "node:path";
 import { describe, it } from "node:test";
 import HomePage from "@/app/page";
 import { jsonLdBlocks, renderPage, visibleText } from "./render-page";
@@ -73,5 +74,24 @@ describe("home hero", () => {
       loader,
       /import\(\s*\/\*[^*]*\*\/\s*["']\.\/scene\/hero-canvas["']/,
     );
+  });
+
+  it("does not name a lamp anywhere in src", () => {
+    const root = new URL("../src/", import.meta.url);
+    const files: string[] = [];
+    const walk = (dir: string) => {
+      for (const name of readdirSync(dir)) {
+        const path = join(dir, name);
+        if (statSync(path).isDirectory()) walk(path);
+        else files.push(path);
+      }
+    };
+    walk(root.pathname);
+    const hits: string[] = [];
+    for (const file of files) {
+      const text = readFileSync(file, "utf8");
+      if (/\blamp\b/i.test(text)) hits.push(file);
+    }
+    assert.deepEqual(hits, []);
   });
 });

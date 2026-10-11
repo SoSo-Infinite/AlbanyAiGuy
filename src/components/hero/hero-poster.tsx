@@ -247,49 +247,56 @@ function Capitol({ lm }: { lm: Landmark }) {
 
 function Egg({ lm }: { lm: Landmark }) {
   const base = projectToPoster(lm.position);
-  const body = projectToPoster({
-    x: lm.position.x,
-    y: lm.size.h * 0.62,
-    z: lm.position.z,
-  });
-  const rx = lm.size.w * POSTER.xScale * 0.46 * base.s;
-  const ry = lm.size.h * POSTER.yScale * 0.62 * base.s;
-  const stemTop = body.y + ry * 0.22;
+  const rx = lm.size.w * POSTER.xScale * 0.4 * base.s;
+  const ry = lm.size.h * POSTER.yScale * 0.52 * base.s;
   const foot = base.y;
+  const stemTop = foot - ry * 0.22;
+  const bodyY = stemTop - ry * 0.08;
   return (
     <g>
       <path
-        d={`M ${base.x - rx * 0.42} ${foot}
-            L ${base.x - rx * 0.22} ${stemTop}
-            L ${base.x + rx * 0.22} ${stemTop}
-            L ${base.x + rx * 0.5} ${foot} Z`}
-        fill="#1a2433"
+        d={`M ${base.x - rx * 0.62} ${foot}
+            C ${base.x - rx * 0.34} ${foot - ry * 0.05},
+              ${base.x - rx * 0.22} ${stemTop},
+              ${base.x - rx * 0.16} ${stemTop}
+            L ${base.x + rx * 0.2} ${stemTop}
+            C ${base.x + rx * 0.34} ${stemTop},
+              ${base.x + rx * 0.7} ${foot - ry * 0.02},
+              ${base.x + rx * 0.78} ${foot} Z`}
+        fill="url(#hero-egg-stem)"
       />
-      <g transform={`translate(${body.x} ${body.y}) rotate(-16)`}>
+      <g transform={`translate(${base.x} ${bodyY}) rotate(-18)`}>
         <path
-          d={`M ${-rx} 4 A ${rx} ${ry} 0 0 1 ${rx} 4 Z`}
+          d={`M 0 ${-ry}
+              C ${rx * 0.78} ${-ry * 0.78}, ${rx * 1.02} ${-ry * 0.08}, ${rx * 0.9} ${ry * 0.38}
+              C ${rx * 0.62} ${ry * 0.92}, ${-rx * 0.62} ${ry * 0.92}, ${-rx * 0.9} ${ry * 0.38}
+              C ${-rx * 1.02} ${-ry * 0.08}, ${-rx * 0.78} ${-ry * 0.78}, 0 ${-ry} Z`}
           fill="url(#hero-egg-shade)"
         />
-        {Array.from({ length: 6 }, (_, i) => {
-          const t = (i + 0.5) / 6;
-          const yy = -ry * 0.72 + t * ry * 0.95;
-          const half =
-            Math.sqrt(Math.max(0.15, 1 - (yy / ry) ** 2)) * rx * 0.72;
-          const n = hashUnit(80 + i);
-          return (
-            <rect
-              key={`egg-slit-${yy.toFixed(2)}`}
-              className={`hero-win hero-win-${i % 3 === 0 ? "a" : i % 3 === 1 ? "b" : "c"}`}
-              x={-half}
-              y={yy}
-              width={half * 2}
-              height={Math.max(3, ry * 0.06)}
-              rx={1}
-              fill={n > 0.55 ? "#7eebff" : "#ffc56b"}
-              opacity={0.7}
-            />
-          );
-        })}
+        <ellipse
+          cx={0}
+          cy={ry * 0.58}
+          rx={rx * 0.78}
+          ry={ry * 0.11}
+          fill="#4a4338"
+          opacity={0.9}
+        />
+        <ellipse
+          cx={-rx * 0.22}
+          cy={-ry * 0.42}
+          rx={rx * 0.42}
+          ry={ry * 0.26}
+          fill="#fff4e4"
+          opacity={0.16}
+        />
+        <ellipse
+          cx={0}
+          cy={ry * 0.78}
+          rx={rx * 0.7}
+          ry={ry * 0.16}
+          fill="#f0c27a"
+          opacity={0.28}
+        />
       </g>
     </g>
   );
@@ -302,7 +309,7 @@ function Reflection({ lm }: { lm: Landmark }) {
   return (
     <rect
       x={box.x}
-      y={830}
+      y={POSTER.groundY + 36}
       width={box.w}
       height={h}
       fill="#8ea4c4"
@@ -346,11 +353,22 @@ export function HeroPoster() {
           <stop offset="28%" stopColor="#d5e4f5" stopOpacity="0.35" />
           <stop offset="100%" stopColor="#d5e4f5" stopOpacity="0" />
         </radialGradient>
-        <linearGradient id="hero-egg-shade" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#3a4c66" />
-          <stop offset="55%" stopColor="#243246" />
-          <stop offset="100%" stopColor="#141c2a" />
+        <linearGradient id="hero-egg-shade" x1="0.15" y1="0" x2="0.4" y2="1">
+          <stop offset="0%" stopColor="#f4eee4" />
+          <stop offset="42%" stopColor="#d9d0c2" />
+          <stop offset="78%" stopColor="#b3a894" />
+          <stop offset="100%" stopColor="#7c7264" />
         </linearGradient>
+        <linearGradient id="hero-egg-stem" x1="0" y1="1" x2="0" y2="0">
+          <stop offset="0%" stopColor="#6d6458" />
+          <stop offset="58%" stopColor="#cfc4b2" />
+          <stop offset="100%" stopColor="#f0d7a4" />
+        </linearGradient>
+        <radialGradient id="hero-horizon" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#e0a15a" stopOpacity="0.42" />
+          <stop offset="42%" stopColor="#24507a" stopOpacity="0.28" />
+          <stop offset="100%" stopColor="#24507a" stopOpacity="0" />
+        </radialGradient>
         <linearGradient id="hero-water" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor="#102033" />
           <stop offset="100%" stopColor="#060b12" />
@@ -370,14 +388,27 @@ export function HeroPoster() {
           opacity={star.o}
         />
       ))}
+      <ellipse
+        cx={POSTER.w / 2}
+        cy={POSTER.groundY - 8}
+        rx={860}
+        ry={78}
+        fill="url(#hero-horizon)"
+      />
       <rect
         x={0}
-        y={828}
+        y={POSTER.groundY + 22}
         width={POSTER.w}
-        height={172}
+        height={POSTER.h - POSTER.groundY - 22}
         fill="url(#hero-water)"
       />
-      <rect x={80} y={786} width={POSTER.w - 160} height={48} fill="#121a28" />
+      <rect
+        x={80}
+        y={POSTER.groundY - 6}
+        width={POSTER.w - 160}
+        height={34}
+        fill="#121a28"
+      />
       {ordered.map((lm) => {
         if (lm.kind === "egg") return <Egg key={lm.id} lm={lm} />;
         if (lm.kind === "capitol") return <Capitol key={lm.id} lm={lm} />;

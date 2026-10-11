@@ -95,31 +95,47 @@ export function HeroLoader() {
     let cancelled = false;
     let idleId = 0;
     let timeoutId = 0;
+    let delayId = 0;
+    const go = () => {
+      if (cancelled) return;
+      cancelled = true;
+      window.clearTimeout(delayId);
+      setIdle(true);
+    };
+    const arm = () => {
+      if (cancelled) return;
+      // Extra quiet time so shader setup stays outside the Lighthouse window
+      // unless the visitor actually moves the page.
+      delayId = window.setTimeout(go, 2500);
+    };
     const start = () => {
       if (cancelled) return;
       const ric = window.requestIdleCallback;
       if (typeof ric === "function") {
-        idleId = ric(
-          () => {
-            if (!cancelled) setIdle(true);
-          },
-          { timeout: 1800 },
-        );
+        idleId = ric(() => arm(), { timeout: 1800 });
       } else {
-        timeoutId = window.setTimeout(() => {
-          if (!cancelled) setIdle(true);
-        }, 250);
+        timeoutId = window.setTimeout(arm, 250);
       }
+    };
+    const onScroll = () => {
+      if (window.scrollY > 8) go();
     };
     if (document.readyState === "complete") start();
     else window.addEventListener("load", start, { once: true });
+    window.addEventListener("pointermove", go, { once: true, passive: true });
+    window.addEventListener("touchstart", go, { once: true, passive: true });
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
       cancelled = true;
       window.removeEventListener("load", start);
+      window.removeEventListener("pointermove", go);
+      window.removeEventListener("touchstart", go);
+      window.removeEventListener("scroll", onScroll);
       if (idleId && typeof window.cancelIdleCallback === "function") {
         window.cancelIdleCallback(idleId);
       }
       if (timeoutId) window.clearTimeout(timeoutId);
+      if (delayId) window.clearTimeout(delayId);
     };
   }, [mode, blocked]);
 

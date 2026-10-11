@@ -37,7 +37,7 @@ export const POSTER = {
   /** World y units to poster pixels, before the depth scale. */
   yScale: 42,
   originX: 760,
-  groundY: 808,
+  groundY: 668,
 } as const;
 
 /** Orthographic-ish poster projection. Closer (+z) reads slightly larger. */
@@ -90,7 +90,7 @@ const capitol: Landmark = {
 const egg: Landmark = {
   id: "egg",
   kind: "egg",
-  position: { x: -6.4, y: 0, z: 0.55 },
+  position: { x: -6.15, y: 0, z: 1.2 },
   size: { w: 3.15, h: 3.55, d: 2.25 },
 };
 

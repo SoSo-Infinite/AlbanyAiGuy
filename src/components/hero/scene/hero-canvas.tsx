@@ -4,13 +4,14 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import {
   Component,
   type ReactNode,
+  useCallback,
   useEffect,
   useMemo,
   useRef,
   useState,
 } from "react";
 import * as THREE from "three";
-import { buildCity } from "./city";
+import { createCityBuild } from "./city";
 import { CityLife } from "./city-life";
 import { MascotRider } from "./mascot-rider";
 import { getScene } from "./scenes";
@@ -64,7 +65,14 @@ function SimClock({ sim }: { sim: CitySim }) {
   return null;
 }
 
-const LOOK = new THREE.Vector3(1.2, 6, 0);
+const HOME = {
+  x: 3.1,
+  y: 1.8,
+  z: 32,
+  lx: 1.8,
+  ly: 4.0,
+  lz: -1,
+};
 
 function CameraRig() {
   const fine = useRef(false);
@@ -83,22 +91,61 @@ function CameraRig() {
     const t = state.clock.elapsedTime;
     const raw = stage.current?.style.getPropertyValue("--hero-scroll") ?? "0";
     const progress = Math.min(1, Math.max(0, Number(raw) || 0));
-    const px = fine.current ? state.pointer.x * 0.7 : 0;
-    const py = fine.current ? state.pointer.y * 0.28 : 0;
+    const px = fine.current ? state.pointer.x * 0.45 : 0;
+    const py = fine.current ? state.pointer.y * 0.16 : 0;
     state.camera.position.set(
-      0.2 + Math.sin(t * 0.085) * 0.55 + px,
-      7.4 + Math.sin(t * 0.06) * 0.22 + py + progress * 0.9,
-      24 + progress * 6.2,
+      HOME.x + Math.sin(t * 0.07) * 0.28 + px,
+      HOME.y + Math.sin(t * 0.05) * 0.08 + py + progress * 0.4,
+      HOME.z + progress * 3.2,
     );
-    state.camera.lookAt(LOOK);
+    state.camera.lookAt(HOME.lx + px * 0.1, HOME.ly, HOME.lz);
   });
   return null;
 }
 
-function Skyline({ sim, textures }: { sim: CitySim; textures: HeroTextures }) {
-  const city = useMemo(() => buildCity(getScene(), textures), [textures]);
-  useEffect(() => () => city.dispose(), [city]);
+function Skyline({
+  sim,
+  textures,
+  onBuilt,
+  onFail,
+}: {
+  sim: CitySim;
+  textures: HeroTextures;
+  onBuilt: () => void;
+  onFail: () => void;
+}) {
+  const city = useMemo(() => createCityBuild(getScene(), textures), [textures]);
+  const built = useRef(false);
+  useEffect(() => {
+    let dead = false;
+    let raf = 0;
+    const run = () => {
+      if (dead) return;
+      let done = false;
+      try {
+        done = city.advance();
+      } catch {
+        if (!dead) onFail();
+        return;
+      }
+      if (done) {
+        if (!built.current) {
+          built.current = true;
+          onBuilt();
+        }
+        return;
+      }
+      raf = requestAnimationFrame(run);
+    };
+    raf = requestAnimationFrame(run);
+    return () => {
+      dead = true;
+      cancelAnimationFrame(raf);
+      city.dispose();
+    };
+  }, [city, onBuilt, onFail]);
   useFrame((state, delta) => {
+    if (!built.current) return;
     city.tick(sim, Math.min(delta, 0.05), state.camera);
   });
   return <primitive object={city.group} />;
@@ -108,7 +155,7 @@ function SceneFog() {
   const scene = useThree((state) => state.scene);
   useEffect(() => {
     const prev = scene.fog;
-    scene.fog = new THREE.FogExp2("#102033", 0.032);
+    scene.fog = new THREE.FogExp2("#16304c", 0.016);
     return () => {
       scene.fog = prev;
     };
@@ -116,11 +163,14 @@ function SceneFog() {
   return null;
 }
 
-function LoopGate() {
+function LoopGate({ live }: { live: boolean }) {
   const setFrameloop = useThree((state) => state.setFrameloop);
   useEffect(() => {
     const stage = document.getElementById("home-hero");
-    if (!stage) return;
+    if (!stage || !live) {
+      setFrameloop("never");
+      return;
+    }
     let onScreen = true;
     const sync = () => {
       const hidden = document.visibilityState === "hidden";
@@ -140,17 +190,62 @@ function LoopGate() {
       observer.disconnect();
       document.removeEventListener("visibilitychange", sync);
     };
-  }, [setFrameloop]);
+  }, [setFrameloop, live]);
   return null;
 }
 
-function FirstPaint({ onFirstFrame }: { onFirstFrame: () => void }) {
+function FirstPaint({
+  live,
+  onFirstFrame,
+}: {
+  live: boolean;
+  onFirstFrame: () => void;
+}) {
   const sent = useRef(false);
   useFrame(() => {
-    if (sent.current) return;
+    if (!live || sent.current) return;
     sent.current = true;
     onFirstFrame();
   });
+  return null;
+}
+
+function CompileGate({
+  built,
+  onLive,
+}: {
+  built: boolean;
+  onLive: () => void;
+}) {
+  const gl = useThree((state) => state.gl);
+  const scene = useThree((state) => state.scene);
+  const camera = useThree((state) => state.camera);
+  useEffect(() => {
+    if (!built) return;
+    let dead = false;
+    const cap = window.setTimeout(() => {
+      if (!dead) onLive();
+    }, 2800);
+    const parallel = gl
+      .getContext()
+      .getExtension("KHR_parallel_shader_compile");
+    if (parallel) {
+      gl.compileAsync(scene, camera)
+        .then(() => {
+          if (!dead) onLive();
+        })
+        .catch(() => {
+          if (!dead) onLive();
+        });
+    } else {
+      gl.compile(scene, camera);
+      if (!dead) onLive();
+    }
+    return () => {
+      dead = true;
+      window.clearTimeout(cap);
+    };
+  }, [built, gl, scene, camera, onLive]);
   return null;
 }
 
@@ -158,11 +253,17 @@ function HeroScene({
   sim,
   textures,
   onFirstFrame,
+  onFail,
 }: {
   sim: CitySim;
   textures: HeroTextures;
   onFirstFrame: () => void;
+  onFail: () => void;
 }) {
+  const [built, setBuilt] = useState(false);
+  const [live, setLive] = useState(false);
+  const onBuilt = useCallback(() => setBuilt(true), []);
+  const onLive = useCallback(() => setLive(true), []);
   return (
     <>
       <SimClock sim={sim} />
@@ -170,9 +271,15 @@ function HeroScene({
       <CameraRig />
       <MascotRider sim={sim} textures={textures} />
       <CityLife sim={sim} textures={textures} />
-      <Skyline sim={sim} textures={textures} />
-      <LoopGate />
-      <FirstPaint onFirstFrame={onFirstFrame} />
+      <Skyline
+        sim={sim}
+        textures={textures}
+        onBuilt={onBuilt}
+        onFail={onFail}
+      />
+      <CompileGate built={built} onLive={onLive} />
+      <LoopGate live={live} />
+      <FirstPaint live={live} onFirstFrame={onFirstFrame} />
     </>
   );
 }
@@ -208,7 +315,7 @@ function CanvasInner({ onFirstFrame, onFail }: HeroCanvasProps) {
   return (
     <Canvas
       dpr={[1, 1.5]}
-      frameloop="always"
+      frameloop="never"
       gl={{
         antialias: true,
         alpha: false,
@@ -217,19 +324,25 @@ function CanvasInner({ onFirstFrame, onFail }: HeroCanvasProps) {
         failIfMajorPerformanceCaveat: false,
       }}
       camera={{
-        fov: 38,
+        fov: 40,
         near: 0.1,
-        far: 240,
-        position: [0.2, 7.4, 24],
+        far: 280,
+        position: [HOME.x, HOME.y, HOME.z],
       }}
       style={{ pointerEvents: "inherit" }}
       aria-hidden
-      onCreated={({ gl }) => {
+      onCreated={({ gl, camera }) => {
+        camera.lookAt(HOME.lx, HOME.ly, HOME.lz);
         gl.setClearColor("#070b16", 1);
         gl.outputColorSpace = THREE.SRGBColorSpace;
       }}
     >
-      <HeroScene sim={sim} textures={textures} onFirstFrame={onFirstFrame} />
+      <HeroScene
+        sim={sim}
+        textures={textures}
+        onFirstFrame={onFirstFrame}
+        onFail={onFail}
+      />
     </Canvas>
   );
 }

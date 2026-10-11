@@ -47,6 +47,13 @@ export function chateauRoofGeometry(
 
   const geo = new THREE.BufferGeometry();
   geo.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
+  const uvs = new Float32Array((positions.length / 3) * 2);
+  for (let i = 0; i < positions.length; i += 3) {
+    const vertex = i / 3;
+    uvs[vertex * 2] = (positions[i] ?? 0) / Math.max(w, 0.001) + 0.5;
+    uvs[vertex * 2 + 1] = (positions[i + 1] ?? 0) / Math.max(h, 0.001);
+  }
+  geo.setAttribute("uv", new THREE.Float32BufferAttribute(uvs, 2));
   geo.computeVertexNormals();
   return geo;
 }
