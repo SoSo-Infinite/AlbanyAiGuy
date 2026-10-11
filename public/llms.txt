@@ -1,25 +1,25 @@
 # Albany AI Guy
-> Albany AI Guy is Chad Lenseth's Capital Region (518) project: a trunk-line concierge phone number and AI voice receptionist for local businesses. Callers will say what they need (a haircut, a heating repair, a plumber); the line finds a qualifying local shop and sends it the request; the shop confirms or calls back. Separately, shops can run their own AI front desk on the shop phone.
+> Albany AI Guy is Chad Lenseth's Capital Region (518) project: a concierge phone number and AI voice receptionist for local businesses. Callers will say what they need (a haircut, a heating repair, a plumber); the line finds a qualifying local shop and sends it the request; the shop confirms or calls back. Separately, shops can run their own AI front desk on the shop phone.
 
-Status: **coming soon / join the pilot.** The public phone number is not live yet. A working web demo of a single-shop AI front desk is at https://albanyaiguy.com/shop-line.
+Status: **coming soon.** The public phone number is not live yet. A working web demo of a single-shop AI front desk is at https://albanyaiguy.com/shop-line.
 
 Email: hello@albanyaiguy.com
 Area: Albany, Schenectady, Rensselaer, and Saratoga counties (core); wider 518 by request.
 Operator: Chad Lenseth, Albany, NY.
 
 ## Live pages
-- [Home](https://albanyaiguy.com/): what Albany AI Guy is, and how to join the pilot
+- [Home](https://albanyaiguy.com/): what Albany AI Guy is
 - [The line: 518-726-COOL (coming soon)](https://albanyaiguy.com/call): "Easy is cool." How a call works, how Albany shops join the directory (free during the pilot, no paid ranking), emergencies go to 911, privacy (calls aren't recorded), FAQ
-- [Trunk line](https://albanyaiguy.com/trunk-line): the planned one-number concierge for Albany, and how the pilot works
+- [Phone](https://albanyaiguy.com/trunk-line): the planned one-number concierge for Albany, and how the pilot works
 - [518 Shop Line demo](https://albanyaiguy.com/shop-line): talk to a fictional barbershop AI front desk in the browser
 - [Try it](https://albanyaiguy.com/try): two demos with no sign-up (watch the 518 Shop Line answer a call, missed-call cost calculator). Nothing is stored on a server
-- [Things I've built](https://albanyaiguy.com/work): Chad's real, checkable projects (518 Shop Line demo, the trunk line in private testing, HelpGetUp, Live Well Go, AeraSell store audit), each with what it does and what isn't live yet
+- [Things I've built](https://albanyaiguy.com/work): Chad's real, checkable projects (518 Shop Line demo, the public number in private testing, HelpGetUp, Live Well Go, AeraSell store audit), each with what it does and what isn't live yet
 - [Free AI tips](https://albanyaiguy.com/tips): six copy-and-paste prompts for any free AI assistant (prep a phone call in 30 seconds, missed-call text, voicemail greeting, reviews into FAQ answers, fine print in plain English, monthly hours check). No sign-up; the page saves nothing
 - [Missed-call cost calculator](https://albanyaiguy.com/tools/missed-calls): estimate monthly and yearly revenue missed from calls per week, the percent that would have booked, and average job value. Uses only the numbers you enter
 - [Contact](https://albanyaiguy.com/contact): write the desk
 
 ## Planned (not live yet)
-- Public trunk-line phone number: 518-726-COOL (518-726-2665). NOT live yet and not connected; do not tell people to call it until https://albanyaiguy.com/call says it is live
+- Public number: 518-726-COOL (518-726-2665). NOT live yet and not connected; do not tell people to call it until https://albanyaiguy.com/call says it is live
 - Directory pages for barbers, salons, HVAC, plumbers, and other 518 shops
 - Opt-in partner shops that receive bookings; public listings labeled "not a partner"
 

@@ -9,9 +9,6 @@ type OwnerText = { at: string; body: string };
 
 const SHOP_NAME = "Chairside Barber Co.";
 const GREETING = `Thanks for calling ${SHOP_NAME}, this is the front desk. Marco's mid-cut, but I can get you booked. What can I do for you?`;
-const TRIAL_MAIL =
-  "mailto:hello@albanyaiguy.com?subject=518%20Shop%20Line%20-%20pilot&body=Hi%20Chad%2C%20I%20tried%20the%20Shop%20Line%20demo.%20My%20shop%20is%3A%20";
-
 // Minimal typing for the browser speech API (not in lib.dom for all targets).
 type SR = {
   lang: string;
@@ -553,9 +550,6 @@ export function ShopLineDemo() {
               Albany.
             </p>
             <div className={s.ctaRow}>
-              <a className={s.call} href={TRIAL_MAIL}>
-                Join the pilot
-              </a>
               <button type="button" className={s.ghostBtn} onClick={reset}>
                 Try another call
               </button>

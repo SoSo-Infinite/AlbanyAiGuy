@@ -2,7 +2,7 @@
 export const CONTACT_NAV_LABEL = "Contact";
 
 export const NAV_LINKS = [
-  { href: "/trunk-line", label: "Trunk line" },
+  { href: "/trunk-line", label: "Phone" },
   { href: "/#receptionist", label: "AI receptionist" },
   { href: "/shop-line", label: "Demo" },
   { href: "/try", label: "Try" },

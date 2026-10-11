@@ -4,10 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { MobileMenu } from "@/components/mobile-menu";
-import { Button } from "@/components/ui/button";
 import { NAV_LINKS } from "@/lib/nav";
-import { useAppSession } from "@/lib/store";
-import { useHydrated } from "@/lib/use-hydrated";
 import { cn } from "@/lib/utils";
 
 function Clock() {
@@ -50,9 +47,6 @@ function Clock() {
 }
 
 export function SiteHeader() {
-  const hydrated = useHydrated();
-  const session = useAppSession((s) => s.session);
-  const live = hydrated && session;
   const pathname = usePathname();
   const isHome = pathname === "/";
   const [overHero, setOverHero] = useState(isHome);
@@ -111,22 +105,8 @@ export function SiteHeader() {
 
         <div className="flex items-center gap-3">
           <Clock />
-          {live ? (
-            <Button asChild size="sm">
-              <Link href="/console">Console</Link>
-            </Button>
-          ) : (
-            <Button
-              asChild
-              size="sm"
-              variant="outline"
-              className="hidden sm:inline-flex"
-            >
-              <a href="/#pilot">Join the pilot</a>
-            </Button>
-          )}
 
-          <MobileMenu links={[...NAV_LINKS]} showConsole={Boolean(live)} />
+          <MobileMenu links={[...NAV_LINKS]} showConsole={false} />
         </div>
       </div>
     </header>

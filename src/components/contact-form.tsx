@@ -125,7 +125,7 @@ export function ContactForm() {
           maxLength={800}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          placeholder="The trunk line, an AI receptionist for your shop, or joining the pilot?"
+          placeholder="The public number, an AI receptionist for your shop, or joining the pilot?"
         />
       </div>
 

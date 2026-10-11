@@ -12,26 +12,23 @@ describe("home and referral copy make no payout promise", () => {
     const text = visibleText(renderPage(HomePage));
     assert.match(
       text,
-      /Albany's trunk-line concierge and AI voice receptionist for local businesses/,
+      /Albany's concierge and AI voice receptionist for local businesses/,
     );
     // The home intro greeting paragraph was removed (Chad, 2026-10-11).
     assert.equal(text.includes("I'm Chad Lenseth, the Albany AI Guy"), false);
     assert.match(text, /The public number isn't live yet/);
-    assert.match(
-      text,
-      /You won't see customer counts or testimonials here yet, because there aren't any/,
-    );
+    // Status, about, and all FAQ items but the service area were removed (Chad, 2026-10-11).
+    assert.equal(text.includes("You won't see customer counts"), false);
     assert.match(text, /Coming soon/);
 
-    const emergency = HOME_FAQ.find(
-      (item) => item.q === "Is it for emergencies?",
+    assert.deepEqual(
+      HOME_FAQ.map((item) => item.q),
+      ["Which areas does it cover?"],
     );
-    assert.ok(emergency);
     assert.equal(
-      emergency.a,
-      "No. For medical, fire, or police emergencies call 911. If you smell gas, leave first, then call 911 or your gas utility's emergency line.",
+      HOME_FAQ[0].a,
+      "Albany, Schenectady, Rensselaer, and Saratoga counties first, then the wider 518 by request.",
     );
-    assert.match(text, /call 911/);
 
     assert.equal(text.includes("$"), false);
     assert.equal(/\bpayout\b/i.test(text), false);
@@ -46,8 +43,7 @@ describe("home and referral copy make no payout promise", () => {
       text,
       /Albany AI Guy doesn't have a public referral program right now, so this link doesn't earn or pay anything/,
     );
-    assert.match(text, /you can still join the pilot/);
-    assert.match(text, /Join the pilot/);
+    assert.equal(/join the pilot/i.test(text), false);
     assert.match(text, /Home/);
 
     assert.equal(text.includes("$"), false);

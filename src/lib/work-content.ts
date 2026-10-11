@@ -31,7 +31,7 @@ export const WORK: WorkItem[] = [
   },
   {
     id: "trunk-line",
-    name: "The Albany trunk line (518-726-COOL)",
+    name: "The public number (518-726-COOL)",
     status: "In private testing",
     href: "/call",
     external: false,

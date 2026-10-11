@@ -11,7 +11,7 @@ import { HOW_I_BUILD, WORK, WORK_JSON_LD } from "@/lib/work-content";
 
 const TITLE = "Things I’ve built";
 const DESCRIPTION =
-  "Real tools Chad Lenseth, the Albany AI Guy, has built for the Capital Region: a barbershop AI front-desk demo, the 518 trunk line in testing, HelpGetUp, Live Well Go and the AeraSell store audit.";
+  "Real tools Chad Lenseth, the Albany AI Guy, has built for the Capital Region: a barbershop AI front-desk demo, the public number in testing, HelpGetUp, Live Well Go and the AeraSell store audit.";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -26,8 +26,6 @@ export const metadata: Metadata = {
     image: { url: "/og.jpg", width: 1200, height: 630, alt: "Albany AI Guy" },
   }),
 };
-
-const PILOT_MAILTO = `mailto:hello@albanyaiguy.com?subject=${encodeURIComponent("Albany AI Guy pilot")}`;
 
 export default function WorkPage() {
   return (
@@ -144,9 +142,6 @@ export default function WorkPage() {
               ))}
             </Reveal>
             <div className="mt-10 flex flex-wrap gap-3">
-              <Button asChild size="lg">
-                <a href={PILOT_MAILTO}>Join the pilot</a>
-              </Button>
               <Button asChild size="lg" variant="outline">
                 <Link href="/contact">Ask me a question</Link>
               </Button>

@@ -5,18 +5,9 @@ import { describe, it } from "node:test";
 import HomePage from "@/app/page";
 import { jsonLdBlocks, renderPage, visibleText } from "./render-page";
 
-const H1 =
-  "Albany's trunk-line concierge and AI voice receptionist for local businesses";
+const H1 = "Albany's concierge and AI voice receptionist for local businesses";
 
-const SECTION_ORDER = [
-  "intro",
-  "trunk-line",
-  "receptionist",
-  "status",
-  "about",
-  "faq",
-  "pilot",
-];
+const SECTION_ORDER = ["intro", "trunk-line", "receptionist", "faq", "pilot"];
 
 function source(path: string): string {
   return readFileSync(new URL(`../${path}`, import.meta.url), "utf8");
@@ -45,6 +36,17 @@ describe("home hero", () => {
     const ids = [...html.matchAll(/\sid="([^"]+)"/g)].map((match) => match[1]);
     const found = ids.filter((id) => SECTION_ORDER.includes(id ?? ""));
     assert.deepEqual(found, SECTION_ORDER);
+  });
+
+  it("has no contact banner, status, about, or pilot CTA (Chad, 2026-10-11)", () => {
+    const text = visibleText(html);
+    assert.equal(/trunk/i.test(text), false);
+    assert.equal(/join the pilot/i.test(text), false);
+    assert.equal(text.includes("Contact me for help with veterans"), false);
+    assert.equal(text.includes("Where things stand"), false);
+    assert.equal(text.includes("Straight answer"), false);
+    assert.equal(text.includes("Who's behind it"), false);
+    assert.match(text, /Which areas does it cover\?/);
   });
 
   it("renders the mascot as a decorative image", () => {

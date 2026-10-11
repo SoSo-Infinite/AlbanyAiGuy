@@ -32,11 +32,11 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://albanyaiguy.com"),
   title: {
     default:
-      "Albany AI Guy | Albany trunk line & AI voice receptionist for local businesses",
+      "Albany AI Guy | Albany concierge & AI voice receptionist for local businesses",
     template: "%s | Albany AI Guy",
   },
   description:
-    "One local number for Albany, NY, and an AI phone receptionist that answers and books for Capital Region shops. Coming soon — join the pilot.",
+    "One local number for Albany, NY, and an AI phone receptionist that answers and books for Capital Region shops. Coming soon.",
   applicationName: "Albany AI Guy",
   authors: [
     {
@@ -52,13 +52,13 @@ export const metadata: Metadata = {
     url: "https://albanyaiguy.com/",
     title: "Albany AI Guy",
     description:
-      "Albany trunk-line concierge and AI voice receptionist for local businesses. Coming soon — join the pilot.",
+      "Albany concierge and AI voice receptionist for local businesses. Coming soon.",
     images: [
       {
         url: "/og.jpg",
         width: 1200,
         height: 630,
-        alt: "Albany AI Guy — coming soon, join the pilot",
+        alt: "Albany AI Guy — coming soon",
       },
     ],
   },
@@ -66,7 +66,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Albany AI Guy",
     description:
-      "Albany trunk-line concierge and AI voice receptionist for local businesses. Coming soon — join the pilot.",
+      "Albany concierge and AI voice receptionist for local businesses. Coming soon.",
     images: ["/og.jpg"],
   },
   robots: { index: true, follow: true },

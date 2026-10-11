@@ -9,7 +9,7 @@ import { socialMeta } from "@/lib/social";
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Contact Albany AI Guy (Chad Lenseth) about the Albany trunk line, an AI voice receptionist for your shop, or joining the pilot. hello@albanyaiguy.com",
+    "Contact Albany AI Guy (Chad Lenseth) about the public number, an AI voice receptionist for your shop, or joining the pilot. hello@albanyaiguy.com",
   alternates: { canonical: "/contact" },
   ...socialMeta({
     type: "website",
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
       url: "/og.jpg",
       width: 1200,
       height: 630,
-      alt: "Albany AI Guy — coming soon, join the pilot",
+      alt: "Albany AI Guy — coming soon",
     },
   }),
 };
@@ -40,9 +40,9 @@ export default function ContactPage() {
               Contact Albany AI Guy
             </h1>
             <p className="mt-3 text-muted-foreground">
-              Questions about the trunk line, an AI receptionist for your shop,
-              or joining the pilot? This form opens a draft in your own email
-              app, addressed to{" "}
+              Questions about the public number, an AI receptionist for your
+              shop, or joining the pilot? This form opens a draft in your own
+              email app, addressed to{" "}
               <a
                 href="mailto:hello@albanyaiguy.com"
                 className="font-mono text-primary underline-offset-4 hover:underline"

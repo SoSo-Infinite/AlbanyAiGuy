@@ -16,7 +16,7 @@ export const SITE_JSON_LD = {
         url: "https://www.linkedin.com/in/chad-lenseth-26b55938",
       },
       description:
-        "Albany trunk-line concierge and AI voice receptionist for Capital Region local businesses. Coming soon — join the pilot.",
+        "Albany concierge and AI voice receptionist for Capital Region local businesses. Coming soon.",
       areaServed: [
         { "@type": "AdministrativeArea", name: "Albany County, NY" },
         { "@type": "AdministrativeArea", name: "Schenectady County, NY" },
@@ -36,7 +36,7 @@ export const SITE_JSON_LD = {
           "@type": "Offer",
           itemOffered: {
             "@type": "Service",
-            name: "Trunk-line concierge (coming soon)",
+            name: "Concierge (coming soon)",
             serviceType: "Concierge booking by phone",
             description:
               "One local number that sends your request to a well-rated Capital Region shop. Pilot stage — number not live yet.",

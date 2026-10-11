@@ -23,13 +23,9 @@ export default function ReferralLinkPage() {
         </h1>
         <p className="mt-3 text-muted-foreground">
           Albany AI Guy doesn&apos;t have a public referral program right now,
-          so this link doesn&apos;t earn or pay anything. If you run an
-          Albany-area shop, you can still join the pilot.
+          so this link doesn&apos;t earn or pay anything.
         </p>
         <div className="mt-6 flex flex-wrap gap-2">
-          <Button asChild>
-            <Link href="/#pilot">Join the pilot</Link>
-          </Button>
           <Button asChild variant="outline">
             <Link href="/">Home</Link>
           </Button>

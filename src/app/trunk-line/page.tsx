@@ -9,28 +9,27 @@ import { Button } from "@/components/ui/button";
 import { socialMeta } from "@/lib/social";
 
 export const metadata: Metadata = {
-  title:
-    "The Albany trunk line: one number to find and book local shops (coming soon)",
+  title: "One number to find and book local shops (coming soon)",
   description:
-    "One local number for Albany, Schenectady, Troy, and Saratoga. Say what you need and the line sends your request to a well-rated local shop. Coming soon — join the pilot.",
+    "One local number for Albany, Schenectady, Troy, and Saratoga. Say what you need and the line sends your request to a well-rated local shop. Coming soon.",
   alternates: { canonical: "/trunk-line" },
   ...socialMeta({
     type: "website",
     siteName: "Albany AI Guy",
     url: "https://albanyaiguy.com/trunk-line",
-    title: "The Albany trunk line (coming soon)",
+    title: "One number to find and book local shops (coming soon)",
     description:
-      "One local number to find and book Capital Region shops. Coming soon — join the pilot.",
+      "One local number to find and book Capital Region shops. Coming soon.",
     image: {
       url: "/og.jpg",
       width: 1200,
       height: 630,
-      alt: "Albany AI Guy — coming soon, join the pilot",
+      alt: "Albany AI Guy — coming soon",
     },
   }),
 };
 
-const PILOT_MAILTO = `mailto:hello@albanyaiguy.com?subject=${encodeURIComponent("Albany trunk line pilot")}`;
+const PILOT_MAILTO = `mailto:hello@albanyaiguy.com?subject=${encodeURIComponent("Albany AI Guy pilot")}`;
 
 const STEPS = [
   {
@@ -64,7 +63,7 @@ export default function TrunkLinePage() {
           <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
             <Badge>Coming soon · Pilot forming now</Badge>
             <h1 className="mt-5 max-w-4xl font-display text-display">
-              The Albany trunk line: one number to find and book a local shop
+              One number to find and book a local shop
             </h1>
             <p className="mt-5 max-w-2xl text-lg text-muted-foreground">
               A concierge phone line for the 518. Call, say what you need, and
@@ -152,13 +151,10 @@ export default function TrunkLinePage() {
                 className="font-mono text-primary underline-offset-4 hover:underline"
               >
                 hello@albanyaiguy.com
-              </a>{" "}
-              to join the pilot.
+              </a>
+              .
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <Button asChild size="lg">
-                <a href={PILOT_MAILTO}>Join the pilot</a>
-              </Button>
               <Button asChild size="lg" variant="outline">
                 <Link href="/">Back to home</Link>
               </Button>

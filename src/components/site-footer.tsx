@@ -10,8 +10,8 @@ export function SiteFooter() {
         <div>
           <p className="font-display text-lg">Albany AI Guy</p>
           <p className="mt-1 max-w-sm text-sm text-muted-foreground">
-            Albany trunk-line concierge and AI voice receptionist for Capital
-            Region businesses. Coming soon — join the pilot.
+            Albany concierge and AI voice receptionist for Capital Region
+            businesses. Coming soon.
           </p>
         </div>
         <p className="font-mono text-xs text-muted-foreground">

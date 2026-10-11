@@ -374,7 +374,7 @@ export default function CallPage() {
               href="/trunk-line"
               className="text-primary underline underline-offset-4"
             >
-              trunk line overview
+              public number overview
             </Link>
             .
           </p>
