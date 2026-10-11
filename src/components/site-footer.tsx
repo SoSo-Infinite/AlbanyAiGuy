@@ -18,6 +18,10 @@ export function SiteFooter() {
             className="hover:text-foreground"
           >
             hello@albanyaiguy.com
+          </a>{" "}
+          ·{" "}
+          <a href="/privacy" className="hover:text-foreground">
+            Privacy
           </a>
         </p>
       </div>

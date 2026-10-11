@@ -32,6 +32,7 @@ const PUBLIC_PATHS = [
   "/work",
   "/tips",
   "/tools/missed-calls",
+  "/privacy",
   "/contact",
 ];
 
