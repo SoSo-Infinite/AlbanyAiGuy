@@ -693,6 +693,17 @@ a:not(.hero-try):not([class~="bg-primary"]):not([class~="bg-secondary"]):not(
   pointer-events: none;
 }
 
+/* Wide desktops were slicing the viewBox down to window rows. Match the
+   phone behavior: the box is at least as tall as the skyline, so tower tops
+   stay in frame from 1280px through 1920px. */
+@media (min-width: 1280px) {
+  .page-band {
+    height: auto;
+    aspect-ratio: 1600 / 224;
+    max-height: 17.5rem;
+  }
+}
+
 .page-band-svg,
 .footer-skyline-svg {
   display: block;
@@ -1196,6 +1207,11 @@ a:not(.hero-try):not([class~="bg-primary"]):not([class~="bg-secondary"]):not(
   .band-twinkle-b,
   .band-twinkle-c,
   .band-arc,
+  .try-moon,
+  .try-streaks span,
+  .try-mic-ring,
+  .try-hero .hero-win,
+  .try-hero .hero-arc,
   .mascot-arrive,
   .mascot-idle,
   .mascot-glow,
@@ -1239,5 +1255,518 @@ a:not(.hero-try):not([class~="bg-primary"]):not([class~="bg-secondary"]):not(
     animation-duration: 0s !important;
     /* biome-ignore lint/complexity/noImportantStyles: route motion must not run when the visitor asked for less motion */
     animation-delay: 0s !important;
+  }
+}
+
+/* /try hero. Same poster as home, sized as a page band, never WebGL. */
+
+.try-hero.hero-stage {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: auto;
+  min-height: 28rem;
+  color: #f4f7fb;
+}
+
+.try-hero-copy {
+  position: relative;
+  z-index: 3;
+  width: min(72rem, 100%);
+  margin: 0 auto;
+  padding: 2.5rem 1rem 1.75rem;
+}
+
+.try-promises {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1.25rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.try-promise {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.5rem;
+  padding: 0.35rem 0.9rem;
+  border: 1px solid rgba(126, 200, 227, 0.55);
+  border-radius: 999px;
+  background: rgba(8, 18, 32, 0.72);
+  color: #f4f7fb;
+  font-size: 0.95rem;
+  font-weight: 600;
+  box-shadow:
+    0 0 0 1px rgba(224, 176, 58, 0.28),
+    0 0 22px rgba(0, 200, 240, 0.28);
+}
+
+.try-moon {
+  position: absolute;
+  top: 16.8%;
+  left: 74.25%;
+  width: 12%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(247, 243, 232, 0.55),
+    transparent 68%
+  );
+  opacity: 0;
+  pointer-events: none;
+}
+
+.try-streaks {
+  position: absolute;
+  right: 6%;
+  bottom: 16%;
+  left: 6%;
+  height: 12%;
+  pointer-events: none;
+}
+
+.try-streaks span {
+  position: absolute;
+  left: -30%;
+  width: 34%;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(154, 246, 255, 0.9),
+    transparent
+  );
+  opacity: 0;
+}
+
+.try-streaks span:nth-child(1) {
+  top: 10%;
+}
+
+.try-streaks span:nth-child(2) {
+  top: 46%;
+  width: 46%;
+}
+
+.try-streaks span:nth-child(3) {
+  top: 78%;
+  width: 28%;
+}
+
+.try-hero .hero-mascot .mascot-spot {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: clamp(120px, 18cqw, 210px);
+  height: auto;
+  aspect-ratio: 160 / 192;
+  transform: translateX(-50%);
+}
+
+.try-hero .mascot-spot img {
+  width: 100%;
+  height: auto;
+}
+
+.try-talk {
+  padding: 1.25rem 0 0.25rem;
+}
+
+.try-talk-grid {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.try-talk-card {
+  display: flex;
+  width: 100%;
+  min-height: 5.75rem;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  background: var(--color-card);
+  color: var(--color-foreground);
+  text-align: left;
+  box-shadow:
+    0 0 0 1px rgba(126, 200, 227, 0.16),
+    0 12px 32px rgba(0, 0, 0, 0.28);
+}
+
+.try-talk-card:focus-visible {
+  outline: 3px solid var(--color-ring);
+  outline-offset: 3px;
+}
+
+.try-talk-title {
+  min-width: 0;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(1.15rem, 1rem + 0.6vw, 1.45rem);
+  line-height: 1.2;
+}
+
+.try-talk-affordance {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 2.75rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+  background: #e0b03a;
+  color: #1a1203;
+  font-weight: 700;
+}
+
+.try-mic-icon {
+  display: block;
+}
+
+.try-dialog {
+  width: min(40rem, calc(100vw - 1.5rem));
+  max-height: min(92svh, 46rem);
+  margin: auto;
+  padding: 0;
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  background: var(--color-card);
+  color: var(--color-foreground);
+}
+
+.try-dialog::backdrop {
+  background: rgba(5, 8, 16, 0.72);
+}
+
+.try-dialog-body {
+  display: flex;
+  max-height: min(92svh, 46rem);
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem;
+}
+
+.try-dialog-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.try-dialog-head h2 {
+  margin: 0;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.35rem;
+  line-height: 1.2;
+}
+
+.try-dialog-head h2:focus {
+  outline: 3px solid var(--color-ring);
+  outline-offset: 3px;
+}
+
+.try-end,
+.try-send {
+  min-height: 2.75rem;
+  padding: 0.4rem 0.9rem;
+  border: 0;
+  border-radius: 999px;
+  background: #e0b03a;
+  color: #1a1203;
+  font-weight: 700;
+}
+
+.try-end:focus-visible,
+.try-send:focus-visible,
+.try-prep-link:focus-visible,
+.try-compose-input:focus-visible {
+  outline: 3px solid var(--color-ring);
+  outline-offset: 2px;
+}
+
+.try-mic {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-height: 2.5rem;
+}
+
+.try-mic-ring {
+  width: 1.35rem;
+  height: 1.35rem;
+  border: 2px solid rgba(126, 200, 227, 0.85);
+  border-radius: 50%;
+}
+
+.try-status {
+  margin: 0;
+  min-height: 1.25rem;
+  font-weight: 600;
+}
+
+.try-notice {
+  margin: 0;
+}
+
+.try-log {
+  display: flex;
+  max-height: 16rem;
+  flex-direction: column;
+  gap: 0.55rem;
+  overflow: auto;
+  margin: 0;
+  padding: 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.75rem;
+  background: var(--color-background);
+}
+
+.try-log p {
+  margin: 0;
+}
+
+.try-who {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-faint);
+}
+
+.try-log .is-interim {
+  opacity: 0.7;
+}
+
+.try-result {
+  margin: 0;
+  padding: 0.75rem;
+  border: 1px solid rgba(126, 200, 227, 0.35);
+  border-radius: 0.75rem;
+}
+
+.try-result p,
+.try-result ol {
+  margin: 0.35rem 0 0;
+}
+
+.try-result p:first-child,
+.try-result ol:first-child {
+  margin-top: 0;
+}
+
+.try-result-figure {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.6rem;
+}
+
+.try-prep-link {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  margin-top: 0.5rem;
+  color: var(--color-primary);
+}
+
+.try-compose {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.try-compose-label {
+  grid-column: 1 / -1;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.try-compose-input {
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.75rem;
+  background: var(--color-background);
+  color: var(--color-foreground);
+}
+
+.try-send:disabled {
+  opacity: 0.4;
+}
+
+@media (max-width: 379px) {
+  .try-hero .hero-mascot .mascot-spot {
+    display: block;
+    width: 96px;
+  }
+}
+
+@media (min-width: 768px) {
+  .try-hero.hero-stage {
+    min-height: 36rem;
+  }
+
+  .try-hero-copy {
+    padding-right: 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .try-talk-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .try-mic.is-listening .try-mic-ring,
+  .try-mic.is-talking .try-mic-ring {
+    animation: try-level 1.15s ease-in-out infinite;
+  }
+
+  .try-mic.is-thinking .try-mic-ring {
+    animation: try-level 1.6s ease-in-out infinite;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) and (max-width: 767px) {
+  .try-hero[data-motion="phone"] .hero-win-a {
+    animation: hero-twinkle 5.4s ease-in-out infinite;
+  }
+
+  .try-hero[data-motion="phone"] .hero-win-b {
+    animation: hero-twinkle 6.2s ease-in-out infinite 0.7s;
+  }
+
+  .try-hero[data-motion="phone"] .hero-win-c {
+    animation: hero-twinkle 4.8s ease-in-out infinite 1.3s;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) and (min-width: 768px) {
+  .try-hero[data-motion="desk"] .hero-win-a {
+    animation: hero-twinkle 5.4s ease-in-out infinite;
+  }
+
+  .try-hero[data-motion="desk"] .hero-win-b {
+    animation: hero-twinkle 6.2s ease-in-out infinite 0.7s;
+  }
+
+  .try-hero[data-motion="desk"] .hero-win-c {
+    animation: hero-twinkle 4.8s ease-in-out infinite 1.3s;
+  }
+
+  .try-hero[data-motion="desk"] .hero-arc {
+    opacity: 0.85;
+    stroke-dasharray: 7 93;
+    animation: hero-dash 4.4s ease-in-out infinite;
+  }
+
+  .try-hero[data-motion="desk"] .hero-arc-b {
+    animation-delay: 1.4s;
+  }
+
+  .try-hero[data-motion="desk"] .hero-arc-c {
+    animation-delay: 2.6s;
+  }
+
+  .try-hero[data-motion="desk"] .try-moon {
+    opacity: 1;
+    animation: try-moon-glow 6.5s ease-in-out infinite;
+  }
+
+  .try-hero[data-motion="desk"] .try-streaks span {
+    opacity: 0.9;
+    animation: try-streak 7.5s linear infinite;
+  }
+
+  .try-hero[data-motion="desk"] .try-streaks span:nth-child(2) {
+    animation-duration: 9s;
+    animation-delay: -2s;
+  }
+
+  .try-hero[data-motion="desk"] .try-streaks span:nth-child(3) {
+    animation-duration: 6s;
+    animation-delay: -4s;
+  }
+
+  .try-talk-card {
+    transition:
+      transform 180ms ease,
+      border-color 180ms ease;
+  }
+
+  .try-talk-card:hover,
+  .try-talk-card:focus-visible {
+    transform: translateY(-3px);
+    border-color: rgba(126, 200, 227, 0.7);
+  }
+}
+
+@keyframes try-moon-glow {
+  0%,
+  100% {
+    opacity: 0.45;
+    filter: drop-shadow(0 0 0 rgba(247, 243, 232, 0));
+  }
+
+  50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 16px rgba(247, 243, 232, 0.85));
+  }
+}
+
+@keyframes try-streak {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(280%);
+  }
+}
+
+@keyframes try-level {
+  0%,
+  100% {
+    transform: scale(0.84);
+    opacity: 0.45;
+  }
+
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Reviewer fix (Q18c): keep the moon glow, streaks and mascot registered to
+   the poster. On wide screens the box follows the hero height (same 1.6
+   ratio as the SVG) instead of being squeezed by max-height. On phones the
+   skyline sits above the copy so the mascot never covers the badge. */
+@media (min-width: 768px) {
+  .try-hero .hero-fit {
+    width: auto;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .try-hero .hero-fit {
+    top: 3.5rem;
+    transform: translateX(-50%);
+  }
+
+  .try-hero-copy {
+    padding-top: calc(62.5vw + 4rem);
   }
 }

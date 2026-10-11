@@ -1,3 +1,27 @@
+# Packet Q18c — /try voice hero (2026-10-11)
+
+Rebuilt the top of `/try` in the same Albany night as the home hero, and added four talk-now buttons. The sections under those buttons are unchanged: video, calculator, call-prep prompt, hear-your-shop form, and Contact. Metadata is unchanged. `/shop-line`, `/api`, and `src/lib/shop-line` were not edited.
+
+## What was built
+- `/try` hero reuses `HeroPoster` (Egg, agency towers, Corning Tower, Smith building, Capitol, moon, river) plus the whirlwind mascot cutout. Motion is CSS only. Desktop (`data-motion="desk"`, 768px and up) twinkles windows, dashes the roof arcs, pulses the moon, and runs river light streaks. Phones use opacity twinkle and the existing mascot float (transform and opacity). `prefers-reduced-motion: reduce` leaves the still poster and mascot image, with those animations forced off. No three.js and no `HeroLoader` on this route. The Q18b page band is not rendered on `/try`.
+- Four glow pills, exact text: "Try it in 10 seconds", "4 demos", "No signup", "Nothing you say is saved". The h1, the Albany badge, and the sentence "Four demos. No sign-up, and nothing is stored." stay.
+- Four large buttons, in `TRY_DEMOS` order, each with the demo title and a "Talk now" label plus an inline mic SVG. Pressing one opens a modal dialog, focuses the title, and starts the shared script.
+- Voice tech: the browser Web Speech API (`SpeechRecognition` / `webkitSpeechRecognition` and `speechSynthesis`), same voice list as the shop-line demo, copied into `src/components/try-voice/try-talk.tsx`. Helpers and the four flows live in `src/lib/try-voice/`. Nothing a visitor says or types is written to storage. The text field and Send button are always in the panel. If recognition is missing or the mic is blocked, the panel says so and keeps the text field. If speech synthesis is missing, the agent lines stay on screen and are not spoken.
+- Shared script: "Let's make Albany easier." Then, after about 6 seconds with no final transcript, "No rush. Are you just browsing, or is there something specific on your mind?" A browsing reply (browsing, just looking, looking around, just browsing, not sure, nothing) gets the barber-booking example, then the demo's own questions. Any other reply goes straight into that demo.
+- Shop line posts `{ messages, taken }` to `/api/shop-line` and speaks the reply. A returned booking is shown as a demo summary and is not described as a real appointment or a sent text. Missed calls asks for the three calculator inputs, parses spoken numbers, and uses `estimateMissedCalls` / `formatWholeDollars`. Call prep asks who and what, then builds a local script and exactly three questions, and links out with `CALL_PREP_URL` (new tab, `noopener`). Hear your shop asks for a name, an optional service, and optional hours, then speaks `buildShopGreeting`.
+- Page band fix (all pages that use it): from 1280px wide the strip's box is at least as tall as the skyline drawing, so tower tops stay visible through 1920px. It stays CSS-only and `aria-hidden`. Phones keep the previous short height.
+
+## Reviewer fixes
+- Talk-now cards and the dialog title use the short demo labels (Shop line, Missed calls, Call prep, Hear your shop).
+- /try hero overlays (moon glow, streaks, mascot) stay registered to the poster on desktop; on phones the skyline and mascot sit above the copy.
+- Transcript auto-scrolls; a speech watchdog keeps the session moving if speechSynthesis never fires onend; interim speech cancels the silence prompt.
+
+## Limits
+- The hero mascot is the 360 webp cutout (`alt=""`, lazy, 160 by 192). The existing site-motion test rejects a 709 src on this page, so the hero does not use the 709 file.
+- Shop-line replies are whatever `/api/shop-line` returns. The panel speaks that reply, then adds a demo summary that says it is not a real appointment and that no text is sent.
+- Speech recognition needs a Chromium browser (or a stub). Firefox gets the type-in fallback. The silence prompt does not repeat.
+- Desktop moon glow and river streaks start after hydration, when `data-motion` is set. Before that, and whenever motion is reduced, the poster is still.
+
 # Packet Q18b — site-wide motion (2026-10-11)
 
 Same visual language as the home hero, on the rest of the site. No copy, links, form fields, prices, or legal text changed. The home hero scene, its tests, and `/shop-line` are unchanged.

@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { CopyPrompt } from "@/components/copy-prompt";
 import { MissedCallCalculator } from "@/components/missed-call-calculator";
-import { MascotSpot } from "@/components/motion/mascot-spot";
-import { PageBand } from "@/components/motion/page-band";
 import { PageTransition } from "@/components/motion/page-transition";
 import { Reveal } from "@/components/motion/reveal";
+import { TryHero } from "@/components/try-voice/try-hero";
+import { TryTalk } from "@/components/try-voice/try-talk";
 import { Badge } from "@/components/ui/badge";
 import { MISSED_CALL_DEFAULTS } from "@/lib/missed-calls";
 import { CONTACT_NAV_LABEL } from "@/lib/nav";
@@ -54,37 +54,44 @@ export default function TryPage() {
   return (
     <PageTransition>
       <main className="site-main">
-        <PageBand />
-        <Reveal
-          as="section"
-          className="relative overflow-hidden pt-12 pb-10 sm:pt-20 sm:pb-14"
-        >
-          <div className="pointer-events-none absolute inset-0 grid-bg" />
-          <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
-            <Badge>Albany, NY · 518 · Demos</Badge>
-            <h1 className="mt-5 max-w-3xl font-display text-display">
-              {TITLE}
-            </h1>
-            <p className="mt-5 max-w-2xl text-lg text-muted-foreground">
-              Four demos. No sign-up, and nothing is stored.
-            </p>
-            <div className="mt-6 flex items-end justify-between gap-6">
-              <nav aria-label="Demos" className="min-w-0">
-                <ul className="flex flex-wrap gap-2">
-                  {TRY_DEMOS.map((demo) => (
-                    <li key={demo.id}>
-                      <a
-                        href={`#${demo.id}`}
-                        className="inline-flex min-h-11 items-center rounded-md border border-border px-3 text-sm text-foreground hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
-                      >
-                        {demo.jump}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
-              <MascotSpot className="mascot-row" />
-            </div>
+        <TryHero>
+          <Badge>Albany, NY · 518 · Demos</Badge>
+          <h1 className="mt-5 max-w-3xl font-display text-display text-[#f4f7fb]">
+            {TITLE}
+          </h1>
+          <p className="mt-5 max-w-2xl text-lg text-[#d7e0ea]">
+            Four demos. No sign-up, and nothing is stored.
+          </p>
+          <ul className="try-promises">
+            <li className="try-promise">Try it in 10 seconds</li>
+            <li className="try-promise">4 demos</li>
+            <li className="try-promise">No signup</li>
+            <li className="try-promise">Nothing you say is saved</li>
+          </ul>
+        </TryHero>
+
+        <TryTalk />
+        <p className="mx-auto mt-4 max-w-6xl px-4 text-sm text-muted-foreground sm:px-6">
+          Voice uses your browser&apos;s mic and speech recognition. This page
+          doesn&apos;t save what you say.
+        </p>
+
+        <Reveal as="section" className="pt-6 pb-2">
+          <div className="mx-auto max-w-6xl px-4 sm:px-6">
+            <nav aria-label="Demos">
+              <ul className="flex flex-wrap gap-2">
+                {TRY_DEMOS.map((demo) => (
+                  <li key={demo.id}>
+                    <a
+                      href={`#${demo.id}`}
+                      className="inline-flex min-h-11 items-center rounded-md border border-border px-3 text-sm text-foreground hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
+                    >
+                      {demo.jump}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
           </div>
         </Reveal>
 
