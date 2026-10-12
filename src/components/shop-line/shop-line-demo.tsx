@@ -359,7 +359,22 @@ export function ShopLineDemo() {
           >
             <div className={s.callHead}>
               <div className={s.avatar} aria-hidden>
-                ✂
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <circle cx="6" cy="6" r="3" />
+                  <circle cx="6" cy="18" r="3" />
+                  <path d="M20 4 8.12 15.88M14.47 14.48 20 20M8.12 8.12 12 12" />
+                </svg>
               </div>
               <div className={s.callWho}>
                 <strong>{SHOP_NAME}</strong>
@@ -414,7 +429,20 @@ export function ShopLineDemo() {
               {booking && (
                 <div className={s.confirm}>
                   <div className={s.check} aria-hidden>
-                    ✓
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="3"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <path d="M20 6 9 17l-5-5" />
+                    </svg>
                   </div>
                   <div>
                     <strong>Booked · {booking.ref}</strong>

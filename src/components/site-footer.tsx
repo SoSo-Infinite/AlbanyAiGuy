@@ -28,6 +28,13 @@ export function SiteFooter() {
             className="footer-link rounded-sm hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
           >
             Privacy
+          </a>{" "}
+          ·{" "}
+          <a
+            href="/terms"
+            className="footer-link rounded-sm hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
+          >
+            Terms
           </a>
         </p>
       </div>
